@@ -4,21 +4,19 @@ module.exports = () => {
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
             if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
-                cb(null, 'back-end/public/images')
+                cb(null, `${process.env.FILE_PATH}/public/images`)
             }
             else if (file.mimetype == 'video/mp4') {
-                cb(null, 'back-end/public/coursevideo')
+                cb(null, `${process.env.FILE_PATH}/public/coursevideo`)
             }
             else if (file.mimetype == 'application/pdf') {
-                cb(null, 'back-end/public/otherFiles')
+                cb(null, `${process.env.FILE_PATH}/public/otherFiles`)
             }
-
         },
         filename: (req, file, cb) => {
-           
             if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
                 try {
-                    const stats = fs.lstatSync(`back-end/public/images/${file.originalname}`);
+                    const stats = fs.lstatSync(`${process.env.FILE_PATH}/public/images/${file.originalname}`);
                     if (stats.isFile()) {
                         file.originalname = uuidv4() + ".png";
                     }
@@ -29,7 +27,7 @@ module.exports = () => {
             }
             else if (file.mimetype == 'video/mp4') {
                 try {
-                    const stats = fs.lstatSync(`back-end/public/coursevideo/${file.originalname}`);
+                    const stats = fs.lstatSync(`${process.env.FILE_PATH}/public/coursevideo/${file.originalname}`);
                     if (stats.isFile()) {
                         file.originalname = uuidv4() + ".mp4";
                     }
@@ -40,7 +38,7 @@ module.exports = () => {
             }
             else if (file.mimetype == 'application/pdf') {
                 try {
-                    const stats = fs.lstatSync(`back-end/public/otherFiles/${file.originalname}`);
+                    const stats = fs.lstatSync(`${process.env.FILE_PATH}/public/otherFiles/${file.originalname}`);
                     if (stats.isFile()) {
                         file.originalname = uuidv4() + ".pdf";
                     }

@@ -23,6 +23,11 @@ const lessonSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: true
     },
+    watchUser: [{
+        type: mongoose.Schema.ObjectId,
+        
+    }],
+
     createdAt: {
         type: Date,
         default: Date.now

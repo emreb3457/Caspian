@@ -16,7 +16,10 @@ const {
     setpublishCourse,
     setunpublishCourse,
     setRegistercourse,
-    setUnregistercourse
+    setUnregistercourse,
+    setOpencourse,
+    setWatchcourse
+
 } = require('../controllers/courseController')
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 // klasör varlığını kontrol etmek  
@@ -27,17 +30,19 @@ router.route('/course').get(getCourse);
 router.route('/admin/course').get(isAuthenticatedUser, authorizeRoles('admin'), getAdminCourse);
 router.route('/course/:id').get(getSingleCourse);
 
-router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("avatar"), newCourse);
+router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("image"), newCourse);
+router.route("/admin/course/setOpen/:id").put(isAuthenticatedUser, authorizeRoles("admin"), setOpencourse);
+router.route('/course/setWatch').put(setWatchcourse);
 router.route("/course/register")
     .put(isAuthenticatedUser, setRegistercourse)
     .delete(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);
-router.route("/admin/course/publish").post(isAuthenticatedUser, authorizeRoles("admin"), setpublishCourse);
-router.route("/admin/course/unpublish").put(isAuthenticatedUser, authorizeRoles("admin"), setunpublishCourse);
+// router.route("/admin/course/publish").post(isAuthenticatedUser, authorizeRoles("admin"), setpublishCourse);
+// router.route("/admin/course/unpublish").put(isAuthenticatedUser, authorizeRoles("admin"), setunpublishCourse);
 
 router.route("/admin/chapter/new").post(isAuthenticatedUser, authorizeRoles("admin"), newChapter);
 router.route("/admin/chapter/delete").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteChapter);
 
-router.route("/admin/lesson/new").post(isAuthenticatedUser, authorizeRoles("admin"), newLesson);
+router.route("/admin/lesson/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("lesson"), newLesson);
 router.route("/admin/lesson/delete").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteLesson);
 
 router.route("/admin/course/:id")

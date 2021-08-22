@@ -33,4 +33,3 @@ module.exports = app
 
 
 
-"course register bitti"  //video yüklemeye bak
