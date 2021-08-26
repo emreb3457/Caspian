@@ -1,0 +1,714 @@
+/* Varible */
+:root{
+  --green:#228B22;
+  --orange:#E3A14B;
+  --darkblue:#12022F;
+  --spangreey:#594D6D;
+  --pblue:#213053;
+  --hoverbtn: #146B14 ;
+}
+@media (min-width: 992px)
+{
+  body{
+    overflow-x: hidden;
+  }
+}
+@media (max-width: 992px)
+{
+  body{
+    overflow-x: auto;
+  }
+}
+::-webkit-scrollbar{
+
+  background-color: #dfdbdb;
+  
+ }
+ 
+ ::-webkit-scrollbar-thumb{
+  background-color:#9c9999;
+ }
+ 
+ ::-webkit-scrollbar-thumb:hover{
+  background-color: #6e6d6d;
+ }
+*{
+    font-family: 'DM Sans', sans-serif;
+  }
+  *{box-shadow: none!important;}
+ 
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  .btn:hover{
+    color: white;
+  }
+  .absolute-canter{
+    position: absolute;; 
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+/* Header CSS */
+.navbar{
+  height: 103px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  font-family: 'Inter', sans-serif;
+  color: #242323;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+.navbar-nav {
+ align-items: baseline ;
+
+}
+.nav-buttons{
+border-radius: 16px;
+height: 56px;
+padding: 16px 24px 16px 24px;
+width: 107px;
+}
+
+.navbar-nav a:nth-child(5){
+margin-left: 70px;
+}
+.nav-menu{
+  margin-left: 25px;
+}
+.navbar-nav .active{
+  color:var(--orange) !important ;
+}
+
+/* Header CSS */
+
+/* Footer CSS */
+.footer-top{
+  background-color:white ;
+}
+.homeFooter div{
+background-color: #303030 !important;
+}
+.homeFooter div a{
+  color: white !important;
+  }
+  .list-group-item{
+    border: none;
+  }
+  .footer-buttom{
+    float: right;
+    margin-right: 50px;
+    color: #000000;
+    padding-top: 120px;
+    padding-bottom: 30px;
+    font-weight: bold;
+   font-size: 14px;
+   line-height: 24px;
+
+
+letter-spacing: -0.3px;
+  }
+  .footer-text{
+    max-width: 316px;
+    margin-top: 38px;
+    opacity: 80%;
+   font-weight: bold;
+   font-size: 17px;
+   line-height: 30px;
+   color: #000000
+  }
+  .copy_right
+{
+  display: inline-block;
+  color: #000000;
+  padding-top: 120px;
+  padding-bottom: 30px;
+  font-weight: 500;
+font-size: 21px;
+line-height: 30px;
+}
+
+.footer-top .list-group .list-group-item{
+  background-color:#FFFF ;
+  
+}
+.footer-top .list-group .list-group-item a{
+  color: #000000;
+  font-weight: bold;
+font-size: 17px;
+line-height: 30px;
+text-decoration: none;
+  
+}
+.list-head{
+  font-weight: bold;
+font-size: 15px;
+line-height: 26px;
+color:#000000;
+opacity: 0.6;
+padding: 8px 16px;
+}
+.footer-icon{
+  flex-direction: row;
+}
+.footer-icon a{
+ margin-right: 16px;
+}
+
+/* Footer CSS */
+
+/* Get in touch CSS */
+.getintouch{
+  background-color:#303030;
+  position: relative;
+  height: 700px;
+}
+.getintouchDiv{
+  position: absolute;
+  width: 1090px;
+  height: 360px;
+  top: 135px;
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+.getintouch h4{
+  font-family: 'Montserrat', sans-serif;
+font-style: normal;
+font-weight: 800;
+font-size: 2.8125em;
+line-height: 26px
+}
+.getintouch p{
+  font-weight: 500;
+font-size: 1.0625em;
+line-height: 30px;
+color: #9F9F9F;
+opacity: 0.8;
+width: 316px;
+}
+
+.getintouch .left{
+  padding: 71px 98px;
+}
+.getintouch .left h4{
+  margin-bottom: 22px;
+}
+.getintouch .right input{
+  border: none;
+  border-bottom: 1px solid #C5C5C5;
+  border-radius: 0;
+}
+.getintouch .right input::placeholder{
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 30px;
+  color: #535353;
+  
+}
+.getintouch .right p{
+  font-weight: 500;
+font-size: 0.75em;
+line-height: 18px;
+color: #858585;
+width: 243px;
+margin-top: 10px;
+}
+
+.mainbtn{
+  border-radius: 16px;
+height: 56px;
+padding: 16px 24px 16px 24px;
+width: 180px;
+background-color: var(--green);
+color: white;
+margin-top: 10px;
+}
+.mainbtn:hover{
+  background-color: var(--hoverbtn);
+   }
+/* Get in touch CSS */
+
+/* Get in TopAbout CSS */
+#topAbout{
+ margin-bottom: 165px;
+}
+#topAbout h1{
+  font-weight: bold;
+font-size: 3.75em;
+line-height: 70px;
+letter-spacing: -1px;
+color: var(--pblue);
+}
+#topAbout .paragraf{
+  font-style: normal;
+font-weight: bold;
+font-size: 17px;
+line-height: 30px;
+color: var(--pblue);
+opacity: 0.8;
+margin-top: 27px;
+margin-bottom: 38px;
+width: 450px;
+}
+#topAbout .left{
+ margin-top: 110px;
+}
+#topAbout .right{
+  margin-top: 67px;
+ }
+#topAbout .left span{
+  font-size: 15px;
+line-height: 28px;
+color: var(--pblue);
+margin-top: 21px;
+display: inline-block;
+margin-left: 10px;
+}
+.shadow-btn{
+  width: 268px;
+  height: 69px;
+  border-radius: 20px;
+  background-color: var(--green);
+color: white;
+margin-top: 10px;
+box-shadow: 0px 15px 20px rgba(34, 139, 34,0.4) !important;
+}
+.shadow-btn:hover{
+  background-color: var(--hoverbtn);
+}
+
+
+#topAbout .iconSpan{
+  margin-top: 0 !important;
+}
+/* Get in TopAbout CSS */
+
+/* Get in TopAbout CSS */
+
+#whyCaspian .whycaspianRow h1{
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 56px;
+  text-align: center;
+  letter-spacing: -2px;
+  color: var(--darkblue)
+}
+#whyCaspian .whycaspianRow p{
+  
+  font-weight: normal;
+font-size: 18px;
+line-height: 28px;
+text-align: center;
+margin-right: auto;
+margin-left: auto;
+letter-spacing: -0.4px;
+color: var(--spangreey);
+margin-top: 40px;
+}
+#whyCaspian .cards .card-item{
+  width: 350px;
+  height: 382px;
+  border: 1px solid #E7E5EA;
+box-sizing: border-box;
+border-radius: 32px;
+text-align: center;
+margin-top: 66px;
+margin-right: auto;
+margin-left: auto;
+
+}
+#whyCaspian .cards .card-item:last-child{
+margin-bottom: 145px;
+}
+/* #whyCaspian .cards .card-item:first-child{
+ margin-left: 60px;
+}
+#whyCaspian .cards .card-item:last-child{
+ margin-right: 60px;
+ } */
+#whyCaspian .cards .card-item span{
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: -0.355556px;
+  color: var(--spangreey);
+  width: 286px;
+}
+#whyCaspian .cards .card-item img{
+  background: rgba(222, 184, 135, 0.15);
+  border-radius: 100%;
+  padding: 20px;
+  margin-top: 73px;
+  margin-bottom: 69px;
+}
+
+
+#whatitmeans{
+  background-color: #1787FC;
+max-width: 100%;
+}
+#whyCaspian .hide-div{
+  background-color: white;
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  border-bottom-left-radius: 500% 260px;
+  border-bottom-right-radius:500% 260px;
+ 
+}
+#whatitmeans .image img{
+  margin-top: 150px;
+  margin-left: 150px;
+}
+#whatitmeans .content{
+width: 507px;
+background: #FFFFFF;
+box-shadow: 0px 72px 54px -40px rgba(23, 135, 252, 0.122077);
+border-radius: 50px;
+margin-top: 180px;
+}
+
+#whatitmeans .rectangle1{
+width:66px;
+height: 66px;
+background: #1787FC;
+box-shadow: 0px 5px 0px rgba(23, 135, 252, 0.65) !important;
+border-radius: 20px;
+font-family: 'Montserrat', sans-serif;
+font-style: normal;
+font-weight: 900;
+font-size: 32px;
+line-height: 44px;
+text-align: center;
+letter-spacing: -0.4px;
+margin-left: 43px;
+color: #FFFFFF;
+padding: 10px;
+}
+#whatitmeans .rectangle2{
+  width:66px;
+  height: 66px;
+  background: #FF7139;
+  box-shadow: 0px 5px 0px rgba(255, 113, 57, 0.65) !important;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 44px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: #FFFFFF;
+  padding: 10px;
+  margin-left: 43px;
+}
+#whatitmeans .content h4{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.3px;
+  color: var(--pblue);
+} 
+#whatitmeans .content h3{
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 1000;
+  font-size: 37px;
+  line-height: 50px;
+  letter-spacing: -1px;
+  color: var(--pblue);
+  padding: 28px 43px;
+}  
+#whatitmeans .content p{
+  width: 298px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 28px;
+  color: var(--pblue);
+  mix-blend-mode: normal;
+  opacity: 0.8;
+} 
+
+/* Get in TopAbout CSS */
+
+/* Get in Forkids courseSlider CSS */
+#courseSlider .topContent h3{
+font-weight: bold;
+font-size: 35px;
+line-height: 56px;
+text-align: center;
+letter-spacing: -2px;
+color: var(--darkblue);
+margin-top: 100px;
+}
+#courseSlider .topContent p{
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: var(--spangreey);
+  margin-top: 40px;
+  margin-bottom: 100px;
+  width: 540px;
+  }
+#courseSlider .sliderCards .courseImg{
+width: 302px;
+height: 302px;
+border-radius: 24px;
+margin-top: 24px;
+
+}
+#courseSlider .sliderCards .card-item{
+border: 2px solid #E7E5EA;
+box-sizing: border-box;
+border-radius: 40px;
+width: 350px;
+margin-left: 69px;
+}
+#courseSlider .sliderCards .lessonCount{
+  margin-left: 34px;
+ margin-top: 7px;
+ margin-bottom: 25px;
+ text-align: start;
+  
+}
+#courseSlider .sliderCards .lessonCount span{
+  margin-left: 8px;
+
+}
+#courseSlider .sliderCards .card-text h4{
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
+    letter-spacing: -0.8px;
+    color: var(--darkblue);
+}
+#courseSlider .sliderCards .card-text span{
+  font-weight: bold;
+  display:block;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  text-transform: capitalize;
+  color: var(--darkblue);
+  mix-blend-mode: normal;
+  opacity: 0.5;
+}
+#courseSlider .sliderCards .card-text .Contus{
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: var(--darkblue);
+  opacity:unset;
+  margin-top: 20px;
+}
+#courseSlider .sliderCards .imgdiv{
+  text-align: center;
+}
+#courseSlider .sliderCards .card-text button{
+  background: #FF6E30;
+border-radius: 16px;
+width: 220px;
+height: 48px;
+color: white;
+margin-top: 30px;
+margin-bottom: 40px;
+}
+#courseSlider .sliderCards .card-text {
+text-align: center;
+}
+
+
+/* Get in courseSlider CSS */
+
+/* Get in Explore CSS */
+#exploreDiv{
+  background: #FAFBFB;
+   border-radius: 15px;
+
+  margin-top: 149px;
+}
+#exploreDiv .box{
+  width: 436.9px;
+height: 519.78px;
+background: #C4C5C5;
+border-radius: 15px;
+margin-top: 165px;
+margin-bottom: 165px;
+
+}
+#exploreDiv .box img{
+  position: absolute;
+    left: 210px;
+    top: 570px;
+}
+#exploreDiv .right-content{
+  margin-top: 255px;
+}
+#exploreDiv .right-content h3{
+  font-weight: bold;
+font-size: 42px;
+line-height: 50px;
+letter-spacing: -1px;
+color: #1D263A;
+}
+#exploreDiv .right-content p{
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #1D263A;
+  opacity: 0.6;
+  margin-top: 38px;
+}
+#exploreDiv .right-content hr{
+  border: 3px solid #DEB887;
+  border-radius: 50px;
+  width: 40.75px;
+  height: 0px;
+  display: inline-block;
+}
+#exploreDiv .right-content span{
+  position: relative;
+top: -15px;
+margin-left: 25px;
+font-weight: bold;
+font-size: 13px;
+line-height: 22px;
+letter-spacing: 4px;
+color: #1D263A;
+}
+/* Get in Explore CSS */
+
+/* Get in Events CSS */
+#eventsDiv{
+  margin-top: 136px;
+}
+#eventsDiv .topContent h3{
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 48px;
+line-height: 56px;
+text-align: center;
+color: #000000;
+margin-bottom: 31px;
+}
+
+#eventsDiv .topContent span{
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: #594D6D;
+  display: block;
+  margin-bottom: 45px;
+}
+#eventsDiv .cards .card-items{
+width: 416px;
+background: #FFFFFF;
+border: 1px solid rgba(223, 223, 223, 0.7);
+box-sizing: border-box;
+box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.05) !important;
+border-radius: 15px;
+padding: 32px 33px;
+margin-bottom: 30px;
+}
+#eventsDiv .cards .card-items .card-head{
+  margin-bottom: 70px;
+  }
+
+#eventsDiv .cards .card-items .eventbtn{
+width: 134px;
+color: #FFFFFF;
+background: #228B22;
+border-radius: 10px;
+float: right;
+padding: 10px;
+}
+#eventsDiv .cards .card-items .eventbtn:hover{
+    background-color: var(--hoverbtn);
+}
+#eventsDiv .cards .card-bottom span{
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 28px;
+  align-items: center;
+  color: #1D263A;
+}
+#eventsDiv .cards .card-bottom .date{
+  margin-left: 11px;
+}
+#eventsDiv .cards .card-bottom .dates{
+  position: relative;
+ top: 11px; 
+}
+#eventsDiv .cards .card-bottom{
+  margin-bottom: 20px;
+}
+#eventsDiv .cards .card-bottom img{
+ position: relative;
+ top: -3px; 
+}
+
+/* Get in Events CSS */
+
+/* Get in Comments CSS */
+
+
+#commentsDiv{
+  margin-top: 200px;
+}
+#commentsDiv h3{
+  font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 48px;
+line-height: 56px;
+text-align: center;
+color: #272E35;
+width: 320px;
+margin-left: auto;
+margin-right: auto;
+}
+#commentsDiv .slider{
+ margin-top: 80px;
+ margin-bottom: 250px;
+}
+#commentsDiv .slider-item{
+  text-align: center;
+  width: 321px;
+}
+#commentsDiv .slider-item span{
+  display: block;
+  margin-top: 26px;
+}
+#commentsDiv .slider-item p{
+font-family: Poppins;
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 32px;
+text-align: center;
+color: #272E35;
+}
+/* Get in Comments CSS */
+
+
+
+  
+ 
+  
