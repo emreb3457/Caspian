@@ -901,7 +901,15 @@ border-radius: 100px 100px 0px 0px;
     content: url(../images/icons/arrow-left.svg);
         padding-top: 20px;
   }
-
+  .loader{
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    z-index: 1;
+    text-align: center;
+    
+    
+}
 /* Get in Login CSS */
 
 
