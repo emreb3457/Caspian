@@ -44,13 +44,13 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!isPasswordMatched) {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
-   sendToken(user,200,res)
+
+    sendToken(user, 200, res, req)
 
 })
 
 // Forgot Password   =>  /api/v1/password/forgot
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
-
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
@@ -63,7 +63,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // Create reset password url
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`;
+    const resetUrl = `${req.protocol}://${process.env.CLIENT_URL}/password/reset/${resetToken}`;
 
     const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
 
@@ -118,13 +118,17 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
     await user.save();
 
-    sendToken(user, 200, res)
+    res.status(200).json({
+        success: true,
+        message: `Password changed please login `
+    })
 
 })
 
 
 // Get currently logged in user details   =>   /api/v1/me
 exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+
     const user = await User.findById(req.user.id);  //with token
 
     res.status(200).json({

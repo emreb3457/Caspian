@@ -6,7 +6,15 @@
   --spangreey:#594D6D;
   --pblue:#213053;
   --hoverbtn: #146B14 ;
+  --inputcolor:#F6F6F6;
 }
+html, body ,#root {
+  width: 100%;
+  min-height:100%;
+  height: 100%;
+}
+
+  
 @media (min-width: 992px)
 {
   body{
@@ -73,6 +81,9 @@ height: 56px;
 padding: 16px 24px 16px 24px;
 width: 107px;
 }
+.nav-buttons:hover{
+color: #242323
+  }
 
 .navbar-nav a:nth-child(5){
 margin-left: 70px;
@@ -473,6 +484,7 @@ box-sizing: border-box;
 border-radius: 40px;
 width: 350px;
 margin-left: 69px;
+margin-top: 80px;
 }
 #courseSlider .sliderCards .lessonCount{
   margin-left: 34px;
@@ -529,6 +541,26 @@ margin-bottom: 40px;
 text-align: center;
 }
 
+
+.react-multiple-carousel__arrow{
+  top: 0;
+  background:none !important;
+  color: white !important;
+}
+.react-multiple-carousel__arrow--left::before{
+  content:url(../images/icons/arrow-left.svg) !important;
+}
+.react-multiple-carousel__arrow--right::before{
+  content:url(../images/icons/arrow-right.svg) !important;
+}
+.react-multiple-carousel__arrow--left{
+  left:auto !important;
+  right: calc(4% + 1px) !important;
+  margin-right: 70px;
+}
+.react-multiple-carousel__arrow--right{
+  margin-right: 20px;
+}
 
 /* Get in courseSlider CSS */
 
@@ -691,6 +723,7 @@ margin-right: auto;
 #commentsDiv .slider-item{
   text-align: center;
   width: 321px;
+  margin-left: 160px;
 }
 #commentsDiv .slider-item span{
   display: block;
@@ -705,10 +738,173 @@ line-height: 32px;
 text-align: center;
 color: #272E35;
 }
+#textarea-valid{
+  color: red !important;
+  margin-top: 5px;
+  font-size: 0.875em;
+  text-align: start !important;
+  margin-left: 10px;
+}
 /* Get in Comments CSS */
 
 
+/* Get in Login CSS */
+.authPage{
+  background: #F8F8F8;
+  height: 100%;
+  text-align: center;
+}
+.authBox{
+background: #FFFFFF;
+border-radius: 32px;
+width: 540px;
+margin-left: auto;
+margin-right: auto;
+}
+.loginLogo{
+  padding-top: 126px;
+  margin-bottom: 50px;
+}
+.authPage .authBox .topContent{
+ line-height: 40px;
+ margin-top: 35px;
+  }
+.authPage .authBox li{
+  font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 28px;
+text-align: center;
+letter-spacing: -0.4px;
 
+}
+.authPage .authBox li{
+width: 270px;
+text-align: -webkit-center;
+padding-top: 36px;
+}
+.authPage .authBox li button{
+  width: 270px;
+  color:#B4B4B4 ;
+  border-bottom: 2px solid #E7E5EA !important;
+}
+.authPage .authBox .nav-link,.nav-tabs {
+border: none;
+}
+.authPage .authBox li .active{
+  color:var(--darkblue) ;
+  border-bottom: 2px solid #DEB887 !important;
+border-radius: 100px 100px 0px 0px;
+}
+.authBox .inputs{
+ padding: 12px 65px;
+
+}
+.authBox .inputs .textInput{
+  background:var(--inputcolor);
+  border-radius: 16px;;
+  padding: 20px;
+    display: inline-block;
+    padding-left: 50px;
+}
+.authBox .inputs .textInput::placeholder{
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: -0.36px;
+  color: var(--darkblue);
+  mix-blend-mode: normal;
+  opacity: 0.5;
+}
+.form-control:focus{
+  background-color:var(--inputcolor);
+}
+.form-control{
+  border-color:#F6F6F6 ;
+}
+.authPage .input-with-icon  {
+  position: relative;
+}
+.authPage .input-with-icon img {
+  position: absolute;
+  top: 34px;
+  transform: translateY(-50%);
+  left: 20px;
+  font-style: normal;
+  cursor: normal;
+  pointer-events: none;
+  color: #391484;
+}
+
+.authPage .authBox .inputs .checkBox{
+ text-align: start !important;
+ margin:15px 15px;
+ border-radius: 2px !important;
   
+}
+.authPage .authBox .checkBox input:checked{
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+  background-color: #391484 !important;
+   border-color:#391484 !important;
+ }
+
+.authPage .authBox .inputs .forgetPass{
+  margin-top:15px;
+   text-align: end;
+   margin-right: 10px;
+}
+.authPage .authBox .forgetPass a{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.355556px !important;
+  color: #391484 !important;
+}
+
+.authBox .inputs button{
+  background: #228B22;
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: -0.36px;
+  color: #FFFFFF;
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+ }
+.authBox .inputs button:hover{
+ background: var(--hoverbtn);
+ }
+ .authPage .authBox .bottomContent a{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #6A7986;
+  }
+  .back-arrow{
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  left: 25.61%;
+  right: 67.5%;
+  top: 23.54%;
+  bottom: 66.99%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 100%;
+    
+  }
+  .back-arrow a{
+    content: url(../images/icons/arrow-left.svg);
+        padding-top: 20px;
+  }
+
+/* Get in Login CSS */
+
+
  
   
+

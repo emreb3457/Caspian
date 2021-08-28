@@ -1,4 +1,4 @@
-const sendToken = (user, statusCode, res,req) => {
+const sendToken = (user, statusCode, res) => {
 
     // Create Jwt token
     const token = user.getJwtToken();
@@ -12,11 +12,11 @@ const sendToken = (user, statusCode, res,req) => {
     }
 
     // Write response
+   console.log("girdi girdi")
     res.status(statusCode).cookie('token', token, options).json({
         success: true,
         token,
         user
-        
     })
     
    

@@ -5,23 +5,24 @@ import videoPicon from "../../images/icons/videoPicon.svg"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Next } from 'react-bootstrap/esm/PageItem';
-const responsive = {
-    desktop: {
-        breakpoint: { max: 1920, min: 1650 },
-        items: 4.5,
-        slidesToSlide: 1
-    },
-    tablet: {
-        breakpoint: { max: 1650, min: 1300 },
-        items: 3.5
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1.5
-    }
-};
+
 
 export const Foradults = () => {
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 1920, min: 1650 },
+            items: 4.5,
+            slidesToSlide: 1
+        },
+        tablet: {
+            breakpoint: { max: 1650, min: 1300 },
+            items: 3.5
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1.5
+        }
+    };
     return (
         <div id="courseSlider">
             <div className="topContent">
