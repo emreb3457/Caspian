@@ -1,5 +1,5 @@
 // Login
-import axios from 'axios'
+import axioss from 'axios'
 import { API_BASE } from "../config/env"
 import {
     LOGIN_REQUEST,
@@ -20,6 +20,11 @@ import {
 
     CLEAR_ERRORS
 } from '../constants/userContants'
+
+const axios = axioss.create({
+  withCredentials: true,
+  baseURL: API_BASE
+})
 
 
 export const loginac = (email, password) => async (dispatch) => {

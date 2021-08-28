@@ -912,7 +912,379 @@ border-radius: 100px 100px 0px 0px;
 }
 /* Get in Login CSS */
 
-
- 
+/* Admin PAnel css  */
+#adminpanel #Header-in{
+  background-color: white;
+  display: none;
+  }
+  #adminpanel{
+      background-color: #f6f7f9;
+      
+      }
+  #adminpanel #HeaderNav .nav-left li a{
+      color: #657582;
+  }
+  .dashboard-image{
+      padding: 20px;
+      
+  }
   
+  .dashboard-image img{
+      height: 110px;
+      width: 110px;
+      border-radius: 50%;
+      border: solid 4px #28a745;
+      text-align: center;
+  }
+  #image-dashboard{
+      margin-bottom: 10px;
+      margin-top: 1.8em;
+  }
+  #image-dashboard,.image-text{
+      text-align: center;
+  }
+  .dashboard-image .image-text h4{
+      font-size: 18px;
+      margin-bottom: 3px;
+      
+  }
+  .dashboard-image .image-text span{
+      font-size: 13px;
+  }
+  .panel-unvisablediv{
+      height: 106px;
+  }
+  #panel-pills-tab .active {
+      background-color:rgb(7,177,7,0.15)!important ;
+      color:rgb(18, 175, 26) ;
+      border-color: rgba(17,183,25,0.1);
+   }
+   .dashboard-body{
+      margin-top: 50px;
+      padding-right: 0.8em;
+      
+   }
+   .side-dashboard{
+      -webkit-box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+    -moz-box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+      box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+      border-radius: 5px;
+      background-color: white;
+   }
+   .dashboard-menu a{
+      padding:15px;
+      font-size: 15px;
+      color: #8894a9;
+      border-bottom: 1px solid #e6e8eb;
+  
+   }
+   .dashboard-menu a i{
+      margin-right: 5px;
+      font-size: 14px;
+   }
+  #adminpanel .container-fluid{
+      padding-left: 0px;
+  }
+  .dashboard-caption {
+      background-color: white;
+      -webkit-box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+    -moz-box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+      box-shadow: 0 0 2px 0px rgb(187, 187, 187);
+      border-radius: 5px;
+  }
+  /* Widgets */
+  .dashboard-caption .widget-1{
+      background-color: #429ef5;
+  }
+  .dashboard-caption .widget-2{
+      background-color: #f39f00;
+  }
+  .dashboard-caption .widget-3
+  {   
+      background-color: #002758;
+  }
+  .dashboard-caption .widget-4{
+      background-color: #1baf65;
+  }
+  .dashboard-stat{
+      height: 10em;
+      width: 100%;
+      background: linear-gradient(to left,rgba(255,255,255,0) 30%,rgba(255,255,255,0.1));
+      border-radius: 4px;
+      margin-bottom: 20px;
+  }
+  .dashboard-caption .stat-content h4 {
+   color: white;
+   
+  }
+  .dashboard-caption .stat-content span {
+      color: white;
+      
+     }
+  .dashboard-caption .stat-content,.stat-icon {
+      display: inline-block;
+   }
+  .dashboard-caption .stat-content h4 {
+      font-size: 2.65em;
+      font-weight: 600;
+      letter-spacing: 1px;
+  }
+  .dashboard-caption .stat-content span {
+      font-size: 18px;
+      font-weight: 300;
+      
+  }
+  .dashboard-caption .stat-content{
+      padding: 40px 30px;
+  }
+  .dashboard-caption .stat-icon{
+      font-size: 65px;
+      color: rgba(255, 255, 255, 0.2);
+      position: absolute;
+      top: 20%;
+      right: 50px;
+     
+  }
+  .dashboard-caption .dashboard-caption-header{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eff0f3;
+  }
+  .dashboard-caption .dashboard-caption-header h4{
+      font-size: 18px;
+      margin-bottom: 0px;
+  }
+  .dashboard-caption .dashboard-caption-header i{
+      margin-right: 8px;
+      color: #8894a9;
+      font-size: 20px;
+  }
+  .dashboard-caption .dashboard-caption-wrap {
+      padding: 20px 24px;
+  }
+  .dashboard-list h4{
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      padding: 20px 30px;
+      border-bottom: 1px solid #eaeaea;
+      border-radius: 4px 4px 0 0;
+  }
+  .dashboard-list{
+      margin: 0 0 30px;
+      border: 1px solid #eaeaea !important;
+      border-radius: 4px;
+      max-height: 790px;
+      overflow: scroll;
+      overflow-x: hidden;
+     
+  }
+  .dashboard-list .list-group-item{
+      border: none;
+  }
+  .dashboard-list ul {
+      list-style: none;
+      padding: 0px;
+  }
+  .dashboard-list ul li{
+      border-bottom: 1px solid #eaeaea ;
+      padding: 15px 30px;
+      font-size: 14px;
+      color: #667488 ;
+  }
+  .dashboard-list ul li:last-child{
+      border-bottom:none!important;
+      
+  }
+  .dashboard-list ul li i{
+      font-size: 16px;
+      background-color: #f2f3f7;
+      color: #414142;
+      border-radius: 50%;
+      padding: 12px;
+      margin-right: 20px;
+  }
+  .dashboard-list ul div{
+      display: inline-block;
+  }
+  .dashboard-list ul li strong{
+      color: #414b51;
+  }
+  
+  .invoice span{
+      margin-left: 48px;
+      
+  }
+  .Ödenmemiş{
+      color: red !important;
+  }
+  
+  .dashboard-last ul li p{
+      color: #667488 !important;
+  
+  }
+  .dashboard-list-btn{
+      margin-top: 10px;
+      background-color: #e4e8ef;
+      border-color: #e4e8ef;
+      color: #636a7b;
+      border-radius: 10px;
+      font-size: 14px;
+      opacity: 0;
+  }
+  .dashboard-list ul li:hover .dashboard-list-btn{
+          opacity: 1;
+  }
+  .dashboard-list-btn:hover{
+      background-color: #ce024b;
+      border-color:#ce024b ;
+      color:white;
+  }
+  .list{
+      padding: 0px;
+      margin: 0px;
+  }
+  .manage-list-row{
+      background: #fff;
+      border: 1px solid #e9f0f3;
+      border-radius: 4px;
+      padding: 10px 0;
+      margin-bottom: 15px;
+      margin-left: 0;
+      list-style: none;
+  }
+  .manage-list-row .list-info {
+      display: inline;
+  }
+  
+  .manage-list-row .list-details {
+      display: inline-block;
+      font-size: 16px;
+  }
+  .manage-list-row .list-info h3 {
+      display: block;
+      font-size: 18px !important;
+      font-size: 1.8rem;
+      margin: 0;
+      line-height: 1.3;
+  }
+  .manage-list-row small {
+      color: #546e7a;
+      font-size: 85%;
+      display: inline-block;
+      line-height: 1.3;
+      margin-right: 15px;
+  }
+  .manage-list-row .job-buttons {
+      margin-top: 15px;
+      float: right;
+      margin-right: 25px;
+      margin-left: 5px;
+      
+      
+  }
+  
+  .pending-buttons {
+      text-align: right;
+      margin-bottom: 10px;
+  }
+   .pending-buttons div span {
+      color: white;  
+  }
+  .pending-buttons div span i {
+      padding-left: 10px; 
+  }
+  .manage-list-row small i {
+      margin-right: 7px;
+  }
+  .job-company i {
+      color: #ef9b0b;
+  }
+  .search-bar .form-control {
+      height: 50px;
+      border: 1px solid #dde6ef;
+      margin-bottom: 10px;
+      box-shadow: none;
+      border-radius: 0;
+      background: #fbfdff;
+      font-size: 15px;
+      color: #445461;
+      font-weight: 400;
+  }
+  .manage-list-row .list-info .user-img {
+      border-radius: 2px;
+      float: left;
+      margin-right: 25px;
+      width: 60px;
+  }
+  .manage-list-row .list-info .user-img img {
+      display: block;
+      max-width: 60px; 
+      border-radius: 5px;
+  
+  }
+  .manage-list-row{
+      padding-left: 25px;
+  }
+  .manage-list-row .list-info .job-name {
+      line-height:2;
+  }
+  .form-row .job-buttons div {
+      width: 60px;
+      height: 50px;
+      
+  }
+  .form-row .job-buttons div i {
+      padding: 10px;
+  }
+  .manage-list-row .collapse{
+      padding: 10px 0px;
+      padding-right: 10px;
+  }
+  .manage-list-row .collapsing{
+      transition: none;
+  }
+  .dashboard-caption .modal-dialog{
+      max-width: 50%;
+  }
+  .dashboard-caption .modal-dialog .modal-content{
+      width: 100%;
+  }
+  .log-table .head th{
+      color: #4272d7;
+      
+  }
+  .log-table .cont td{
+      font-size: 14px;
+      
+  }
+  @media screen and (max-width:1170px){
+    
+      
+  }
+  @media screen and (min-width:992px) and (max-width:1074px){
+    .dashboard-caption .stat-content span{
+          font-size: 15px;
+      }
+      
+  }
+  @media screen and (min-width:992px) and (max-width:1199px){
+    
+      
+  }
+  @media screen and (min-width:768px) and (max-width:991px){
+    
+      
+  }
+  @media screen and (min-width:481px) and (max-width:767px){
+    
+  }
+  @media screen and (max-width:480px){
+    
+      
+  }
+ 
+  /* Admin PAnel css  */
 

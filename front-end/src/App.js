@@ -11,6 +11,7 @@ import { Route } from "react-router-dom"
 import Forgotpass from './components/Authcomp/Forgotpass';
 import Resetpass from './components/Authcomp/Resetpass';
 import Panel from "./pages/Panel"
+import NewCourse from "./components/NewCourseForm"
 import { loadUser, clearErrors } from './actions/userAction'
 const App = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ const App = () => {
       <Route path="/password/reset/:token" component={Resetpass} exact />
 
 
-      <ProtectedRoute path="/panel" isAdmin={true} component={Panel} />
+      <ProtectedRoute path="/panel" isAdmin={true} component={Panel} exact />
+      <ProtectedRoute path="/panel/course/new" isAdmin={true} component={NewCourse} exact />
     </div>
   )
 

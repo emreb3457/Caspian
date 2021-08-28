@@ -5,13 +5,11 @@ import Pendingcourse from "../components/Panelcomp/Pendingcourse"
 import AllCourse from "../components/Panelcomp/AllCourse"
 import Authorize from "../components/Panelcomp/Authorize"
 import Sidedashboard from "../components/Panelcomp/Sidedashboard"
+import Alluser from '../components/Panelcomp/Alluser';
 
 
 const Panel = () => {
     const alert = useAlert()
-
-
-
 
     return (
         <div id="adminpanel" className="page-bg-color">
@@ -24,8 +22,9 @@ const Panel = () => {
                         <div className="col-xl-9 col-lg-8 col-md-12">
                             <div className="dashboard-body">
                                 <div className="tab-content" id="v-pills-tabContent">
-                                    <div className="tab-pane fade" id="v-pills-alljob" role="tabpanel" ><AllCourse /></div>
+                                    <div className="tab-pane fade show active" id="v-pills-alljob" role="tabpanel" ><AllCourse /></div>
                                     <div className="tab-pane fade" id="v-pills-pendingjob" role="tabpanel" ><Pendingcourse /></div>
+                                    <div className="tab-pane fade" id="v-pills-users" role="tabpanel" ><Alluser /></div>
                                     <div className="tab-pane fade" id="v-pills-auth" role="tabpanel" ><Authorize /></div>
 
                                 </div>
