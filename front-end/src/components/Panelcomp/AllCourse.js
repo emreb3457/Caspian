@@ -16,9 +16,7 @@ const Alljob = () => {
     const { loading, error, coursies } = useSelector(state => state.coursies);
     const { error: deleteError, isDeleted } = useSelector(state => state.course)
 
-    const [dialogShow, setDialogShow] = useState(false)
-    const [dialogShows, setDialogShows] = useState(false)
-    const [removetaskId, setRemovetaskId] = useState("")
+
 
     useEffect(() => {
         dispatch(getAdminCourse());
@@ -34,26 +32,25 @@ const Alljob = () => {
         }
 
         if (isDeleted) {
-            alert.success('Product deleted successfully');
+            alert.success('Course deleted successfully');
             history.push('/panel');
             dispatch({ type: DELETE_COURSE_RESET })
         }
 
     }, [dispatch, alert, deleteError, isDeleted, history])
 
-    const deleteProductHandler = (id) => {
+    const deleteCourseHandler = (id) => {
         dispatch(deleteCourse(id))
     }
     return (
         <div className="dashboard-caption">
             <div className="dashboard-caption-header">
                 <h4><i class="fas fa-cogs" />All Course</h4>
-                <button className="btn btn-success ml-auto">Add Course</button>
+                <Link to="/panel/course/new" className="btn btn-success ml-auto">Add Course</Link>
             </div>
             {loading && <Loader />}
             <ul className="list">
-                {console.log(coursies)}
-                {coursies && coursies.map(course =>
+                {coursies && coursies.reverse().map(course =>
                     <li class="manage-list-row clearfix">
                         <div class="list-info" >
                             <div class="list-details">
@@ -63,8 +60,8 @@ const Alljob = () => {
                             </div>
                         </div>
                         <div class="job-buttons">
-                            <Link className="btn btn-info mr-2" title="Düzenle" to="panel/course/new"><i class="far fa-edit" /></Link>
-                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteProductHandler(course._id)} ><i class="far fa-trash-alt" /></div>
+                            <Link className="btn btn-info mr-2"  title="Düzenle" to={{pathname:"panel/course/new",state:{course}}}><i class="far fa-edit" /></Link>
+                        <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteCourseHandler(course._id)} ><i class="far fa-trash-alt" /></div>
                         </div>
 
                     </li>

@@ -1260,6 +1260,10 @@ border-radius: 100px 100px 0px 0px;
       font-size: 14px;
       
   }
+  .createtaskContent{
+    margin-top: 100px;
+    background: rgb(219, 215, 215) !important;
+  }
   @media screen and (max-width:1170px){
     
       
@@ -1287,4 +1291,5 @@ border-radius: 100px 100px 0px 0px;
   }
  
   /* Admin PAnel css  */
+
 

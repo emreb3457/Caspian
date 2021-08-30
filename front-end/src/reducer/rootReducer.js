@@ -8,5 +8,7 @@ export default combineReducers({
     courseDetails: courseDetailsReducer,
     newCourse: newcourseReducer,
     course: courseReducer,
+    allusers: allUsersReducer,
+    user:userReducer,
 })
 

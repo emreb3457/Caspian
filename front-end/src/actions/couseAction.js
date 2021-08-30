@@ -74,7 +74,7 @@ export const getCourse = () => async (dispatch) => {
 
 export const newCourse = (courseData) => async (dispatch) => {
     try {
-
+        console.log(courseData)
         dispatch({ type: NEW_COURSE_REQUEST })
 
         const config = {
@@ -83,7 +83,7 @@ export const newCourse = (courseData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/admin/course/new`, courseData, config)
+        const { data } = await axios.post(`/api/v1/admin/course/new`, courseData, config)
 
         dispatch({
             type: NEW_COURSE_SUCCESS,
@@ -98,7 +98,7 @@ export const newCourse = (courseData) => async (dispatch) => {
     }
 }
 
-// Delete product (Admin)
+// Delete course (Admin)
 export const deleteCourse = (id) => async (dispatch) => {
     try {
 
@@ -119,8 +119,8 @@ export const deleteCourse = (id) => async (dispatch) => {
     }
 }
 
-// Update Product (ADMIN)
-export const updateCourse = (id, courseData) => async (dispatch) => {
+// Update Course (ADMIN)
+export const updateCourse = (id, name,price,description,category) => async (dispatch) => {
     try {
 
         dispatch({ type: UPDATE_COURSE_REQUEST })
@@ -131,11 +131,11 @@ export const updateCourse = (id, courseData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${API_BASE}/api/v1/admin/product/${id}`, courseData, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, {name,price,description,category}, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
-            payload: data.success
+            payload: data
         })
 
     } catch (error) {
@@ -151,7 +151,7 @@ export const getCourseDetails = (id) => async (dispatch) => {
 
         dispatch({ type: COURSE_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`${API_BASE}/api/v1/product/${id}`)
+        const { data } = await axios.get(`${API_BASE}/api/v1/course/${id}`)
 
         dispatch({
             type: COURSE_DETAILS_SUCCESS,

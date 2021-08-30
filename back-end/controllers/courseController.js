@@ -17,7 +17,8 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
         }
-        const newpath = req.file.path.replace("public", "")
+        console.log(req.file.path)
+        const newpath=req.file.path.slice(16)
         const course = await Course.create({
             name,
             price,
@@ -66,7 +67,7 @@ exports.newLesson = catchAsyncErrors(async (req, res, next) => {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
         }
-        const newpath = req.file.path.replace("public", "")
+        const newpath=req.file.path.slice(16)
         const course = await Course.findById(courseId, "chapter")
         if (!course) next(new ErrorHandler("Course not found", 404))
         const chapter = course.chapter.filter(x => x._id == chapterId)  //chapter bu kursta değilse hata ver
@@ -145,7 +146,7 @@ exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
     if (!course) {
         return next(new ErrorHandler('Course not found', 404));
     }
-
+console.log(req.body)
     course = await Course.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,

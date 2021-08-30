@@ -6,6 +6,7 @@ const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 
 // Register a user   => /api/v1/register
+
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const { name, email, password } = req.body;
@@ -178,7 +179,15 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+// Get all users   =>   /api/v1/admin/users
+exports.allUsers = catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find();
 
+    res.status(200).json({
+        success: true,
+        users
+    })
+})
 // Logout user   =>   /api/v1/logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie('token', null, {
@@ -193,4 +202,18 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 })
 
 
+// Delete user   =>   /api/v1/admin/user/:id
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
 
+    if (!user) {
+        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    }
+
+
+    await user.remove();
+
+    res.status(200).json({
+        success: true,
+    })
+})
