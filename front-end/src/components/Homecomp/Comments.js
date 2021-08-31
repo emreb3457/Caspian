@@ -1,5 +1,5 @@
 
-import { Row, Col, Container } from 'react-bootstrap';
+
 import frame from "../../images/Frame.svg"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";

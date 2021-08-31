@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector, } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 // import { loginSubmit } from "../actions/userAction";
 import Validate from "../Homecomp/Validate"
 import login from "../../images/icons/loginicon.svg"
 import lock from "../../images/icons/Lock.svg"
 import profile from "../../images/icons/Profile.svg"
-import { Link, Redirect, useHistory } from "react-router-dom";
-import { useAlert } from 'react-alert'
+
 import { Form } from "react-bootstrap";
-import { register, clearErrors } from '../../actions/userAction'
+import { register } from '../../actions/userAction'
 
 const Signup = () => {
-    const alert = useAlert();
+   
     const dispatch = useDispatch();
-    const history = useHistory();
+   
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
     const [name, setName] = useState("")
     const [validaterr, setError] = useState("")
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
-
-
-
 
     const onSubmit = () => {
         const errors = valid()

@@ -24,7 +24,6 @@ import {
     ALL_USERS_SUCCESS,
     DELETE_USER_FAIL,
     DELETE_USER_REQUEST,
-    DELETE_USER_RESET,
     DELETE_USER_SUCCESS,
     CLEAR_ERRORS
 } from '../constants/userContants'
@@ -276,6 +275,6 @@ export const deleteUser = (id) => async (dispatch) => {
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({
-        type: "CLEAR_ERRORS"
+        type: CLEAR_ERRORS
     })
 }

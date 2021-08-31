@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert'
 import Loader from "../loader"
 import Moment from "react-moment"
-import { Button, Modal } from "react-bootstrap"
 import { getAdminCourse, deleteCourse, clearErrors } from '../../actions/couseAction';
 import { DELETE_COURSE_RESET } from '../../constants/courseContants'
 
@@ -51,7 +50,7 @@ const Alljob = () => {
             {loading && <Loader />}
             <ul className="list">
                 {coursies && coursies.reverse().map(course =>
-                    <li class="manage-list-row clearfix">
+                    <li key={course._id} class="manage-list-row clearfix">
                         <div class="list-info" >
                             <div class="list-details">
                                 <h3 class="job-name"><strong>{course.name}</strong> <span className="text-danger">{course.price}</span></h3>
@@ -60,8 +59,8 @@ const Alljob = () => {
                             </div>
                         </div>
                         <div class="job-buttons">
-                            <Link className="btn btn-info mr-2"  title="Düzenle" to={{pathname:"panel/course/new",state:{course}}}><i class="far fa-edit" /></Link>
-                        <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteCourseHandler(course._id)} ><i class="far fa-trash-alt" /></div>
+                            <Link className="btn btn-info mr-2" title="Düzenle" to={{ pathname: "panel/course/new", state: { id: course._id } }}><i class="far fa-edit" /></Link>
+                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteCourseHandler(course._id)} ><i class="far fa-trash-alt" /></div>
                         </div>
 
                     </li>

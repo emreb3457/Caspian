@@ -20,6 +20,15 @@ import {
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
     COURSE_DETAILS_FAIL,
+    DELETE_CHAPTER_SUCCESS,
+    DELETE_CHAPTER_RESET,
+    DELETE_CHAPTER_REQUEST,
+    DELETE_CHAPTER_FAIL,
+    UPDATE_CHAPTER_RESET,
+    UPDATE_CHAPTER_FAIL,
+    UPDATE_CHAPTER_REQUEST,
+    UPDATE_CHAPTER_SUCCESS,
+
     CLEAR_ERRORS
 
 } from '../constants/courseContants'
@@ -78,7 +87,7 @@ export const newcourseReducer = (state = { course: {} }, action) => {
             return {
                 loading: false,
                 success: action.payload.success,
-                course: action.payload.course
+                course: action.payload
             }
 
         case NEW_COURSE_FAIL:
@@ -178,6 +187,60 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
             return {
                 ...state,
                 error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state
+    }
+}
+export const chapterReducer = (state = {}, action) => {
+    switch (action.type) {
+
+        case DELETE_CHAPTER_REQUEST:
+        case UPDATE_CHAPTER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+
+        case DELETE_CHAPTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: action.payload
+            }
+
+        case UPDATE_CHAPTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpdated: action.payload
+            }
+
+
+        case DELETE_CHAPTER_FAIL:
+        case UPDATE_CHAPTER_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+
+        case DELETE_CHAPTER_RESET:
+            return {
+                ...state,
+                isDeleted: false
+            }
+
+        case UPDATE_CHAPTER_RESET:
+            return {
+                ...state,
+                isUpdated: false
             }
 
         case CLEAR_ERRORS:

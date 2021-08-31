@@ -1,8 +1,7 @@
 
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from "react-router-dom";
-import { useAlert } from 'react-alert'
+import React, {  useEffect } from 'react'
+import { useDispatch  } from 'react-redux';
+
 import './css/index.css';
 import ProtectedRoute from './components/route/ProtectedRoute'
 import Home from "./pages/Home";
@@ -12,7 +11,7 @@ import Forgotpass from './components/Authcomp/Forgotpass';
 import Resetpass from './components/Authcomp/Resetpass';
 import Panel from "./pages/Panel"
 import NewCourse from "./components/NewCourseForm"
-import { loadUser, clearErrors } from './actions/userAction'
+import { loadUser } from './actions/userAction'
 const App = () => {
   const dispatch = useDispatch();
 

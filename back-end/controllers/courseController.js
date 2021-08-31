@@ -18,7 +18,7 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
             next(new ErrorHandler("File upload failed", 501))
         }
         console.log(req.file.path)
-        const newpath=req.file.path.slice(16)
+        const newpath = req.file.path.slice(16)
         const course = await Course.create({
             name,
             price,
@@ -44,10 +44,11 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
         next(new ErrorHandler(error, 500))
     }
 })
-//New Course Chapter   =>   /api/v1/chapter/new
+//New Course Chapter   =>   /api/v1/chapter/:id
 exports.newChapter = catchAsyncErrors(async (req, res, next) => {
-    const { courseId, title } = req.body
-    const newChepter = await Course.findByIdAndUpdate(courseId, { $push: { chapter: { "title": title } } }, {
+    const { title } = req.body
+    const { id } = req.params
+    const newChepter = await Course.findByIdAndUpdate(id, { $push: { chapter: { "title": title } } }, {
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -67,7 +68,7 @@ exports.newLesson = catchAsyncErrors(async (req, res, next) => {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
         }
-        const newpath=req.file.path.slice(16)
+        const newpath = req.file.path.slice(16)
         const course = await Course.findById(courseId, "chapter")
         if (!course) next(new ErrorHandler("Course not found", 404))
         const chapter = course.chapter.filter(x => x._id == chapterId)  //chapter bu kursta değilse hata ver
@@ -143,10 +144,9 @@ exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
     let course = await Course.findById(req.params.id);
 
-    if (!course) {
+    if (course) {
         return next(new ErrorHandler('Course not found', 404));
     }
-console.log(req.body)
     course = await Course.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
@@ -287,14 +287,33 @@ exports.setWatchcourse = catchAsyncErrors(async (req, res, next) => {
 
 // })
 
-//Delete Course Chapter   =>   /api/v1/chapter/delete
-exports.deleteChapter = catchAsyncErrors(async (req, res, next) => {
-    const { courseId, chapterId, title } = req.body
-    const course = await Course.findByIdAndUpdate(courseId, { $pull: { chapter: { _id: chapterId } } }, {
+//Update Course Chapter   =>   /api/v1/chapter/:id
+exports.updateChapter = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params
+    const { chapterId, title } = req.body
+    const course = await Course.findOneAndUpdate({ _id: id, 'chapter._id': chapterId }, { $set: { 'chapter.$': { title: title } } }, {
         new: true,
         useFindAndModify: false
     })
-    const removedLesson = await Lesson.deleteMany({ chapterId })
+  if(!course){
+      next(new ErrorHandler("Not updated",404))
+  }
+    res.status(201).json({
+        success: true,
+        course
+    })
+
+})
+//Delete Course Chapter   =>   /api/v1/chapter/:id
+exports.deleteChapter = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params
+    const { chapterid } = req.headers
+
+    const course = await Course.findByIdAndUpdate(id, { $pull: { chapter: { _id: chapterid } } }, {
+        new: true,
+        useFindAndModify: false
+    })
+    const removedLesson = await Lesson.deleteMany({ chapterid })
     res.status(201).json({
         success: true,
         course

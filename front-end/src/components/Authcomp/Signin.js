@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Validate from "../Homecomp/Validate"
 import login from "../../images/icons/loginicon.svg"
 import lock from "../../images/icons/Lock.svg"
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link,  useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert'
 
-import { Tab, Tabs, Row, Col, Container, Form } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { loginac, clearErrors } from '../../actions/userAction'
 
 

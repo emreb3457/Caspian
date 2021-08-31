@@ -19,6 +19,13 @@ import {
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
     COURSE_DETAILS_FAIL,
+    DELETE_CHAPTER_FAIL,
+    DELETE_CHAPTER_REQUEST,
+    DELETE_CHAPTER_SUCCESS,
+    UPDATE_CHAPTER_SUCCESS,
+    UPDATE_CHAPTER_REQUEST,
+    UPDATE_CHAPTER_FAIL,
+    
 
     CLEAR_ERRORS
 
@@ -87,7 +94,7 @@ export const newCourse = (courseData) => async (dispatch) => {
 
         dispatch({
             type: NEW_COURSE_SUCCESS,
-            payload: data
+            payload: data.course
         })
 
     } catch (error) {
@@ -120,7 +127,7 @@ export const deleteCourse = (id) => async (dispatch) => {
 }
 
 // Update Course (ADMIN)
-export const updateCourse = (id, name,price,description,category) => async (dispatch) => {
+export const updateCourse = (id, name, price, description, category) => async (dispatch) => {
     try {
 
         dispatch({ type: UPDATE_COURSE_REQUEST })
@@ -131,7 +138,7 @@ export const updateCourse = (id, name,price,description,category) => async (disp
             }
         }
 
-        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, {name,price,description,category}, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, { name, price, description, category }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -165,7 +172,87 @@ export const getCourseDetails = (id) => async (dispatch) => {
         })
     }
 }
+// New Chapter(ADMIN)
+export const newChapter = (id, title) => async (dispatch) => {
+    try {
 
+        dispatch({ type: NEW_COURSE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'data'
+            }
+        }
+
+        const { data } = await axios.post(`/api/v1/admin/chapter/${id}`, { title }, config)
+
+        dispatch({
+            type: NEW_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: NEW_COURSE_FAIL,
+            payload: error.response
+        })
+    }
+}
+
+// Delete chapter (Admin)
+export const deleteChapter = (id, chapterId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_CHAPTER_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'chapterId': chapterId
+            }
+        }
+
+        const { data } = await axios.delete(`${API_BASE}/api/v1/admin/chapter/${id}`, config)
+
+        dispatch({
+            type: DELETE_CHAPTER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Update Chapter (ADMIN)
+export const updateChapter = (id, title, chapterId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_CHAPTER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/chapter/${id}`, { title, chapterId }, config)
+
+        dispatch({
+            type: UPDATE_CHAPTER_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({

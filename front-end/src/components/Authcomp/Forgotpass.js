@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Validate from "../Homecomp/Validate"
 import logo from "../../images/caspianLogo.png"
 import login from "../../images/icons/loginicon.svg"
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAlert } from 'react-alert'
 import { Form } from "react-bootstrap";
 import { forgotPassword, clearErrors } from "../../actions/userAction"

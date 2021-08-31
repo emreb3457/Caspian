@@ -18,7 +18,8 @@ const {
     setRegistercourse,
     setUnregistercourse,
     setOpencourse,
-    setWatchcourse
+    setWatchcourse,
+    updateChapter
 
 } = require('../controllers/courseController')
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
@@ -39,8 +40,10 @@ router.route("/course/register")
 // router.route("/admin/course/publish").post(isAuthenticatedUser, authorizeRoles("admin"), setpublishCourse);
 // router.route("/admin/course/unpublish").put(isAuthenticatedUser, authorizeRoles("admin"), setunpublishCourse);
 
-router.route("/admin/chapter/new").post(isAuthenticatedUser, authorizeRoles("admin"), newChapter);
-router.route("/admin/chapter/delete").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteChapter);
+router.route("/admin/chapter/:id")
+    .post(isAuthenticatedUser, authorizeRoles("admin"), newChapter)
+    .put(isAuthenticatedUser, authorizeRoles("admin"), updateChapter)
+    .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteChapter);
 
 router.route("/admin/lesson/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("lesson"), newLesson);
 router.route("/admin/lesson/delete").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteLesson);
