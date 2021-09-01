@@ -1,5 +1,4 @@
 
-
 import frame from "../../images/Frame.svg"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -14,7 +13,7 @@ export const Comments = () => {
         },
         tablet: {
             breakpoint: { max: 1650, min: 1300 },
-            items: 2
+            items: 3
         },
         mobile: {
             breakpoint: { max: 464, min: 0 },

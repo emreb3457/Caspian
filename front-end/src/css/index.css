@@ -650,7 +650,7 @@ margin-bottom: 31px;
   margin-bottom: 45px;
 }
 #eventsDiv .cards .card-items{
-width: 416px;
+
 background: #FFFFFF;
 border: 1px solid rgba(223, 223, 223, 0.7);
 box-sizing: border-box;
@@ -1298,8 +1298,23 @@ border-radius: 100px 100px 0px 0px;
   background: whitesmoke;
   display: none;
 }
-.editchpter{
+.editchpter,.addLesson,.addlesson{
   display: none;
+}
+
+#courseContent .lesson{
+  border: 1px solid black;
+  padding: 10px 5px;
+  background: whitesmoke;
+  max-width: 60%;
+  margin-top: 20px;
+  
+}
+#courseContent .lesson h4{
+ font-size: 16px;
+ white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
   @media screen and (max-width:1170px){

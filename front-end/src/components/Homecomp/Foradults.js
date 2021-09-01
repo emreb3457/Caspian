@@ -1,10 +1,10 @@
 
-import { Row, Col } from 'react-bootstrap';
+
 import img from "../../images/Image.png"
 import videoPicon from "../../images/icons/videoPicon.svg"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Next } from 'react-bootstrap/esm/PageItem';
+
 
 
 export const Foradults = () => {

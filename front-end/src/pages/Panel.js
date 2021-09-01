@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useAlert } from 'react-alert'
+import React from 'react'
+
 import Pendingcourse from "../components/Panelcomp/Pendingcourse"
 import AllCourse from "../components/Panelcomp/AllCourse"
 import Authorize from "../components/Panelcomp/Authorize"
@@ -9,7 +8,7 @@ import Alluser from '../components/Panelcomp/Alluser';
 
 
 const Panel = () => {
-    const alert = useAlert()
+    
 
     return (
         <div id="adminpanel" className="page-bg-color">

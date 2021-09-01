@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Validate from "./Homecomp/Validate";
+import { Form } from "react-bootstrap"
 import Loader from '../components/loader';
-import { useHistory, Redirect, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
-import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter } from "../actions/couseAction"
-import { NEW_COURSE_RESET, UPDATE_COURSE_RESET, UPDATE_CHAPTER_RESET,DELETE_CHAPTER_RESET } from "../constants/courseContants"
+import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter, newLesson, deleteLesson } from "../actions/couseAction"
+import { NEW_COURSE_RESET, UPDATE_COURSE_RESET, UPDATE_CHAPTER_RESET, DELETE_CHAPTER_RESET } from "../constants/courseContants"
 const NewCourse = ({ location }) => {
 
     const alert = useAlert()
@@ -14,16 +15,18 @@ const NewCourse = ({ location }) => {
     const [category, setCategory] = useState("")
     const [price, setPrice] = useState("")
     const [courseImage, setChangevatar] = useState("")
+    const [courseVideo, setVideo] = useState("")
     const [chaptername, setChaptername] = useState("")
+    const [lessonname, setLessonname] = useState("")
     const [validaterr, setError] = useState({})
 
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { error, success } = useSelector(state => state.newCourse);
+    const { error, success, loading } = useSelector(state => state.newCourse);
     const { error: updateError, isUpdated } = useSelector(state => state.course);
-    const { error: detailsError, course, loading } = useSelector(state => state.courseDetails);
-    const { error: chapterError, isUpdated: chapterUpdate,isDeleted } = useSelector(state => state.chapter);
+    const { error: detailsError, course, lesson, loading: detailsloading } = useSelector(state => state.courseDetails);
+    const { error: chapterError, isUpdated: chapterUpdate, isDeleted } = useSelector(state => state.chapter);
     useEffect(() => {
         window.scrollTo(0, 0);
         if (course) {
@@ -35,7 +38,7 @@ const NewCourse = ({ location }) => {
 
             )
         }
-    }, [])
+    }, [course])
 
     useEffect(() => {
         if (!location.state) {
@@ -66,7 +69,10 @@ const NewCourse = ({ location }) => {
                 alert.error(chapterError);
                 dispatch(clearErrors())
             }
-
+            if (error) {
+                alert.error(error);
+                dispatch(clearErrors())
+            }
             if (isUpdated) {
                 history.push('/panel');
                 alert.success('Course update successfully');
@@ -77,6 +83,7 @@ const NewCourse = ({ location }) => {
                 dispatch({ type: UPDATE_CHAPTER_RESET })
             }
             if (success) {
+                alert.success('Lesson created successfully');
                 dispatch({ type: NEW_COURSE_RESET })
             }
             if (isDeleted) {
@@ -84,7 +91,7 @@ const NewCourse = ({ location }) => {
             }
 
         }
-    }, [dispatch, alert,isDeleted, updateError,chapterUpdate, detailsError, success, chapterError, isUpdated, history])
+    }, [dispatch, alert, isDeleted, updateError, chapterUpdate, detailsError, error, success, chapterError, isUpdated, history])
 
 
     const onSubmit = (e) => {
@@ -126,21 +133,45 @@ const NewCourse = ({ location }) => {
             document.getElementsByClassName("addChapter")[0].style.display = "none"
         }
     }
-    const onChapterUpdate = (id,index) => {
+    const onChapterUpdate = (id, index) => {
         const errors = validate2();
         setError(errors);
         if (Object.keys(errors).length === 0) {
-            dispatch(updateChapter(location.state.id,chaptername,id))
+            dispatch(updateChapter(location.state.id, chaptername, id))
 
             document.getElementsByClassName("job-buttons")[0].children[0].className = "btn btn-info mr-2 "
             document.getElementsByClassName("job-buttons")[0].children[0].children[0].className = "fas fa-edit"
             document.getElementsByClassName(`editChapter${index}`)[0].style.display = "none"
         }
     }
-    const removeChapter = (id) => {
-            dispatch(deleteChapter(location.state.id,id))
-    }
+    const onlessonAdd = (chapterId, index) => {
+        const errors = validate3();
+        setError(errors);
+        if (Object.keys(errors).length === 0) {
+            document.getElementsByClassName("toggle-2")[0].children[0].className = "btn btn-success mt-2 "
+            document.getElementsByClassName("toggle-2")[0].children[0].children[0].className = "fas fa-plus"
+            document.getElementsByClassName(`addLesson${index}`)[0].style.display = "none"
 
+            const formData = new FormData();
+            formData.set('title', lessonname);
+            formData.set('courseId', location.state.id);
+            formData.set('chapterId', chapterId);
+            formData.set('video', courseVideo);
+            dispatch(newLesson(formData))
+            alert.info("You will be notified when uploaded")
+            setLessonname("")
+            setVideo("")
+
+
+        }
+    }
+    const removeChapter = (id) => {
+        dispatch(deleteChapter(location.state.id, id))
+    }
+    const removeLesson = (id) => {
+
+        dispatch(deleteLesson(id, location.state.id))
+    }
     const validate1 = () => {
         let errors = {}
         if (!coursename) errors.coursename = "Course name field is required.";
@@ -155,21 +186,43 @@ const NewCourse = ({ location }) => {
         if (!chaptername) errors.chaptername = "Chapter name field is required.";
         return errors;
     }
+    const validate3 = () => {
+        let errors = {}
+        if (!courseVideo) errors.courseVideo = "Course video field is required.";
+        if (!lessonname) errors.lessonname = "Course video field is required.";
+        return errors;
+    }
     let errors = { ...validaterr };
     const onBeforeFileLoad = (elem) => {
-        if (elem.target.files.length == 1) {
+        if (elem.target.files.length === 1) {
 
             if (elem.target.files[0].size > 71680) {
-                alert.error("Dosya Boyutu Çok Büyük!");
+                alert.error("File Size Too Large!");
                 elem.target.value = "";
             }
             else {
-                if (elem.target.files[0].type == "image/jpeg" || elem.target.files[0].type == 'image/png') {
+                if (elem.target.files[0].type === "image/jpeg" || elem.target.files[0].type === 'image/png') {
                     setChangevatar(elem.target.files[0])
                 }
                 else {
-                    alert.error("Geçersiz Dosya Formatı..")
+                    elem.target.value = "";
+                    alert.error("Invalid File Format..")
                 }
+            }
+        }
+    }
+    const clearFileupload = (elem) => {
+        elem.target.value = "";
+    }
+
+    const onBeforeVideoLoad = (elem) => {
+        if (elem.target.files.length === 1) {
+            if (elem.target.files[0].type === "video/mp4") {
+                setVideo(elem.target.files[0])
+            }
+            else {
+                elem.target.value = "";
+                alert.error("Invalid File Format..")
             }
         }
     }
@@ -183,6 +236,18 @@ const NewCourse = ({ location }) => {
             x.className = "btn btn-success mt-3"
             x.children[0].className = "fas fa-plus"
             document.getElementsByClassName("addChapter")[0].style.display = "none"
+        }
+    }
+    const toggleButton2 = (x, index) => {
+        if (x.classList[1] === "btn-success") {
+            x.className = "btn btn-danger mt-3"
+            x.children[0].className = "fas fa-minus"
+            document.getElementsByClassName(`addLesson${index}`)[0].style.display = "block"
+        }
+        else {
+            x.className = "btn btn-success mt-3"
+            x.children[0].className = "fas fa-plus"
+            document.getElementsByClassName(`addLesson${index}`)[0].style.display = "none"
         }
     }
     const toggleButtonUpdate = (x, index) => {
@@ -202,6 +267,7 @@ const NewCourse = ({ location }) => {
 
     return (
         <div className="container bg-white createtaskContent">
+            
             <Link to="/panel" className="btn btn-primary mb-4 mt-4">Go back</Link>
             {!location.state && <div className="float-right mt-4">
                 <input type="file" onChange={(e) => onBeforeFileLoad(e)} accept='image/*' id="file-1" className="inputfile inputfile-1" /> <br />
@@ -243,32 +309,70 @@ const NewCourse = ({ location }) => {
                     {location.state ? <button type="button" className="btn btn-warning" onClick={onUpdate}>Update</button> : <button type="button" className="btn btn-success" onClick={onSubmit}>Create</button>}
                 </div>
             </form>
-            {loading && <Loader />}
+            {detailsloading && <Loader />}
             {location.state &&
                 <div id="courseContent">
                     {course && course.chapter && course.chapter.map && course.chapter.map((chp, index) =>
                         <div className="chapter">
                             <div className="d-inline-block">
                                 <h4 className="chapter-title">{chp.title}</h4>
+
                                 <div className={`editchpter editChapter${index}`}>
                                     <div className="form-group ">
                                         <input type="text" className="form-control" placeholder="Chapter Name" name="chaptername" value={chaptername} onChange={(e) => setChaptername(e.target.value)} />
                                         {errors.chaptername && <Validate message={errors.chaptername} />}
                                     </div>
                                     <div className="content-btn ">
-                                        <button className="btn btn-dark" onClick={() => onChapterUpdate(chp._id,index)}>Edit Chapter</button>
+                                        <button className="btn btn-dark" onClick={() => onChapterUpdate(chp._id, index)}>Edit Chapter</button>
                                     </div>
                                 </div>
+
+
                             </div>
-                            <div class="job-buttons d-inline-block float-right">
-                                <div className="btn btn-info mr-2" title="Edit" onClick={x => toggleButtonUpdate(x.currentTarget, index)} ><i class="far fa-edit" /></div>
-                                <div className="btn btn-danger" title="Remove" onDoubleClick={()=>removeChapter(chp._id)} ><i class="far fa-trash-alt" /></div>
+
+                            <div className="job-buttons d-inline-block float-right">
+                                <div className="btn btn-info mr-2" title="Edit" onClick={x => toggleButtonUpdate(x.currentTarget, index)} ><i className="far fa-edit" /></div>
+                                <div className="btn btn-danger" title="Remove" onDoubleClick={() => removeChapter(chp._id)} ><i className="far fa-trash-alt" /></div>
+                            </div>
+                            {lesson && lesson.map && lesson.map(lsn => {
+                                if (lsn.chapterId == chp._id) {
+                                    return (
+                                        <div className="lesson">
+                                            <h4 className="d-inline">{lsn.title}</h4>
+                                            <div className="d-inline-block float-right">
+                                                <div style={{ fontSize: "10px" }} className="btn btn-danger" title="Remove" onDoubleClick={() => removeLesson(lsn._id)} ><i className="far fa-trash-alt" /></div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })}
+
+                            <div className="checkbox toggle-2">
+                                <button className="btn btn-success mt-3" onClick={x => toggleButton2(x.currentTarget, index)}><i className="fas fa-plus"></i></button>
+                            </div>
+                            
+                            <div className={`mt-2 addlesson addLesson${index}`}>
+                                <div className="form-group ">
+                                    <input type="text" className="form-control" placeholder="Lesson Name" name="lessonname" value={lessonname} onChange={(e) => setLessonname(e.target.value)} />
+                                    {errors.lessonname && <Validate message={errors.lessonname} />}
+                                </div>
+                                <div className="form-group ">
+                                    <Form.Group controlId="formFile" className="mb-3">
+                                        <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onBeforeVideoLoad(e)} type="file" />
+                                    </Form.Group>
+                                   
+                                    {errors.courseVideo && <Validate message={errors.courseVideo} />}
+                                </div>
+                                <div className="content-btn ">
+                                    <button className="btn btn-dark" onClick={() => onlessonAdd(chp._id, index)}>Add Lesson</button>
+                                </div>
                             </div>
                         </div>
+
                     )}
 
                     <div className="checkbox toggle">
-                        <button className="btn btn-success mt-3" onClick={x => toggleButton(x.currentTarget)}><i class="fas fa-plus"></i></button>
+                        <button className="btn btn-success mt-3" onClick={x => toggleButton(x.currentTarget)}><i className="fas fa-plus"></i></button>
                     </div>
                     <div className="addChapter">
                         <div className="form-group ">

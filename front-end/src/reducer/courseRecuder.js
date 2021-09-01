@@ -28,6 +28,7 @@ import {
     UPDATE_CHAPTER_FAIL,
     UPDATE_CHAPTER_REQUEST,
     UPDATE_CHAPTER_SUCCESS,
+    COURSE_DETAILS_RESET,
 
     CLEAR_ERRORS
 
@@ -168,7 +169,7 @@ export const courseReducer = (state = {}, action) => {
     }
 }
 
-export const courseDetailsReducer = (state = { course: {} }, action) => {
+export const courseDetailsReducer = (state = { course: {},lesson:{} }, action) => {
     switch (action.type) {
 
         case COURSE_DETAILS_REQUEST:
@@ -180,7 +181,8 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
         case COURSE_DETAILS_SUCCESS:
             return {
                 loading: false,
-                course: action.payload
+                course: action.payload.course,
+                lesson:action.payload.courseLesson
             }
 
         case COURSE_DETAILS_FAIL:
@@ -188,7 +190,11 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
                 ...state,
                 error: action.payload
             }
-
+        case COURSE_DETAILS_RESET:
+            return {
+                ...state,
+                course: null
+            }
         case CLEAR_ERRORS:
             return {
                 ...state,

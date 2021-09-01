@@ -144,7 +144,8 @@ exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
     let course = await Course.findById(req.params.id);
 
-    if (course) {
+
+    if (!course) {
         return next(new ErrorHandler('Course not found', 404));
     }
     course = await Course.findByIdAndUpdate(req.params.id, req.body, {
@@ -295,9 +296,9 @@ exports.updateChapter = catchAsyncErrors(async (req, res, next) => {
         new: true,
         useFindAndModify: false
     })
-  if(!course){
-      next(new ErrorHandler("Not updated",404))
-  }
+    if (!course) {
+        next(new ErrorHandler("Not updated", 404))
+    }
     res.status(201).json({
         success: true,
         course
@@ -323,14 +324,14 @@ exports.deleteChapter = catchAsyncErrors(async (req, res, next) => {
 
 //DElete Course Lesson   =>   /api/v1/lesson/delete
 exports.deleteLesson = catchAsyncErrors(async (req, res, next) => {
-    const { _id, courseId } = req.body
+    const { id, courseId } = req.body
 
-    const removedLesson = await Lesson.findByIdAndRemove(_id);
-    const lesson = await Lesson.find(courseId)
+    const removedLesson = await Lesson.findByIdAndDelete(id);
+    const lesson = await Lesson.find({ courseId: courseId })
     if (!removedLesson) {
         return next(new ErrorHandler('Course not found', 404));
     }
-    fs.unlink(`${process.env.FILE_PATH}/public/coursevideo/${removedLesson.videoOrjiname}`, (err => {
+    fs.unlink(`${process.env.FILE_PATH}/public/coursevideo/${removedLesson.videoOrjname}`, (err => {
         if (err) console.log("No such file directory");
         else {
             console.log("Files deleted");

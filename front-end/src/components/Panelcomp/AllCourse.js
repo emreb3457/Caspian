@@ -6,7 +6,7 @@ import { useAlert } from 'react-alert'
 import Loader from "../loader"
 import Moment from "react-moment"
 import { getAdminCourse, deleteCourse, clearErrors } from '../../actions/couseAction';
-import { DELETE_COURSE_RESET } from '../../constants/courseContants'
+import { DELETE_COURSE_RESET, COURSE_DETAILS_RESET } from '../../constants/courseContants'
 
 const Alljob = () => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Alljob = () => {
 
     useEffect(() => {
         dispatch(getAdminCourse());
-
+        dispatch({ type: COURSE_DETAILS_RESET });
         if (error) {
             alert.error(error);
             dispatch(clearErrors())

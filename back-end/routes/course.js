@@ -45,8 +45,8 @@ router.route("/admin/chapter/:id")
     .put(isAuthenticatedUser, authorizeRoles("admin"), updateChapter)
     .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteChapter);
 
-router.route("/admin/lesson/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("lesson"), newLesson);
-router.route("/admin/lesson/delete").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteLesson);
+router.route("/admin/lesson/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("video"), newLesson);
+router.route("/admin/lesson/delete").post(isAuthenticatedUser, authorizeRoles("admin"), deleteLesson);
 
 router.route("/admin/course/:id")
     .put(isAuthenticatedUser, authorizeRoles('admin'), updateCourse)
