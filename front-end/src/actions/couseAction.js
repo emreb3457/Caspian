@@ -199,6 +199,57 @@ export const newChapter = (id, title) => async (dispatch) => {
     }
 }
 
+// New downloadFile(ADMIN)
+export const newdownloadFile = (fileData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: NEW_COURSE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.post(`/api/v1/admin/course/download`, fileData, config)
+
+        dispatch({
+            type: NEW_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: NEW_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Delete downloadFile (Admin)
+export const deleteDownloadFile = (id, courseId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_CHAPTER_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.post(`/api/v1/admin/course/download/delete`, { id, courseId }, config)
+
+        dispatch({
+            type: DELETE_CHAPTER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 // New Lesson(ADMIN)
 export const newLesson = (lessonData) => async (dispatch) => {
     try {
@@ -225,10 +276,10 @@ export const newLesson = (lessonData) => async (dispatch) => {
         })
     }
 }
-// Delete chapter (Admin)
+// Delete lesson (Admin)
 export const deleteLesson = (id, courseId) => async (dispatch) => {
     try {
-    
+
         dispatch({ type: DELETE_CHAPTER_REQUEST })
         const config = {
             headers: {
@@ -236,7 +287,7 @@ export const deleteLesson = (id, courseId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/admin/lesson/delete`,{id,courseId}, config)
+        const { data } = await axios.post(`/api/v1/admin/lesson/delete`, { id, courseId }, config)
 
         dispatch({
             type: DELETE_CHAPTER_SUCCESS,

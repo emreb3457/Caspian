@@ -60,7 +60,77 @@ exports.newChapter = catchAsyncErrors(async (req, res, next) => {
     })
 
 })
+//New Course Chapter   =>   /api/v1/chapter/:id
+exports.newChapter = catchAsyncErrors(async (req, res, next) => {
+    const { title } = req.body
+    const { id } = req.params
+    const newChepter = await Course.findByIdAndUpdate(id, { $push: { chapter: { "title": title } } }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
 
+    res.status(201).json({
+        success: true,
+        newChepter
+    })
+
+})
+//New DownloadFile    =>   /api/v1/course/download
+exports.newDownloadFile = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.body
+
+    try {
+        if (!req.file) {
+            next(new ErrorHandler("File upload failed", 501))
+        }
+        
+        const newpath = req.file.path.slice(16)
+        const course = await Course.findByIdAndUpdate(id, { $push: { downloadsfile: { "orjname":req.file.originalname,"url":newpath } } }, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        })
+        if (!course) next(new ErrorHandler("Course not found", 404))
+
+        res.status(201).json({
+            success: true,
+            course
+        })
+    } catch (error) {
+
+        fs.unlink(`${process.env.FILE_PATH}/public/otherFiles/${req.file.originalname}`, (err => {
+            if (err) console.log("No such file directory");
+            else {
+                console.log("files deleted");
+            }
+        }));
+        next(new ErrorHandler(error, 500))
+    }
+
+})
+//DElete DownloadFile   =>   /api/v1/course/download/delete
+exports.deleteDownloadFile = catchAsyncErrors(async (req, res, next) => {
+    const { id, courseId } = req.body
+
+    const removedDownloadFile = await Course.findByIdAndUpdate(courseId, { $pull: { downloadsfile: { _id: id } } }, {
+        useFindAndModify: false
+    })
+    if (!removedDownloadFile) {
+        return next(new ErrorHandler('Course not found', 404));
+    }
+
+    fs.unlink(`${process.env.FILE_PATH}/public/otherFiles/${removedDownloadFile.downloadsfile[0].orjname}`, (err => {
+        if (err) console.log("No such file directory");
+        else {
+            console.log("Files deleted");
+        }
+    }));
+    res.status(201).json({
+        success: true,
+       
+    })
+})
 //New Course Lesson   =>   /api/v1/lesson/new
 exports.newLesson = catchAsyncErrors(async (req, res, next) => {
     const { courseId, chapterId, title } = req.body
@@ -373,16 +443,16 @@ exports.deleteCourse = catchAsyncErrors(async (req, res, next) => {
             }
         }));
     }
-    //Removed helpfulmeterials
-    for (let i = 0; i < course.helpfulmeterials.length; i++) {
-        const helpfulmeterials = course.helpfulmeterials[i];
-        fs.unlink(`${process.env.FILE_PATH}/public/otherFiles/${helpfulmeterials.orjname}`, (err => {
-            if (err) console.log("No such file directory");
-            else {
-                console.log("Linked files deleted");
-            }
-        }));
-    }
+    // //Removed helpfulmeterials
+    // for (let i = 0; i < course.helpfulmeterials.length; i++) {
+    //     const helpfulmeterials = course.helpfulmeterials[i];
+    //     fs.unlink(`${process.env.FILE_PATH}/public/coursevideo/${helpfulmeterials.orjname}`, (err => {
+    //         if (err) console.log("No such file directory");
+    //         else {
+    //             console.log("Linked files deleted");
+    //         }
+    //     }));
+    // }
     //Removed course İmage
     fs.unlink(`${process.env.FILE_PATH}/public/images/${course.images.orjname}`, (err => {
         if (err) console.log("No such file directory");

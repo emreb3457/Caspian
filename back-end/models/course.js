@@ -60,10 +60,8 @@ const courseSchema = new mongoose.Schema({
             orjname: {
                 type: String,
                 required: true
-            },
-            name: {
-                type: String,
             }
+           
         }
     ],
     helpfulmeterials: [

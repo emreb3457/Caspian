@@ -8,10 +8,11 @@
   --hoverbtn: #146B14 ;
   --inputcolor:#F6F6F6;
 }
-html, body ,#root {
-  width: 100%;
-  min-height:100%;
-  height: 100%;
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
 }
 
   
@@ -751,15 +752,29 @@ color: #272E35;
 /* Get in Login CSS */
 .authPage{
   background: #F8F8F8;
+  flex: 1 1 0%;
+  width: 100%;
   height: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+ 
 }
 .authBox{
 background: #FFFFFF;
 border-radius: 32px;
-width: 540px;
-margin-left: auto;
-margin-right: auto;
+width: 100%;
+max-width: 540px;
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+-webkit-box-pack: center;
+justify-content: center;
+-webkit-box-align: center;
+text-align: center;
 }
 .loginLogo{
   padding-top: 126px;
@@ -776,17 +791,16 @@ font-size: 18px;
 line-height: 28px;
 text-align: center;
 letter-spacing: -0.4px;
-
-}
-.authPage .authBox li{
-width: 270px;
 text-align: -webkit-center;
 padding-top: 36px;
+width: 50%;
 }
+
 .authPage .authBox li button{
   width: 270px;
   color:#B4B4B4 ;
   border-bottom: 2px solid #E7E5EA !important;
+  width: 100%;
 }
 .authPage .authBox .nav-link,.nav-tabs {
 border: none;
@@ -885,6 +899,7 @@ border-radius: 100px 100px 0px 0px;
   color: #6A7986;
   }
   .back-arrow{
+    text-align: center;
   width: 56px;
   height: 56px;
   position: absolute;
@@ -1316,7 +1331,21 @@ border-radius: 100px 100px 0px 0px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.downloadFile h4{
+display: inline-block;
+max-width: 250px;
+font-weight: bold;
+font-size: 12px;
+line-height: 24px;
+margin-left: 22px;
+overflow: hidden;
+text-overflow: ellipsis;
 
+}
+.downloadFile img{
+  margin-bottom: 35px;
+  
+  }
   @media screen and (max-width:1170px){
     
       

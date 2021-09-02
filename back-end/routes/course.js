@@ -19,7 +19,9 @@ const {
     setUnregistercourse,
     setOpencourse,
     setWatchcourse,
-    updateChapter
+    updateChapter,
+    newDownloadFile,
+    deleteDownloadFile
 
 } = require('../controllers/courseController')
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
@@ -37,6 +39,10 @@ router.route('/course/setWatch').put(setWatchcourse);
 router.route("/course/register")
     .put(isAuthenticatedUser, setRegistercourse)
     .delete(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);
+
+router.route("/admin/course/download").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("download"), newDownloadFile);
+router.route("/admin/course/download/delete").post(isAuthenticatedUser, authorizeRoles("admin"), deleteDownloadFile);
+
 // router.route("/admin/course/publish").post(isAuthenticatedUser, authorizeRoles("admin"), setpublishCourse);
 // router.route("/admin/course/unpublish").put(isAuthenticatedUser, authorizeRoles("admin"), setunpublishCourse);
 

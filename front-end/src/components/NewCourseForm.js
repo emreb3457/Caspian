@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import Validate from "./Homecomp/Validate";
 import { Form } from "react-bootstrap"
+import { API_BASE } from '../config/env'
 import Loader from '../components/loader';
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
-import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter, newLesson, deleteLesson } from "../actions/couseAction"
+import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter, newLesson, deleteLesson, deleteDownloadFile, newdownloadFile } from "../actions/couseAction"
 import { NEW_COURSE_RESET, UPDATE_COURSE_RESET, UPDATE_CHAPTER_RESET, DELETE_CHAPTER_RESET } from "../constants/courseContants"
+import pdficon from "../images/icons/pdffile.svg"
 const NewCourse = ({ location }) => {
 
     const alert = useAlert()
@@ -16,6 +18,7 @@ const NewCourse = ({ location }) => {
     const [price, setPrice] = useState("")
     const [courseImage, setChangevatar] = useState("")
     const [courseVideo, setVideo] = useState("")
+    const [courseFile, setFile] = useState("")
     const [chaptername, setChaptername] = useState("")
     const [lessonname, setLessonname] = useState("")
     const [validaterr, setError] = useState({})
@@ -83,7 +86,7 @@ const NewCourse = ({ location }) => {
                 dispatch({ type: UPDATE_CHAPTER_RESET })
             }
             if (success) {
-                alert.success('Lesson created successfully');
+                alert.success('Upload complete');
                 dispatch({ type: NEW_COURSE_RESET })
             }
             if (isDeleted) {
@@ -162,7 +165,24 @@ const NewCourse = ({ location }) => {
             setLessonname("")
             setVideo("")
 
-
+        }
+    }
+    const onnewdownloadFile = (elem) => {
+        if (elem.target.files.length === 1) {
+            if (elem.target.files[0].type === "application/pdf") {
+                setFile(elem.target.files[0])
+                const formData = new FormData();
+                formData.set('id', location.state.id);
+                formData.set('download', elem.target.files[0]);
+                alert.info("You will be notified when uploaded")
+                setTimeout(() => {
+                    dispatch(newdownloadFile(formData))
+                }, 1000);
+            }
+            else {
+                elem.target.value = "";
+                alert.error("Invalid File Format..")
+            }
         }
     }
     const removeChapter = (id) => {
@@ -171,6 +191,9 @@ const NewCourse = ({ location }) => {
     const removeLesson = (id) => {
 
         dispatch(deleteLesson(id, location.state.id))
+    }
+    const removeDownloadfile = (id) => {
+        dispatch(deleteDownloadFile(id, location.state.id))
     }
     const validate1 = () => {
         let errors = {}
@@ -267,7 +290,7 @@ const NewCourse = ({ location }) => {
 
     return (
         <div className="container bg-white createtaskContent">
-            
+
             <Link to="/panel" className="btn btn-primary mb-4 mt-4">Go back</Link>
             {!location.state && <div className="float-right mt-4">
                 <input type="file" onChange={(e) => onBeforeFileLoad(e)} accept='image/*' id="file-1" className="inputfile inputfile-1" /> <br />
@@ -302,6 +325,35 @@ const NewCourse = ({ location }) => {
                             </div>
                             {errors.price && <Validate message={errors.price} />}
                         </div>
+                    </div>
+
+                    <div className="row">
+                        {location.state &&
+                            <div className="form-group col-sm-8 ">
+                                <label for="downloadFile">Add Downloadable files </label>
+                                <Form.Group controlId="formFile" className="mb-3">
+                                    <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onnewdownloadFile(e)} type="file" />
+                                </Form.Group>
+                            </div>
+                        }
+                        {course && !course.downloadsfile0 &&
+                            <div className="form-group col-sm-10 ">
+                                <div className="downloadFile">
+                                    <label style={{ display: "block" }} for="downloadFile">Downloadable files </label>
+                                    {course && course.downloadsfile && course.downloadsfile.map && course.downloadsfile.map(dwn =>
+                                        <Fragment key={dwn._id}>
+                                            <div style={{ display: "inline-block" }}>
+                                                <a target="_blank" href={`${API_BASE}/${dwn.url}`} download="emre"> <img src={pdficon} alt="icon" /><h4>{dwn.orjname}</h4>  </a>
+                                            </div>
+                                            <div className="d-inline-block float-right">
+                                                <div style={{ fontSize: "10px" }} className="btn btn-danger" title="Remove" onDoubleClick={() => removeDownloadfile(dwn._id)} ><i className="far fa-trash-alt" /></div>
+                                            </div>
+                                        </Fragment>
+                                    )}
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
 
@@ -350,7 +402,7 @@ const NewCourse = ({ location }) => {
                             <div className="checkbox toggle-2">
                                 <button className="btn btn-success mt-3" onClick={x => toggleButton2(x.currentTarget, index)}><i className="fas fa-plus"></i></button>
                             </div>
-                            
+
                             <div className={`mt-2 addlesson addLesson${index}`}>
                                 <div className="form-group ">
                                     <input type="text" className="form-control" placeholder="Lesson Name" name="lessonname" value={lessonname} onChange={(e) => setLessonname(e.target.value)} />
@@ -360,7 +412,7 @@ const NewCourse = ({ location }) => {
                                     <Form.Group controlId="formFile" className="mb-3">
                                         <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onBeforeVideoLoad(e)} type="file" />
                                     </Form.Group>
-                                   
+
                                     {errors.courseVideo && <Validate message={errors.courseVideo} />}
                                 </div>
                                 <div className="content-btn ">

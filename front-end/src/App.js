@@ -21,7 +21,7 @@ const App = () => {
   }, [])
 
   return (
-    <div style={{ height: "100%", minHeight: "100%" }}>
+    <div >
       <Route path="/" component={Home} exact />
       <Route path="/login" component={Login} />
       <Route path="/password/forgot" component={Forgotpass} exact />
