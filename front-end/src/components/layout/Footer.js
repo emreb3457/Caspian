@@ -1,6 +1,6 @@
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom"
-import tstlogo from "../../images/iconsWhite/caspianLogowhite.svg"
+import tstlogo from "../../images/caspianLogo.png"
 import Instagram from "../../images/icons/Instagram.svg"
 import Twitter from "../../images/icons/Twitter.svg"
 import Dribbble from "../../images/icons/Dribbble.svg"

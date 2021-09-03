@@ -6,6 +6,7 @@ import './css/index.css';
 import ProtectedRoute from './components/route/ProtectedRoute'
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Details from "./pages/Coursedetails";
 import { Route } from "react-router-dom"
 import Forgotpass from './components/Authcomp/Forgotpass';
 import Resetpass from './components/Authcomp/Resetpass';
@@ -27,6 +28,7 @@ const App = () => {
       <Route path="/password/forgot" component={Forgotpass} exact />
       <Route path="/password/reset/:token" component={Resetpass} exact />
 
+      <Route path="/course/:id" component={Details} />
 
       <ProtectedRoute path="/panel" isAdmin={true} component={Panel} exact />
       <ProtectedRoute path="/panel/course/new" isAdmin={true} component={NewCourse} exact />
