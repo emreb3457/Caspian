@@ -7,14 +7,10 @@ import Loader from "../loader"
 import Moment from "react-moment"
 import { Button, Modal } from "react-bootstrap"
 const Pendingjob = () => {
-    const dispatch = useDispatch();
-    const alert = useAlert();
-    const history = useHistory();
-    const [dialogShow, setDialogShow] = useState(false)
-    const [dialogShowTwo, setDialogShowTwo] = useState(false)
-    const [dialogShows, setDialogShows] = useState(false)
-    const [pendingsettaskId, setpendingsettaskId] = useState("")
-    const [removetaskId, setRemovetaskId] = useState("")
+    // const dispatch = useDispatch();
+    // const alert = useAlert();
+    // const history = useHistory();
+    
 
     useEffect(() => {
 
@@ -29,9 +25,7 @@ const Pendingjob = () => {
     //     dispatch(adminpendingtasks(session.token, currentPage))
     //     dispatch(admintaskGet(session.token))
     // }
-    const handleClose = () => { return setDialogShows(false), setDialogShow(false) }
-    const handleShow = (taskid) => { return setDialogShows(true), setDialogShow(true), setRemovetaskId() }
-    const handleShowTwo = (taskid) => { return setDialogShows(true), setDialogShowTwo(true), setpendingsettaskId() }
+ 
 
     // const dialogshow = (body, event) => {
     //     return (
@@ -66,8 +60,8 @@ const Pendingjob = () => {
                                 <small class="job-company"><i class="fas fa-clock"></i>Bitiş Tarihi: <Moment format="DD/MM/YYYY"></Moment></small>
                             </div>
                             <div class="job-buttons">
-                                <div className="btn btn-success mr-2" onClick={() => handleShowTwo()}><i class="fas fa-check" /></div>
-                                <div className="btn btn-danger" title="Sil" onClick={() => handleShow()}><i class="far fa-trash-alt" /></div>
+                                <div className="btn btn-success mr-2"><i class="fas fa-check" /></div>
+                                <div className="btn btn-danger" title="Sil" ><i class="far fa-trash-alt" /></div>
                             </div>
                         </div>
 
@@ -76,8 +70,7 @@ const Pendingjob = () => {
                 </ul>
             </div>
            
-            {/* {dialogShow === true && dialogshow("Silmek İstiyor Musunuz?", "removeTask")}
-            {dialogShowTwo === true && dialogshow("Yayınlamak İsiyor Musunuz?", "setTask")} */}
+           
         </div>
     )
 

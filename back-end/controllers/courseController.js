@@ -84,9 +84,9 @@ exports.newDownloadFile = catchAsyncErrors(async (req, res, next) => {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
         }
-        
+
         const newpath = req.file.path.slice(16)
-        const course = await Course.findByIdAndUpdate(id, { $push: { downloadsfile: { "orjname":req.file.originalname,"url":newpath } } }, {
+        const course = await Course.findByIdAndUpdate(id, { $push: { downloadsfile: { "orjname": req.file.originalname, "url": newpath } } }, {
             new: true,
             runValidators: true,
             useFindAndModify: false
@@ -128,7 +128,7 @@ exports.deleteDownloadFile = catchAsyncErrors(async (req, res, next) => {
     }));
     res.status(201).json({
         success: true,
-       
+
     })
 })
 //New Course Lesson   =>   /api/v1/lesson/new
@@ -197,11 +197,10 @@ exports.getAdminCourse = catchAsyncErrors(async (req, res, next) => {
 exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 
     const course = await Course.findById(req.params.id)
-    const courseLesson = await Lesson.find({ courseId: course._id })
     if (!course) {
         return next(new ErrorHandler('Course not found', 404));
     }
-
+    const courseLesson = await Lesson.find({ courseId: course._id })
     res.status(200).json({
         success: true,
         course,
