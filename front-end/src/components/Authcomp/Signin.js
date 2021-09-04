@@ -18,20 +18,19 @@ const Signin = () => {
     const [pass, setPass] = useState("")
     const [validaterr, setError] = useState({})
 
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
-
+    const { isAuthenticated, err, loading } = useSelector(state => state.auth);
 
     useEffect(() => {
         if (isAuthenticated) {
-            history.push("/")
+            history.goBack()
         }
 
-        if (error) {
-            alert.error(error);
+        if (err) {
+            alert.error(err);
             dispatch(clearErrors());
         }
 
-    }, [dispatch, alert, isAuthenticated, error])
+    }, [dispatch, alert, isAuthenticated, err])
     const onSubmit = () => {
         const errors = valid()
         setError(errors);

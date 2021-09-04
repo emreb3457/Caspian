@@ -44,7 +44,8 @@ const NewCourse = ({ location }) => {
     }, [course])
 
     useEffect(() => {
-        if (!location.state) {
+        console.log(location.state)
+        if (location.state==undefined) {
             if (error) {
                 alert.error(error);
                 dispatch(clearErrors())
@@ -57,6 +58,7 @@ const NewCourse = ({ location }) => {
             }
         }
     }, [dispatch, alert, error, success, history])
+
     useEffect(() => {
         if (location.state) {
             dispatch(getCourseDetails(location.state.id))
@@ -219,7 +221,7 @@ const NewCourse = ({ location }) => {
     const onBeforeFileLoad = (elem) => {
         if (elem.target.files.length === 1) {
 
-            if (elem.target.files[0].size > 71680) {
+            if (elem.target.files[0].size > 1916800) {
                 alert.error("File Size Too Large!");
                 elem.target.value = "";
             }

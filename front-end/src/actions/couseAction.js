@@ -94,7 +94,7 @@ export const newCourse = (courseData) => async (dispatch) => {
 
         dispatch({
             type: NEW_COURSE_SUCCESS,
-            payload: data.course
+            payload: data
         })
 
     } catch (error) {
@@ -350,6 +350,58 @@ export const updateChapter = (id, title, chapterId) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Set register
+export const coursesetRegister = (courseId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_COURSE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId}, config)
+
+        dispatch({
+            type: UPDATE_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Set unregister
+export const courseunRegister = (courseId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_COURSE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId}, config)
+
+        dispatch({
+            type: UPDATE_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_COURSE_FAIL,
             payload: error.response.data.message
         })
     }

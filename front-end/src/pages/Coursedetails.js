@@ -3,8 +3,9 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
 import { Row, Col, Container, Accordion } from 'react-bootstrap';
-import { getCourseDetails } from "../actions/couseAction"
+import { getCourseDetails,clearErrors } from "../actions/couseAction"
 import { API_BASE } from "../config/env"
+import Loader from "../components/loader"
 import ReactPlayer from 'react-player'
 import ellipse from "../images/icons/ellipse.svg"
 import agegroup from "../images/icons/age-group.svg"
@@ -16,22 +17,48 @@ import pdf from "../images/icons/pdffile.svg"
 import Header from "../components/layout/Header"
 import Footer from "../components/layout/Footer"
 import MetaData from "../components/layout/MetaData"
+import Paymentmodal from '../components/layout/PaymentModal';
 
 
 
 export const Coursedetails = ({ history, match }) => {
+    window.scrollTo(0, 0)
     const alert = useAlert()
     const dispatch = useDispatch()
-    const [register, setRegister] = useState(2)
+    const [register, setRegister] = useState(false)
     const [select, setSelect] = useState()
     const [videourl, setVideoUrl] = useState("empty")
+    const [modalShow, setModalShow] = useState(false);
     const { error, course, lesson, loading } = useSelector(state => state.courseDetails);
+    const { error: courseerr, isUpdated } = useSelector(state => state.course);
+    const { isAuthenticated, user, loading: usrloading } = useSelector(state => state.auth);
     useEffect(() => {
+        
         dispatch(getCourseDetails(match.params.id))
+
         if (error) {
             alert.error(error)
+            dispatch(clearErrors());
+            history.push("/notfound")
         }
-    }, [dispatch, error])
+        if (courseerr) {
+            alert.error(courseerr)
+            dispatch(clearErrors());
+        }
+        if (isUpdated) {
+            alert.success("Registered please make your payment")
+            dispatch({ type: "UPDATE_COURSE_RESET" })
+        }
+        if (course.registerusers) {
+            course.registerusers.map(x => {
+                if (x.userId == user._id) {
+                    if (x.status !== "not purchased") {
+                        setRegister(true)
+                    }
+                }
+            })
+        }
+    }, [dispatch, error, isUpdated, courseerr,alert])
     const config = {
         attributes: {
             disablePictureInPicture: true,
@@ -49,12 +76,14 @@ export const Coursedetails = ({ history, match }) => {
         let url = API_BASE + "/" + e
         setVideoUrl(url)
     }
+
     return (
         <Fragment>
             <Header />
             <MetaData title="Course Details" />
             <div id="course-details">
                 <Container>
+                    {loading && <Loader />}
                     <div className="topContent">
                         <Row>
                             <div className="course-title">
@@ -91,15 +120,28 @@ export const Coursedetails = ({ history, match }) => {
                                                 <Accordion.Body>
                                                     {lesson && lesson.map && lesson.map((lsn, i) => {
                                                         if (lsn.chapterId == chp._id) {
-                                                            return (
-                                                                <div key={lsn._id} className="course-lesson " onClick={(e) => { selectedItem(e.currentTarget); onSetVideoUrl(lsn.videoUrl) }}>
-                                                                    <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
-                                                                    <div className="ml-4 d-inline-block" >
-                                                                        <span className="">{`Lesson ${i}`}</span>
-                                                                        <h5>{lsn.title}</h5>
+                                                            if (register) {
+                                                                return (
+                                                                    <div key={lsn._id} className="course-lesson " onClick={(e) => { selectedItem(e.currentTarget); onSetVideoUrl(lsn.videoUrl) }}>
+                                                                        <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
+                                                                        <div className="ml-4 d-inline-block" >
+                                                                            <span className="">{`Lesson ${i}`}</span>
+                                                                            <h5>{lsn.title}</h5>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            )
+                                                                )
+                                                            }
+                                                            else {
+                                                                return (
+                                                                    <div key={lsn._id} className="course-lesson disable ">
+                                                                        <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
+                                                                        <div className="ml-4 d-inline-block" >
+                                                                            <span className="">{`Lesson ${i}`}</span>
+                                                                            <h5>{lsn.title}</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            }
                                                         }
                                                     })}
                                                 </Accordion.Body>
@@ -109,8 +151,8 @@ export const Coursedetails = ({ history, match }) => {
 
                                     </Accordion>
                                 </div>
-                                {register == 2 ?
-                                    <button className="registerBtn btn">
+                                {!register ?
+                                    <button className="registerBtn btn" onClick={() => { isAuthenticated ? setModalShow(true) : history.push("/login") }}>
                                         Register
                                     </button> :
                                     <div className="downloadfile">
@@ -118,24 +160,14 @@ export const Coursedetails = ({ history, match }) => {
                                             <img alt="icon" src={arrowdownload} />
                                             <h4>Files to download</h4>
                                         </div>
-                                        <div className="mb-3">
-                                            <a className="text-reset" href="#">
-                                                <img alt="icon" src={pdf} />
-                                                <span className="ml-3">Present perfect tenseperfect perfect</span>
-                                            </a>
-                                        </div>
-                                        <div className="mb-3">
-                                            <a className="text-reset" href="#">
-                                                <img alt="icon" src={pdf} />
-                                                <span className="ml-3">Present perfect tense</span>
-                                            </a>
-                                        </div>
-                                        <div className="mb-3">
-                                            <a className="text-reset" href="#">
-                                                <img alt="icon" src={pdf} />
-                                                <span className="ml-3">Present perfect tense</span>
-                                            </a>
-                                        </div>
+                                        {course && course.downloadsfile && course.downloadsfile.map(dwn =>
+                                            <div className="mb-3">
+                                                <a target="_blank" className="text-reset" href={`${API_BASE}/${dwn.url}`}>
+                                                    <img alt="icon" src={pdf} />
+                                                    <span className="ml-3">{dwn.orjname}</span>
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
                                 }
 
@@ -200,7 +232,11 @@ export const Coursedetails = ({ history, match }) => {
                         </Row>
                     </div>
                 </Container>
-
+                <Paymentmodal
+                    course={course}
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                />
             </div>
             <Footer />
         </Fragment>

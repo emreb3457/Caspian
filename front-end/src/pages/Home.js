@@ -1,13 +1,16 @@
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
+import { useAlert } from 'react-alert'
+import { getCourse, clearErrors } from '../actions/couseAction';
+import Moment from "react-moment"
 import tstlogo from "../images/iconsWhite/caspianLogowhite.svg"
 import Instagram from "..//images/iconsWhite/Instagram.svg"
 import Twitter from "../images/iconsWhite/Twitter.svg"
 import Dribbble from "../images/iconsWhite/Dribbble.svg"
 import Youtube from "../images/iconsWhite/Youtube.svg"
 import Header from "../components/layout/Header"
-import Footer from "../components/layout/Footer"
 import Getintouch from "../components/Homecomp/Getintouch"
 import Topbout from "../components/Homecomp/Topabout"
 import Whycomponent from "../components/Homecomp/Whycomponent"
@@ -18,20 +21,35 @@ import Events from "../components/Homecomp/Events"
 import Comments from "../components/Homecomp/Comments"
 import Loader from "../components/loader"
 import { Fragment } from 'react';
+import MetaData from '../components/layout/MetaData';
 const Home = () => {
+    const dispatch = useDispatch();
+    const alert = useAlert()
+   
+
     const { loading } = useSelector(state => state.auth)
-    console.log(loading)
+    const { error, courses } = useSelector(state => state.coursies);
+  
+    useEffect(() => {
+        dispatch(getCourse());
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors())
+        }
+
+    }, [dispatch, alert])
     return (
         <Fragment>
+            <MetaData title="Home Page" />
             {loading ? <Loader /> :
                 <Fragment>
                     <Header />
                     <Topbout />
                     <Whycomponent />
-                    <Forkids />
-                    <Foradults />
+                    <Forkids course={courses}/>
+                    <Foradults course={courses} />
                     <Explore />
-                    <Events />
+                    <Events course={courses} />
                     <Comments />
                     <Getintouch />
                     <div style={{ backgroundColor: "#303030" }} className="footer-top ">

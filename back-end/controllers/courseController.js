@@ -170,13 +170,12 @@ exports.newLesson = catchAsyncErrors(async (req, res, next) => {
 // Get all Course   =>   /api/v1/course
 exports.getCourse = catchAsyncErrors(async (req, res, next) => {
 
-    const courseCount = await Course.countDocuments();
-    course = await Course.find({ publish: true })
-
+    const coursesCount = await Course.countDocuments();
+    courses = await Course.find({ publish: false })
     res.status(200).json({
         success: true,
-        courseCount,
-        course
+        coursesCount,
+        courses
     })
 
 })
@@ -232,19 +231,19 @@ exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
 
 //Register fot the Course    =>   /api/v1/course/register
 exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
-    const { courseId, usrId } = req.body
+    const { courseId } = req.body
     let registerusr = []
+    let user = req.user._id.toString()
     const course = await Course.findById(courseId, "registerusers")
     if (course.length == 0) next(new ErrorHandler("Course not found", 404))
     if (course.registerusers) {
-        registerusr = course.registerusers.filter(usr => usr.userId == usrId)
-
+        registerusr = course.registerusers.filter(usr => usr.userId == user)
     }
     if (!registerusr.length == 0) {
         next(new ErrorHandler("You already registered", 501))
     }
     else {
-        let updateCourse = await Course.findByIdAndUpdate(courseId, { $push: { registerusers: { userId: usrId } } }, {
+        let updateCourse = await Course.findByIdAndUpdate(courseId, { $push: { registerusers: { userId: req.user._id } } }, {
             new: true,
             runValidators: true,
             useFindAndModify: false
@@ -257,11 +256,11 @@ exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
 })
 //Unregister  the Course    =>   /api/v1/course/register
 exports.setUnregistercourse = catchAsyncErrors(async (req, res, next) => {
-    const { courseId, usrId } = req.body
+    const { courseId } = req.body
     const course = await Course.findById(courseId)
     if (course.length == 0) next(new ErrorHandler("Course not found", 404))
 
-    let data = await Course.findByIdAndUpdate(courseId, { $pull: { registerusers: { userId: usrId } } }, {
+    let data = await Course.findByIdAndUpdate(courseId, { $pull: { registerusers: { userId: req.user._id } } }, {
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -285,8 +284,6 @@ exports.setOpencourse = catchAsyncErrors(async (req, res, next) => {
     course.save({ validateBeforeSave: false });
     res.status(200).json({
         success: true,
-
-
     })
 });
 

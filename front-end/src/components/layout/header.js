@@ -18,7 +18,7 @@ export const Header = () => {
 
         <Navbar  >
             <Container>
-                <Navbar.Brand href="#home" ><img alt="logo" className="logo" src={tstlogo} /></Navbar.Brand>
+                <Navbar.Brand as={Link} to="/"  ><img alt="logo" className="logo" src={tstlogo} /></Navbar.Brand>
                 <Nav className="">
                     <Nav.Link as={Link} to="#login" className="nav-menu" href="#login">Main</Nav.Link>
                     <Nav.Link as={Link} to="#Juniors" className="nav-menu" href="#Juniors">Juniors</Nav.Link>

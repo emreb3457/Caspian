@@ -20,7 +20,7 @@ export const Whycomponent = () => {
                         <Row>
                             <Col className="card-item" lg="4" sm="12">
                                 <div>
-                                    <div classname=""><img alt="icon" src={bagicon} /></div>
+                                    <div className=""><img alt="icon" src={bagicon} /></div>
                                     <span>Guarantees that you will achieve your and your children’s language goals.</span>
                                 </div>
                             </Col>

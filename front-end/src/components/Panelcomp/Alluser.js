@@ -54,7 +54,7 @@ const Alluser = (props) => {
             </div>
             <ul className="list">
                 {users && users.map(usr =>
-                    <li class="manage-list-row clearfix">
+                    <li key={usr._id} class="manage-list-row clearfix">
                         <div class="list-info" >
                             <div class="list-details">
                                 <h3 class="job-name"><strong>{usr.name}</strong></h3>

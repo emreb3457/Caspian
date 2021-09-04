@@ -37,8 +37,8 @@ router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admi
 router.route("/admin/course/setOpen/:id").put(isAuthenticatedUser, authorizeRoles("admin"), setOpencourse);
 router.route('/course/setWatch').put(setWatchcourse);
 router.route("/course/register")
-    .put(isAuthenticatedUser, setRegistercourse)
-    .delete(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);
+    .post(isAuthenticatedUser, setRegistercourse)
+    .put(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);
 
 router.route("/admin/course/download").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("download"), newDownloadFile);
 router.route("/admin/course/download/delete").post(isAuthenticatedUser, authorizeRoles("admin"), deleteDownloadFile);
