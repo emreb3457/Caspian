@@ -37,14 +37,14 @@ export const Forkids = (props) => {
                     <div className="sliderCards">
                         <Carousel responsive={responsive} >
                             {course.map(x => {
-                                if (x.category == "For kids") {
+                                if (x.category == "For kids" && x.events == false) {
                                     return (
                                         <div key={x._id} >
                                             <div className="card-item">
                                                 <div className="imgdiv">
                                                     <img className="courseImg" alt="course" src={`${API_BASE}/${x.images.url}`} />
                                                     <div className="lessonCount">
-                                                        <img alt="icon" src={videoPicon} /><span>25 videos</span>
+                                                        <img alt="icon" src={videoPicon} /><span>{x.lsn.length} videos</span>
                                                     </div>
                                                 </div>
                                                 <div className="card-text">

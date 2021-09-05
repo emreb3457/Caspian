@@ -3,7 +3,7 @@ var fs = require('fs');
 module.exports = () => {
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
-            console.log(file)
+           
             if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
                 cb(null, `${process.env.FILE_PATH}/public/images`)
             }
@@ -15,7 +15,7 @@ module.exports = () => {
             }
         },
         filename: (req, file, cb) => {
-            console.log(file)
+            
             if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
                 try {
                     const stats = fs.lstatSync(`${process.env.FILE_PATH}/public/images/${file.originalname}`);

@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
 import { Row, Col, Container, Accordion } from 'react-bootstrap';
-import { getCourseDetails,clearErrors } from "../actions/couseAction"
+import { getCourseDetails, clearErrors } from "../actions/couseAction"
 import { API_BASE } from "../config/env"
 import Loader from "../components/loader"
 import ReactPlayer from 'react-player'
@@ -33,7 +33,7 @@ export const Coursedetails = ({ history, match }) => {
     const { error: courseerr, isUpdated } = useSelector(state => state.course);
     const { isAuthenticated, user, loading: usrloading } = useSelector(state => state.auth);
     useEffect(() => {
-        
+
         dispatch(getCourseDetails(match.params.id))
 
         if (error) {
@@ -52,13 +52,25 @@ export const Coursedetails = ({ history, match }) => {
         if (course.registerusers) {
             course.registerusers.map(x => {
                 if (x.userId == user._id) {
+                    console.log("girdi")
                     if (x.status !== "not purchased") {
                         setRegister(true)
                     }
                 }
             })
         }
-    }, [dispatch, error, isUpdated, courseerr,alert])
+    }, [dispatch, error, isUpdated, courseerr, alert])
+    useEffect(() => {
+        if (course.registerusers && user) {
+            course.registerusers.map(x => {
+                if (x.userId == user._id) {
+                    if (x.status !== "not purchased") {
+                        setRegister(true)
+                    }
+                }
+            })
+        }
+    }, [dispatch, course,user])
     const config = {
         attributes: {
             disablePictureInPicture: true,

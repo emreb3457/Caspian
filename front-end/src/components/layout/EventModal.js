@@ -1,9 +1,31 @@
-import { Modal, Button, Row, Col } from 'react-bootstrap';
-import { Link } from "react-router-dom"
-import courseimage from "../../images/Image.png"
+import { Fragment, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Modal } from 'react-bootstrap';
+import { Link, useHistory } from "react-router-dom"
+import { useAlert } from 'react-alert'
+import { coursesetRegister, clearErrors } from "../../actions/couseAction"
+import Moment from "react-moment"
+
 
 const EventModal = (props) => {
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const alert = useAlert()
+    const { error, isUpdated } = useSelector(state => state.course);
+    useEffect(() => {
+        if (error) {
+            alert.error(error)
+            dispatch(clearErrors())
+        }
+        if (isUpdated) {
+            history.push(`/course/${props.course._id}`)
+            dispatch({ type: "UPDATE_COURSE_RESET" })
+        }
+    }, [isUpdated,error])
 
+    const onSubmit = () => {
+        dispatch(coursesetRegister(props.course._id))
+    }
     return (
         <Modal
             {...props}
@@ -16,19 +38,23 @@ const EventModal = (props) => {
                     <b>About event</b>
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <div>
-                    <h4>TOEFL preparation</h4>
-                    <p>The Stacks series of products: Stacks: Landing Page Kit, Stacks: Portfolio Kit,  Stacks: eCommerce Kit.The Stacks series of products: Stacks: Landing Page Kit, Stacks: Portfolio Kit,  Stacks: eCommerce Kit.</p>
-                </div>
-                <div className="modal-bottom">
-                    <span style={{fontSize:"15px"}}><i className="fas fa-calendar pr-2"></i>13.12.2021</span>
-                </div>
-            </Modal.Body>
-            <div className="modal-button">
-                <Link className="btn modalbtn">Join for free</Link>
-                <button className="btn text-muted" onClick={props.onHide}><i className="fas fa-times pr-3"></i>Cancel</button>
-            </div>
+            {props.course &&
+                <Fragment>
+                    <Modal.Body>
+                        <div>
+                            <h4>{props.course.name}</h4>
+                            <p>{props.course.description}</p>
+                        </div>
+                        <div className="modal-bottom">
+                            <span style={{ fontSize: "15px" }}><i className="fas fa-calendar pr-2"></i><Moment format="DD/MM/YYYY" >{props.course.createdAt}</Moment></span>
+                        </div>
+                    </Modal.Body>
+                    <div className="modal-button">
+                        <button onClick={() => onSubmit()} className="btn modalbtn">Join for free</button>
+                        <button className="btn text-muted" onClick={props.onHide}><i className="fas fa-times pr-3"></i>Cancel</button>
+                    </div>
+                </Fragment>}
+
         </Modal >
     );
 }

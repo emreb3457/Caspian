@@ -18,6 +18,11 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter course description'],
     },
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    lsn:[],
     images: {
         url: {
             type: String,
@@ -42,6 +47,7 @@ const courseSchema = new mongoose.Schema({
         }
     },
     publish: { type: Boolean, default: false },
+    events: { type: Boolean, default: false },
     chapter: [
         {
             title: {
@@ -61,7 +67,7 @@ const courseSchema = new mongoose.Schema({
                 type: String,
                 required: true
             }
-           
+
         }
     ],
     helpfulmeterials: [

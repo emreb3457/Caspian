@@ -81,7 +81,7 @@ export const getCourse = () => async (dispatch) => {
 
 export const newCourse = (courseData) => async (dispatch) => {
     try {
-        console.log(courseData)
+        
         dispatch({ type: NEW_COURSE_REQUEST })
 
         const config = {
@@ -127,7 +127,7 @@ export const deleteCourse = (id) => async (dispatch) => {
 }
 
 // Update Course (ADMIN)
-export const updateCourse = (id, name, price, description, category) => async (dispatch) => {
+export const updateCourse = (id, name, price, description, category, publish, events) => async (dispatch) => {
     try {
 
         dispatch({ type: UPDATE_COURSE_REQUEST })
@@ -138,7 +138,7 @@ export const updateCourse = (id, name, price, description, category) => async (d
             }
         }
 
-        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, { name, price, description, category }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, { name, price, description, category, publish, events }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -366,7 +366,7 @@ export const coursesetRegister = (courseId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId}, config)
+        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -392,7 +392,7 @@ export const courseunRegister = (courseId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId}, config)
+        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,

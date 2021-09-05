@@ -23,6 +23,7 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
             name,
             price,
             description,
+            postedBy: req.user._id,
             images: {
                 url: newpath,
                 orjname: req.file.originalname
@@ -171,7 +172,12 @@ exports.newLesson = catchAsyncErrors(async (req, res, next) => {
 exports.getCourse = catchAsyncErrors(async (req, res, next) => {
 
     const coursesCount = await Course.countDocuments();
-    courses = await Course.find({ publish: false })
+    let courses = await Course.find({ publish: true }).populate('postedBy')
+    for (let i = 0; i < courses.length; i++) {
+        lessons = await Lesson.find({ courseId: courses[i]._id })
+        courses[i].lsn = lessons
+    }
+
     res.status(200).json({
         success: true,
         coursesCount,
@@ -212,7 +218,6 @@ exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
     let course = await Course.findById(req.params.id);
 
-
     if (!course) {
         return next(new ErrorHandler('Course not found', 404));
     }
@@ -235,6 +240,8 @@ exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
     let registerusr = []
     let user = req.user._id.toString()
     const course = await Course.findById(courseId, "registerusers")
+    const crs = await Course.findById(courseId)
+   
     if (course.length == 0) next(new ErrorHandler("Course not found", 404))
     if (course.registerusers) {
         registerusr = course.registerusers.filter(usr => usr.userId == user)
@@ -243,11 +250,21 @@ exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
         next(new ErrorHandler("You already registered", 501))
     }
     else {
-        let updateCourse = await Course.findByIdAndUpdate(courseId, { $push: { registerusers: { userId: req.user._id } } }, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false
-        });
+        let updateCourse
+        if (crs.events == true) {
+            updateCourse = await Course.findByIdAndUpdate(courseId, { $push: { registerusers: { userId: req.user._id, status: "continuing" } } }, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false
+            });
+        }
+        else {
+            updateCourse = await Course.findByIdAndUpdate(courseId, { $push: { registerusers: { userId: req.user._id } } }, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false
+            });
+        }
         res.status(200).json({
             success: true,
             updateCourse,
@@ -313,46 +330,7 @@ exports.setWatchcourse = catchAsyncErrors(async (req, res, next) => {
         })
     }
 })
-// //Publish true Course Chapter   =>   /api/v1/admin/course/publish
-// exports.setpublishCourse = catchAsyncErrors(async (req, res, next) => {
-//     const { _id } = req.body
-//     let course = await Course.findByIdAndUpdate(_id, { publish: true }, {
-//         new: true,
-//         runValidators: true,
-//         useFindAndModify: false
-//     });
 
-//     if (!course.length == 0) {
-//         return next(new ErrorHandler('Course not found', 404));
-//     }
-
-//     res.status(200).json({
-//         success: true,
-//         course,
-//         message: "Published true "
-//     })
-
-// })
-// //Publish false Course Chapter   =>   /api/v1/admin/course/unpublish
-// exports.setunpublishCourse = catchAsyncErrors(async (req, res, next) => {
-//     const { _id } = req.body
-//     let course = await Course.findByIdAndUpdate(_id, { publish: false }, {
-//         new: true,
-//         runValidators: true,
-//         useFindAndModify: false
-//     });
-
-//     if (!course.length == 0) {
-//         return next(new ErrorHandler('Course not found', 404));
-//     }
-
-//     res.status(200).json({
-//         success: true,
-//         course,
-//         message: "Published false "
-//     })
-
-// })
 
 //Update Course Chapter   =>   /api/v1/chapter/:id
 exports.updateChapter = catchAsyncErrors(async (req, res, next) => {

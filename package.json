@@ -25,6 +25,7 @@
     "multer": "^1.4.3",
     "nodemailer": "^6.6.3",
     "pure-react-carousel": "^1.27.6",
+    "rand-token": "^1.0.1",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
     "react-helmet": "^6.1.0",
@@ -40,5 +41,4 @@
   "devDependencies": {
     "nodemon": "^2.0.12"
   }
-  
 }

@@ -16,6 +16,8 @@ const NewCourse = ({ location }) => {
     const [description, setDesc] = useState("")
     const [category, setCategory] = useState("")
     const [price, setPrice] = useState("")
+    const [publish, setPublish] = useState(false)
+    const [event, setEvent] = useState(false)
     const [courseImage, setChangevatar] = useState("")
     const [courseVideo, setVideo] = useState("")
     const [courseFile, setFile] = useState("")
@@ -37,7 +39,9 @@ const NewCourse = ({ location }) => {
                 setcoursename(course.name),
                 setDesc(course.description),
                 setCategory(course.category),
-                setPrice(course.price)
+                setPrice(course.price),
+                setPublish(course.publish),
+                setEvent(course.events)
 
             )
         }
@@ -45,7 +49,7 @@ const NewCourse = ({ location }) => {
 
     useEffect(() => {
         console.log(location.state)
-        if (location.state==undefined) {
+        if (location.state == undefined) {
             if (error) {
                 alert.error(error);
                 dispatch(clearErrors())
@@ -111,6 +115,8 @@ const NewCourse = ({ location }) => {
             formData.set('description', description);
             formData.set('category', category);
             formData.set('image', courseImage);
+            formData.set('events', event);
+            formData.set('publish', publish);
             dispatch(newCourse(formData))
         }
 
@@ -122,7 +128,7 @@ const NewCourse = ({ location }) => {
 
         if (Object.keys(errors).length === 0) {
 
-            dispatch(updateCourse(location.state.id, coursename, price, description, category))
+            dispatch(updateCourse(location.state.id, coursename, price, description, category, publish, event))
         }
 
     }
@@ -326,6 +332,24 @@ const NewCourse = ({ location }) => {
                                 <span className="input-group-text">₺</span>
                             </div>
                             {errors.price && <Validate message={errors.price} />}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="form-group col-md-6 ">
+                            <label for="publish">Published</label>
+                            <select id="publish" className="form-control custom-select" name="category" value={publish} onChange={(e) => setPublish(e.target.value)}  >
+                                <option defaultValue >false</option>
+                                <option>true</option>
+
+                            </select>
+                        </div>
+                        <div className="form-group col-md-6 ">
+                            <label for="events">Event</label>
+                            <select id="events" className="form-control custom-select" name="category" value={event} onChange={(e) => setEvent(e.target.value)}  >
+                                <option defaultValue >false</option>
+                                <option>true</option>
+
+                            </select>
                         </div>
                     </div>
 

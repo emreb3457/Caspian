@@ -25,11 +25,11 @@ import MetaData from '../components/layout/MetaData';
 const Home = () => {
     const dispatch = useDispatch();
     const alert = useAlert()
-   
+
 
     const { loading } = useSelector(state => state.auth)
     const { error, courses } = useSelector(state => state.coursies);
-  
+
     useEffect(() => {
         dispatch(getCourse());
         if (error) {
@@ -38,6 +38,12 @@ const Home = () => {
         }
 
     }, [dispatch, alert])
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors())
+        }
+    }, [dispatch, alert,error])
     return (
         <Fragment>
             <MetaData title="Home Page" />
@@ -46,7 +52,7 @@ const Home = () => {
                     <Header />
                     <Topbout />
                     <Whycomponent />
-                    <Forkids course={courses}/>
+                    <Forkids course={courses} />
                     <Foradults course={courses} />
                     <Explore />
                     <Events course={courses} />
