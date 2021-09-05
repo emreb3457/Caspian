@@ -26,7 +26,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 // Login User  =>  /api/v1/login
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, rm } = req.body;
 
     // Checks if email and password is entered by user
     if (!email || !password) {
@@ -46,7 +46,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
 
-    sendToken(user, 200, res, req)
+    sendToken(user, 200, res,rm)
 
 })
 

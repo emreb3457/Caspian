@@ -57,7 +57,7 @@ const Alluser = (props) => {
                     <li key={usr._id} class="manage-list-row clearfix">
                         <div class="list-info" >
                             <div class="list-details">
-                                <h3 class="job-name"><strong>{usr.name}</strong></h3>
+                                <h3 class="job-name"><strong>{usr.name} - {usr.email}</strong></h3>
                                 <small class="job-company"><i class="fas fa-user"></i>{usr.role}</small>
                                 <small class="job-company"><i class="fas fa-clock"></i>Created At <Moment format="DD/MM/YYYY">{usr.createdAt}</Moment></small>
                                 
@@ -66,16 +66,9 @@ const Alluser = (props) => {
                         <div class="job-buttons">
                             <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteUserHandler(usr._id)}><i class="far fa-trash-alt" /></div>
                         </div>
-
                     </li>
                 )}
-
-
             </ul>
-
-
-
-
         </div >
 
     )

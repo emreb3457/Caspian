@@ -6,7 +6,7 @@ import Loader from '../components/loader';
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
-import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter, newLesson, deleteLesson, deleteDownloadFile, newdownloadFile } from "../actions/couseAction"
+import { newCourse, clearErrors, updateCourse, newChapter, getCourseDetails, updateChapter, deleteChapter, newLesson, deleteLesson, deleteDownloadFile, newdownloadFile, courseunRegister } from "../actions/couseAction"
 import { NEW_COURSE_RESET, UPDATE_COURSE_RESET, UPDATE_CHAPTER_RESET, DELETE_CHAPTER_RESET } from "../constants/courseContants"
 import pdficon from "../images/icons/pdffile.svg"
 const NewCourse = ({ location }) => {
@@ -391,59 +391,82 @@ const NewCourse = ({ location }) => {
             {location.state &&
                 <div id="courseContent">
                     {course && course.chapter && course.chapter.map && course.chapter.map((chp, index) =>
-                        <div className="chapter">
-                            <div className="d-inline-block">
-                                <h4 className="chapter-title">{chp.title}</h4>
+                        <div className="row">
+                            <div className="chapter col-lg-8">
+                                <div className="d-inline-block">
+                                    <h4 className="chapter-title">{chp.title}</h4>
 
-                                <div className={`editchpter editChapter${index}`}>
+                                    <div className={`editchpter editChapter${index}`}>
+                                        <div className="form-group ">
+                                            <input type="text" className="form-control" placeholder="Chapter Name" name="chaptername" value={chaptername} onChange={(e) => setChaptername(e.target.value)} />
+                                            {errors.chaptername && <Validate message={errors.chaptername} />}
+                                        </div>
+                                        <div className="content-btn ">
+                                            <button className="btn btn-dark" onClick={() => onChapterUpdate(chp._id, index)}>Edit Chapter</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div className="job-buttons d-inline-block float-right">
+                                    <div className="btn btn-info mr-2" title="Edit" onClick={x => toggleButtonUpdate(x.currentTarget, index)} ><i className="far fa-edit" /></div>
+                                    <div className="btn btn-danger" title="Remove" onDoubleClick={() => removeChapter(chp._id)} ><i className="far fa-trash-alt" /></div>
+                                </div>
+                                {lesson && lesson.map && lesson.map(lsn => {
+                                    if (lsn.chapterId == chp._id) {
+                                        return (
+                                            <div className="lesson">
+                                                <h4 className="d-inline">{lsn.title}</h4>
+                                                <div className="d-inline-block float-right">
+                                                    <div style={{ fontSize: "10px" }} className="btn btn-danger" title="Remove" onDoubleClick={() => removeLesson(lsn._id)} ><i className="far fa-trash-alt" /></div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                })}
+
+                                <div className="checkbox toggle-2">
+                                    <button className="btn btn-success mt-3" onClick={x => toggleButton2(x.currentTarget, index)}><i className="fas fa-plus"></i></button>
+                                </div>
+
+                                <div className={`mt-2 addlesson addLesson${index}`}>
                                     <div className="form-group ">
-                                        <input type="text" className="form-control" placeholder="Chapter Name" name="chaptername" value={chaptername} onChange={(e) => setChaptername(e.target.value)} />
-                                        {errors.chaptername && <Validate message={errors.chaptername} />}
+                                        <input type="text" className="form-control" placeholder="Lesson Name" name="lessonname" value={lessonname} onChange={(e) => setLessonname(e.target.value)} />
+                                        {errors.lessonname && <Validate message={errors.lessonname} />}
+                                    </div>
+                                    <div className="form-group ">
+                                        <Form.Group controlId="formFile" className="mb-3">
+                                            <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onBeforeVideoLoad(e)} type="file" />
+                                        </Form.Group>
+
+                                        {errors.courseVideo && <Validate message={errors.courseVideo} />}
                                     </div>
                                     <div className="content-btn ">
-                                        <button className="btn btn-dark" onClick={() => onChapterUpdate(chp._id, index)}>Edit Chapter</button>
+                                        <button className="btn btn-dark" onClick={() => onlessonAdd(chp._id, index)}>Add Lesson</button>
                                     </div>
                                 </div>
-
-
                             </div>
-
-                            <div className="job-buttons d-inline-block float-right">
-                                <div className="btn btn-info mr-2" title="Edit" onClick={x => toggleButtonUpdate(x.currentTarget, index)} ><i className="far fa-edit" /></div>
-                                <div className="btn btn-danger" title="Remove" onDoubleClick={() => removeChapter(chp._id)} ><i className="far fa-trash-alt" /></div>
-                            </div>
-                            {lesson && lesson.map && lesson.map(lsn => {
-                                if (lsn.chapterId == chp._id) {
-                                    return (
-                                        <div className="lesson">
-                                            <h4 className="d-inline">{lsn.title}</h4>
-                                            <div className="d-inline-block float-right">
-                                                <div style={{ fontSize: "10px" }} className="btn btn-danger" title="Remove" onDoubleClick={() => removeLesson(lsn._id)} ><i className="far fa-trash-alt" /></div>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            })}
-
-                            <div className="checkbox toggle-2">
-                                <button className="btn btn-success mt-3" onClick={x => toggleButton2(x.currentTarget, index)}><i className="fas fa-plus"></i></button>
-                            </div>
-
-                            <div className={`mt-2 addlesson addLesson${index}`}>
-                                <div className="form-group ">
-                                    <input type="text" className="form-control" placeholder="Lesson Name" name="lessonname" value={lessonname} onChange={(e) => setLessonname(e.target.value)} />
-                                    {errors.lessonname && <Validate message={errors.lessonname} />}
-                                </div>
-                                <div className="form-group ">
-                                    <Form.Group controlId="formFile" className="mb-3">
-                                        <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onBeforeVideoLoad(e)} type="file" />
-                                    </Form.Group>
-
-                                    {errors.courseVideo && <Validate message={errors.courseVideo} />}
-                                </div>
-                                <div className="content-btn ">
-                                    <button className="btn btn-dark" onClick={() => onlessonAdd(chp._id, index)}>Add Lesson</button>
-                                </div>
+                            <div className="chapter col-lg-4">
+                                <div className="dashboard-caption">
+                                    <div className="dashboard-caption-header">
+                                        <h4><i class="fas fa-cogs" />Registered users</h4>
+                                    </div>
+                                    <ul className="list">
+                                        {course && course.registerusers.map && course.registerusers.map(usr =>
+                                            <li key={usr._id} class="manage-list-row clearfix">
+                                                <div class="list-info" >
+                                                    <div class="list-details">
+                                                        <h3 class="job-name"><strong>{usr.userId.name} - {usr.userId.email}</strong></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="job-buttons">
+                                                    <div className="btn btn-danger" title="Sil" onDoubleClick={() => dispatch(courseunRegister(location.state.id, usr.userId._id))}><i class="far fa-trash-alt" /></div>
+                                                </div>
+                                            </li>
+                                        )}
+                                    </ul>
+                                </div >
                             </div>
                         </div>
 

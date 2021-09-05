@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Validate from "../Homecomp/Validate"
 import login from "../../images/icons/loginicon.svg"
 import lock from "../../images/icons/Lock.svg"
-import { Link,  useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert'
 
 import { Row, Col, Form } from "react-bootstrap";
@@ -16,7 +16,8 @@ const Signin = () => {
     const history = useHistory();
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
-    const [validaterr, setError] = useState({})
+    const [rm, setRm] = useState(false)
+    const [error, setError] = useState({})
 
     const { isAuthenticated, err, loading } = useSelector(state => state.auth);
 
@@ -34,8 +35,10 @@ const Signin = () => {
     const onSubmit = () => {
         const errors = valid()
         setError(errors);
-        if (Object.keys(validaterr).length === 0) {
-            dispatch(loginac(email, pass));
+        console.log("asd")
+        if (Object.keys(errors).length === 0) {
+
+            dispatch(loginac(email, pass, rm));
         }
     }
     const valid = () => {
@@ -44,8 +47,7 @@ const Signin = () => {
         if (!pass) errors.pass = "Password field is required.";
         return errors;
     }
-    const errors = { ...validaterr };
-
+    const errors = { ...error };
     return (
         <div>
             <div className="topContent">
@@ -70,7 +72,7 @@ const Signin = () => {
                     <Row>
                         <Col lg="6" md="6" xs="6">
                             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                <Form.Check className="checkBox" type="checkbox" label="Remember Me" />
+                                <Form.Check className="checkBox" type="checkbox" label="Remember Me" defaultChecked={rm} onChange={() => setRm(!rm)} />
                             </Form.Group>
                         </Col>
                         <Col lg="6" md="6" xs="6">
@@ -78,7 +80,7 @@ const Signin = () => {
                         </Col>
                     </Row>
                 </Form>
-                <div><button className="btn" onClick={onSubmit}>Sign In</button></div>
+                <div><button className="btn" onClick={() => onSubmit()}>Sign In</button></div>
             </div>
             <div className="bottomContent">
                 <div><Link to="#">Or continue with</Link></div>

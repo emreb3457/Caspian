@@ -81,7 +81,7 @@ export const getCourse = () => async (dispatch) => {
 
 export const newCourse = (courseData) => async (dispatch) => {
     try {
-        
+
         dispatch({ type: NEW_COURSE_REQUEST })
 
         const config = {
@@ -380,8 +380,8 @@ export const coursesetRegister = (courseId) => async (dispatch) => {
         })
     }
 }
-// Set unregister
-export const courseunRegister = (courseId) => async (dispatch) => {
+// Set unregister //put
+export const courseunRegister = (courseId, usrId) => async (dispatch) => {
     try {
 
         dispatch({ type: UPDATE_COURSE_REQUEST })
@@ -392,7 +392,7 @@ export const courseunRegister = (courseId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/register`, { courseId, usrId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -406,6 +406,33 @@ export const courseunRegister = (courseId) => async (dispatch) => {
         })
     }
 }
+// Set continuing
+export const setOpen = (id, usrId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_COURSE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/setopen/${id}`, { usrId }, config)
+
+        dispatch({
+            type: UPDATE_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({

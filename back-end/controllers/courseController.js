@@ -11,8 +11,8 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
     const { name,
         price,
         description,
-        category } = req.body
-
+        category, publish, events } = req.body
+    console.log(req.body)
     try {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
@@ -28,7 +28,9 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
                 url: newpath,
                 orjname: req.file.originalname
             },
-            category
+            category,
+            publish,
+            events
         })
         res.status(201).json({
             success: true,
@@ -189,7 +191,7 @@ exports.getCourse = catchAsyncErrors(async (req, res, next) => {
 // Get all course (Admin)  =>   /api/v1/admin/course
 exports.getAdminCourse = catchAsyncErrors(async (req, res, next) => {
 
-    const course = await Course.find();
+    const course = await Course.find().populate("registerusers.userId");
 
     res.status(200).json({
         success: true,
@@ -201,7 +203,7 @@ exports.getAdminCourse = catchAsyncErrors(async (req, res, next) => {
 // Get single course details   =>   /api/v1/course/:id
 exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 
-    const course = await Course.findById(req.params.id)
+    const course = await Course.findById(req.params.id).populate("registerusers.userId")
     if (!course) {
         return next(new ErrorHandler('Course not found', 404));
     }
@@ -234,14 +236,14 @@ exports.updateCourse = catchAsyncErrors(async (req, res, next) => {
 
 })
 
-//Register fot the Course    =>   /api/v1/course/register
+//Register fot the Course    =>   /api/v1/course/register //post
 exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
     const { courseId } = req.body
     let registerusr = []
     let user = req.user._id.toString()
     const course = await Course.findById(courseId, "registerusers")
     const crs = await Course.findById(courseId)
-   
+
     if (course.length == 0) next(new ErrorHandler("Course not found", 404))
     if (course.registerusers) {
         registerusr = course.registerusers.filter(usr => usr.userId == user)
@@ -271,13 +273,13 @@ exports.setRegistercourse = catchAsyncErrors(async (req, res, next) => {
         })
     }
 })
-//Unregister  the Course    =>   /api/v1/course/register
+//Unregister  the Course    =>   /api/v1/course/register  //put 
 exports.setUnregistercourse = catchAsyncErrors(async (req, res, next) => {
-    const { courseId } = req.body
+    const { courseId, usrId } = req.body
     const course = await Course.findById(courseId)
     if (course.length == 0) next(new ErrorHandler("Course not found", 404))
 
-    let data = await Course.findByIdAndUpdate(courseId, { $pull: { registerusers: { userId: req.user._id } } }, {
+    let data = await Course.findByIdAndUpdate(courseId, { $pull: { registerusers: { userId: usrId } } }, {
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -295,12 +297,13 @@ exports.setOpencourse = catchAsyncErrors(async (req, res, next) => {
     const { usrId } = req.body
 
     const course = await Course.findById(req.params.id)
-    const filtercourse = course.registerusers.filter(x => x._id == usrId)
+    const filtercourse = course.registerusers.filter(x => x.userId == usrId)
 
-    filtercourse[0].status = "Continuing"
+    filtercourse[0].status = "continuing"
     course.save({ validateBeforeSave: false });
     res.status(200).json({
         success: true,
+        course
     })
 });
 

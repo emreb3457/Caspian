@@ -22,7 +22,7 @@ const courseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    lsn:[],
+    lsn: [],
     images: {
         url: {
             type: String,
@@ -85,8 +85,9 @@ const courseSchema = new mongoose.Schema({
         }
     ],
     registerusers: [{
-        userId: { type: mongoose.Schema.ObjectId },
-        status: { type: String, default: "not purchased" }
+        userId: { type: mongoose.Schema.ObjectId,  ref: "User" },
+        status: { type: String, default: "not purchased" },
+      
     }],
     createdAt: {
         type: Date,

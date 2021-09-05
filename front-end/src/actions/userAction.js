@@ -34,13 +34,13 @@ const axios = axioss.create({
 })
 
 
-export const loginac = (email, password) => async (dispatch) => {
+export const loginac = (email, password,rm) => async (dispatch) => {
     try {
 
         dispatch({ type: LOGIN_REQUEST })
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/login`, { email, password }, { withCredentials: true })
+        const { data } = await axios.post(`${API_BASE}/api/v1/login`, { email, password,rm }, { withCredentials: true })
 
         dispatch({
             type: LOGIN_SUCCESS,

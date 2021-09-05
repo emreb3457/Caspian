@@ -12,7 +12,7 @@ export const Header = () => {
     let profileavatar
 
     useEffect(() => {
-       
+
     }, [user])
     return (
 
@@ -20,10 +20,10 @@ export const Header = () => {
             <Container>
                 <Navbar.Brand as={Link} to="/"  ><img alt="logo" className="logo" src={tstlogo} /></Navbar.Brand>
                 <Nav className="">
-                    <Nav.Link as={Link} to="#login" className="nav-menu" href="#login">Main</Nav.Link>
-                    <Nav.Link as={Link} to="#Juniors" className="nav-menu" href="#Juniors">Juniors</Nav.Link>
-                    <Nav.Link as={Link} to="#Juniors" className="nav-menu" href="#Adults">Adults</Nav.Link>
-                    <Nav.Link as={Link} to="#Juniors" className="nav-menu" href="#Contact">Contact</Nav.Link>
+                    <Nav.Link to="#login" className="nav-menu" href="#topAbout">Main</Nav.Link>
+                    <Nav.Link to="#Juniors" className="nav-menu" href="#forJuniors">Juniors</Nav.Link>
+                    <Nav.Link to="#Juniors" className="nav-menu" href="#forAdults">Adults</Nav.Link>
+                    <Nav.Link to="#Juniors" className="nav-menu" href="#contact">Contact</Nav.Link>
                     {!isAuthenticated ?
                         <div style={{ display: "inline-flex" }}>
                             <Nav.Link as={Link} to="/login" className="btn nav-buttons shadow-none ml-4 ">Login</Nav.Link>

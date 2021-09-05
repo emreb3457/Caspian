@@ -33,6 +33,7 @@ const Sidedashboard = () => {
             </div>
             <div className="dashboard-menu">
                 <div class="nav flex-column nav-pills" id="panel-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a href="/" class="nav-link "><i class="fas fa-home" />Go home</a>
                     <a class="nav-link active" id="v-pills-alljob-tab" data-toggle="pill" href="#v-pills-alljob" role="tab" aria-controls="v-pills-alljob" aria-selected="true"><i class="fas fa-briefcase" />All Course</a>
                     <a class="nav-link" id="v-pills-pendingjob-tab" data-toggle="pill" href="#v-pills-pendingjob" role="tab" aria-controls="v-pills-payment" aria-selected="false"><i class="fas fa-hourglass-half" />Payment Pending</a>
                     <a class="nav-link" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="false"><i class="fas fa-users" />All User</a>
