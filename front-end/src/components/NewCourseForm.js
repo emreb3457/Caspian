@@ -390,9 +390,30 @@ const NewCourse = ({ location }) => {
             {detailsloading && <Loader />}
             {location.state &&
                 <div id="courseContent">
-                    {course && course.chapter && course.chapter.map && course.chapter.map((chp, index) =>
-                        <div className="row">
-                            <div className="chapter col-lg-8">
+                    <div className="chapter col-lg-4 float-right d-inline-block">
+                        <div className="dashboard-caption">
+                            <div className="dashboard-caption-header">
+                                <h4><i class="fas fa-cogs" />Registered users</h4>
+                            </div>
+                            <ul className="list">
+                                {course && course.registerusers && course.registerusers.map && course.registerusers.map(usr =>
+                                    <li key={usr._id} class="manage-list-row clearfix">
+                                        <div class="list-info" >
+                                            <div class="list-details">
+                                                <h3 class="job-name"><strong>{usr.userId.name} - {usr.userId.email}</strong></h3>
+                                            </div>
+                                        </div>
+                                        <div class="job-buttons">
+                                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => dispatch(courseunRegister(location.state.id, usr.userId._id))}><i class="far fa-trash-alt" /></div>
+                                        </div>
+                                    </li>
+                                )}
+                            </ul>
+                        </div >
+                    </div>
+                    <div className="row">
+                        {course && course.chapter && course.chapter.map && course.chapter.map((chp, index) =>
+                            <div className="chapter col-lg-12">
                                 <div className="d-inline-block">
                                     <h4 className="chapter-title">{chp.title}</h4>
 
@@ -405,10 +426,7 @@ const NewCourse = ({ location }) => {
                                             <button className="btn btn-dark" onClick={() => onChapterUpdate(chp._id, index)}>Edit Chapter</button>
                                         </div>
                                     </div>
-
-
                                 </div>
-
                                 <div className="job-buttons d-inline-block float-right">
                                     <div className="btn btn-info mr-2" title="Edit" onClick={x => toggleButtonUpdate(x.currentTarget, index)} ><i className="far fa-edit" /></div>
                                     <div className="btn btn-danger" title="Remove" onDoubleClick={() => removeChapter(chp._id)} ><i className="far fa-trash-alt" /></div>
@@ -447,31 +465,9 @@ const NewCourse = ({ location }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="chapter col-lg-4">
-                                <div className="dashboard-caption">
-                                    <div className="dashboard-caption-header">
-                                        <h4><i class="fas fa-cogs" />Registered users</h4>
-                                    </div>
-                                    <ul className="list">
-                                        {course && course.registerusers.map && course.registerusers.map(usr =>
-                                            <li key={usr._id} class="manage-list-row clearfix">
-                                                <div class="list-info" >
-                                                    <div class="list-details">
-                                                        <h3 class="job-name"><strong>{usr.userId.name} - {usr.userId.email}</strong></h3>
-                                                    </div>
-                                                </div>
-                                                <div class="job-buttons">
-                                                    <div className="btn btn-danger" title="Sil" onDoubleClick={() => dispatch(courseunRegister(location.state.id, usr.userId._id))}><i class="far fa-trash-alt" /></div>
-                                                </div>
-                                            </li>
-                                        )}
-                                    </ul>
-                                </div >
-                            </div>
-                        </div>
+                        )}
 
-                    )}
-
+                    </div>
                     <div className="checkbox toggle">
                         <button className="btn btn-success mt-3" onClick={x => toggleButton(x.currentTarget)}><i className="fas fa-plus"></i></button>
                     </div>
@@ -485,6 +481,7 @@ const NewCourse = ({ location }) => {
                         </div>
                     </div>
                 </div>
+
             }
 
         </div >

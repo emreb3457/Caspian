@@ -35,7 +35,7 @@ router.route('/course/:id').get(getSingleCourse);
 
 router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("image"), newCourse);
 router.route("/admin/course/setopen/:id").put(isAuthenticatedUser, authorizeRoles("admin"), setOpencourse);
-router.route('/course/setwatch').put(setWatchcourse);
+router.route('/course/setwatch').put(isAuthenticatedUser,setWatchcourse);
 router.route("/course/register")
     .post(isAuthenticatedUser, setRegistercourse)
     .put(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);

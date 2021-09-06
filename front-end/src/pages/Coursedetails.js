@@ -3,11 +3,12 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
 import { Row, Col, Container, Accordion } from 'react-bootstrap';
-import { getCourseDetails, clearErrors } from "../actions/couseAction"
-import { API_BASE } from "../config/env"
+import { getCourseDetails, clearErrors, setlessonWatch } from "../actions/couseAction"
+import { API_BASE, ContactNumber } from "../config/env"
 import Loader from "../components/loader"
 import ReactPlayer from 'react-player'
 import ellipse from "../images/icons/ellipse.svg"
+import check from "../images/icons/check.svg"
 import agegroup from "../images/icons/age-group.svg"
 import calendar from "../images/icons/Calendar.svg"
 import userline from "../images/icons/userline.svg"
@@ -27,11 +28,13 @@ export const Coursedetails = ({ history, match }) => {
     const dispatch = useDispatch()
     const [register, setRegister] = useState(false)
     const [select, setSelect] = useState()
+    const [selectLessonid, setLessonId] = useState()
     const [videourl, setVideoUrl] = useState("empty")
     const [modalShow, setModalShow] = useState(false);
     const { error, course, lesson, loading } = useSelector(state => state.courseDetails);
     const { error: courseerr, isUpdated } = useSelector(state => state.course);
     const { isAuthenticated, user, loading: usrloading } = useSelector(state => state.auth);
+    const { isUpdated: watchUpdate } = useSelector(state => state.chapter);
     useEffect(() => {
 
         dispatch(getCourseDetails(match.params.id))
@@ -49,6 +52,10 @@ export const Coursedetails = ({ history, match }) => {
             alert.success("Registered please make your payment")
             dispatch({ type: "UPDATE_COURSE_RESET" })
         }
+        if (watchUpdate) {
+
+            dispatch({ type: "UPDATE_CHAPTER_RESET" })
+        }
         if (course.registerusers) {
             course.registerusers.map(x => {
                 if (x.userId == user._id) {
@@ -59,25 +66,27 @@ export const Coursedetails = ({ history, match }) => {
                 }
             })
         }
-    }, [dispatch, error, isUpdated, courseerr, alert])
+    }, [dispatch, error, isUpdated, courseerr, , watchUpdate, alert])
     useEffect(() => {
         if (course.registerusers && user) {
             course.registerusers.map(x => {
-                if (x.userId == user._id) {
+                if (x.userId._id == user._id) {
+
                     if (x.status !== "not purchased") {
                         setRegister(true)
                     }
                 }
             })
         }
-    }, [dispatch, course,user])
+    }, [dispatch, course, user])
     const config = {
         attributes: {
             disablePictureInPicture: true,
             controlsList: 'nodownload'
         }
     };
-    const selectedItem = (e) => {
+    const selectedItem = (e, id) => {
+        setLessonId(id)
         if (select) {
             select.style.background = "white"
         }
@@ -88,6 +97,9 @@ export const Coursedetails = ({ history, match }) => {
         let url = API_BASE + "/" + e
         setVideoUrl(url)
     }
+    const onwatchLesson = () => {
+        dispatch(setlessonWatch(selectLessonid))
+    }
 
     return (
         <Fragment>
@@ -95,96 +107,102 @@ export const Coursedetails = ({ history, match }) => {
             <MetaData title="Course Details" />
             <div id="course-details">
                 <Container>
-                    {loading && <Loader />}
+
                     <div className="topContent">
-                        <Row>
-                            <div className="course-title">
-                                <h2>{course.name}</h2>
-                                <div>{course.category}</div>
-                            </div>
-                        </Row>
-                        <Row>
-                            <Col lg="9" >
-                                <div>
-                                    <ReactPlayer
-                                        className="react-player"
-                                        onReady={true}
-                                        playing={true}
-                                        url={videourl}
-                                        controls={true}
-                                        onContextMenu={e => e.preventDefault()}
-                                        config={config}
-                                    />
-                                    <div className="desc">
-                                        <h5>
-                                            Course description
-                                        </h5>
-                                        <p>{course.description}</p>
+                        {loading ? <Loader /> :
+                            course && <Fragment>
+                                <Row>
+                                    <div className="course-title">
+                                        <h2>{course.name}</h2>
+                                        <div>{course.category}</div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col lg="3">
-                                <div className="course-video">
-                                    <Accordion defaultActiveKey="0" flush>
-                                        {course && course.chapter && course.chapter.map((chp, index) =>
-                                            <Accordion.Item key={chp._id} eventKey={index}>
-                                                <Accordion.Header><span className="acc-head">{chp.title}<br /><small>Lessons</small></span></Accordion.Header>
-                                                <Accordion.Body>
-                                                    {lesson && lesson.map && lesson.map((lsn, i) => {
-                                                        if (lsn.chapterId == chp._id) {
-                                                            if (register) {
-                                                                return (
-                                                                    <div key={lsn._id} className="course-lesson " onClick={(e) => { selectedItem(e.currentTarget); onSetVideoUrl(lsn.videoUrl) }}>
-                                                                        <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
-                                                                        <div className="ml-4 d-inline-block" >
-                                                                            <span className="">{`Lesson ${i}`}</span>
-                                                                            <h5>{lsn.title}</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                            else {
-                                                                return (
-                                                                    <div key={lsn._id} className="course-lesson disable ">
-                                                                        <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
-                                                                        <div className="ml-4 d-inline-block" >
-                                                                            <span className="">{`Lesson ${i}`}</span>
-                                                                            <h5>{lsn.title}</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                        }
-                                                    })}
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-
-                                        )}
-
-                                    </Accordion>
-                                </div>
-                                {!register ?
-                                    <button className="registerBtn btn" onClick={() => { isAuthenticated ? setModalShow(true) : history.push("/login") }}>
-                                        Register
-                                    </button> :
-                                    <div className="downloadfile">
+                                </Row>
+                                <Row>
+                                    <Col lg="9" >
                                         <div>
-                                            <img alt="icon" src={arrowdownload} />
-                                            <h4>Files to download</h4>
-                                        </div>
-                                        {course && course.downloadsfile && course.downloadsfile.map(dwn =>
-                                            <div className="mb-3">
-                                                <a target="_blank" className="text-reset" href={`${API_BASE}/${dwn.url}`}>
-                                                    <img alt="icon" src={pdf} />
-                                                    <span className="ml-3">{dwn.orjname}</span>
-                                                </a>
+                                            <ReactPlayer
+                                                className="react-player"
+                                                playing={true}
+                                                url={videourl}
+                                                controls={true}
+                                                onContextMenu={e => e.preventDefault()}
+                                                config={config}
+                                                onEnded={() => onwatchLesson()}
+                                            />
+                                            <div className="desc">
+                                                <h5>
+                                                    Course description
+                                                </h5>
+                                                <p>{course.description}</p>
                                             </div>
-                                        )}
-                                    </div>
-                                }
+                                        </div>
+                                    </Col>
+                                    <Col lg="3">
+                                        <div className="course-video">
+                                            <Accordion defaultActiveKey="0" flush>
+                                                {course && course.chapter && course.chapter.map((chp, index) =>
+                                                    <Accordion.Item key={chp._id} eventKey={index}>
+                                                        <Accordion.Header><span className="acc-head">{chp.title}<br /><small>Lessons</small></span></Accordion.Header>
+                                                        <Accordion.Body>
+                                                            {lesson && lesson.map && lesson.map((lsn, i) => {
+                                                                if (lsn.chapterId == chp._id) {
+                                                                    let chck = lsn.watchUser.filter(x => x == user._id)
+                                                                    if (register) {
+                                                                        return (
+                                                                            <div key={lsn._id} className="course-lesson " onClick={(e) => { selectedItem(e.currentTarget, lsn._id); onSetVideoUrl(lsn.videoUrl) }}>
+                                                                                {user && lsn.watchUser && lsn.watchUser.map && chck.length !== 0 ? <span> <img className="pb-4" alt="icon" src={check} /></span> : <span> <img className="pb-4" alt="icon" src={ellipse} /></span>}
+                                                                                <div className="ml-4 d-inline-block" >
+                                                                                    <span className="">{`Lesson ${i}`}</span>
+                                                                                    <h5>{lsn.title}</h5>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                    else {
+                                                                        return (
+                                                                            <div key={lsn._id} className="course-lesson disable ">
+                                                                                <span> <img className="pb-4" alt="icon" src={ellipse} /></span>
+                                                                                <div className="ml-4 d-inline-block" >
+                                                                                    <span className="">{`Lesson ${i}`}</span>
+                                                                                    <h5>{lsn.title}</h5>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                }
+                                                            })}
+                                                        </Accordion.Body>
+                                                    </Accordion.Item>
 
-                            </Col>
-                        </Row>
+                                                )}
+
+                                            </Accordion>
+                                        </div>
+                                        {!register ?
+                                            <button className="registerBtn btn" onClick={() => { isAuthenticated ? setModalShow(true) : history.push("/login") }}>
+                                                Register
+                                            </button> :
+                                            <div className="downloadfile">
+                                                <div>
+                                                    <img alt="icon" src={arrowdownload} />
+                                                    <h4>Files to download</h4>
+                                                </div>
+                                                {course && course.downloadsfile && course.downloadsfile.map(dwn =>
+                                                    <div className="mb-3">
+                                                        <a target="_blank" className="text-reset" href={`${API_BASE}/${dwn.url}`}>
+                                                            <img alt="icon" src={pdf} />
+                                                            <span className="ml-3">{dwn.orjname}</span>
+                                                        </a>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        }
+                                    </Col>
+                                </Row>
+                            </Fragment>
+
+                        }
+
                         <Row>
                             <Col lg="8">
                                 <div className="bottom-content">
@@ -237,7 +255,7 @@ export const Coursedetails = ({ history, match }) => {
                                     </Accordion>
                                     <div className="contactUs">
                                         <h3>Contact us to test your level and register</h3>
-                                        <a target="_blank" href="https://wa.me/905347205019" className="btn text-reset">Contact Us</a>
+                                        <a target="_blank" href={`https://wa.me/9${ContactNumber}`} className="btn text-reset">Contact Us</a>
                                     </div>
                                 </div>
                             </Col>
@@ -249,9 +267,9 @@ export const Coursedetails = ({ history, match }) => {
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 />
-            </div>
+            </div >
             <Footer />
-        </Fragment>
+        </Fragment >
     )
 }
 

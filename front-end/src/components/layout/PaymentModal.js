@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { coursesetRegister } from "../../actions/couseAction"
 import courseimage from "../../images/Image.png"
+import { ContactNumber } from '../../config/env';
 const PaymentModal = (props) => {
     const dispatch = useDispatch()
     const setcourseRegister = () => {
@@ -39,7 +40,7 @@ const PaymentModal = (props) => {
                 </div>
             </Modal.Body>
             <div className="modal-button">
-                <a target="_blank" href="https://wa.me/905347205019" onClick={() => { setcourseRegister(); props.onHide() }} className="btn modalbtn">Confirm and contact</a>
+                <a target="_blank" href={`https://wa.me/9${ContactNumber}`} onClick={() => { setcourseRegister(); props.onHide() }} className="btn modalbtn">Confirm and contact</a>
                 <button className="btn text-muted" onClick={props.onHide}><i className="fas fa-times pr-3"></i>Cancel</button>
             </div>
         </Modal >

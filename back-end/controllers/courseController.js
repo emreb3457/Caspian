@@ -307,22 +307,23 @@ exports.setOpencourse = catchAsyncErrors(async (req, res, next) => {
     })
 });
 
-//setWatchcourse the Course    =>   /api/v1/course/setWatch
+//setWatchcourse the Course    =>   /api/v1/course/setwatch
 exports.setWatchcourse = catchAsyncErrors(async (req, res, next) => {
-    const { usrId, lessonId } = req.body
+    const { lessonId } = req.body
     let data = [];
-    const watchusr = await Lesson.findById(lessonId)
-    if (!watchusr) next(new ErrorHandler("Lesson not found", 404))
-    console.log(watchusr)
-    if (watchusr.watchUser) {
-        data = watchusr.watchUser.filter(usr => usr == usrId)
+    let user = req.user._id.toString()
+    const lesson = await Lesson.findById(lessonId)
+    if (!lesson) next(new ErrorHandler("Lesson not found", 404))
+
+    if (lesson.watchUser) {
+        data = lesson.watchUser.filter(usr => usr == user)
     }
     if (!data.length == 0) {
         next(new ErrorHandler("You already watched", 501))
     }
     else {
 
-        const lesson = await Lesson.findByIdAndUpdate(lessonId, { $push: { watchUser: usrId } }, {
+        const lesson = await Lesson.findByIdAndUpdate(lessonId, { $push: { watchUser: user } }, {
             new: true,
             runValidators: true,
             useFindAndModify: false

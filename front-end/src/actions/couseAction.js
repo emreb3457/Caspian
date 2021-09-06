@@ -406,7 +406,7 @@ export const courseunRegister = (courseId, usrId) => async (dispatch) => {
         })
     }
 }
-// Set continuing
+// Set continuing Course
 export const setOpen = (id, usrId) => async (dispatch) => {
     try {
 
@@ -432,7 +432,32 @@ export const setOpen = (id, usrId) => async (dispatch) => {
         })
     }
 }
+// Update Lesson Watch (ADMIN)
+export const setlessonWatch = (lessonId) => async (dispatch) => {
+    try {
 
+        dispatch({ type: UPDATE_CHAPTER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/setwatch`, {lessonId }, config)
+
+        dispatch({
+            type: UPDATE_CHAPTER_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({

@@ -29,10 +29,10 @@ export const Header = () => {
                             <Nav.Link as={Link} to="/login" className="btn nav-buttons shadow-none ml-4 ">Login</Nav.Link>
                             <Nav.Link as={Link} to="/login" style={{ background: "#228B22", color: "white" }} className="btn nav-buttons ">Sign up</Nav.Link>
                         </div>
-                        : <div className="head-user">
+                        : <Link to="profile" className="head-user text-decoration-none">
                             <img alt="profile" src={`${API_BASE}/${user.avatar.url}`} />
-                            <span>{user.name}</span>
-                        </div>
+                            <span className="text-capitalize">{user.name}</span>
+                        </Link>
                     }
                     <Nav.Link href="#Eng" className="btn nav-buttons">Eng</Nav.Link>
                 </Nav>
