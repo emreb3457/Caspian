@@ -4,7 +4,37 @@ const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const { CLIENT_URL } = require("../constants/appConstants");
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.google_client_id)
 
+
+// Login User  =>  /api/v1/login/google
+exports.loginGoogle = catchAsyncErrors(async (req, res, next) => {
+    const { token } = req.body;
+
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.google_client_id
+    });
+    const { name, email, jti } = ticket.getPayload();
+    const usr = await User.findOne({ email: email })
+
+    if (!usr) {
+        const user = await User.create({
+            name,
+            email,
+            password: jti,
+            avatar: {
+                url: process.env.TEST_IMAGE
+            }
+        })
+        sendToken(user, 200, res)
+    }
+    else {
+        sendToken(usr, 200, res)
+    }
+})
 // Register a user   => /api/v1/register
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -46,7 +76,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
 
-    sendToken(user, 200, res,rm)
+    sendToken(user, 200, res, rm)
 
 })
 
@@ -64,7 +94,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // Create reset password url
-    const resetUrl = `${req.protocol}://${process.env.CLIENT_URL}/password/reset/${resetToken}`;
+    const resetUrl = `${req.protocol}://${CLIENT_URL}/password/reset/${resetToken}`;
 
     const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
 
@@ -156,19 +186,13 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
 })
 
-
-// Update user profile   =>   /api/v1/me/update
-exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const newUserData = {
-        email: req.body.email
+// Update avatar profile   =>   /api/v1/me/avatar
+exports.updateAvatar = catchAsyncErrors(async (req, res, next) => {
+    if (!req.file) {
+        next(new ErrorHandler("File upload failed", 501))
     }
-
-    // Update avatar
-    if (req.body.avatar !== '') {
-
-    }
-
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    const newpath = req.file.path.slice(16)
+    const updateuser = await User.findByIdAndUpdate(req.user.id, { 'avatar.url': newpath }, {
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -178,7 +202,46 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         success: true
     })
 })
+// Update user profile   =>   /api/v1/me/update
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+        email: req.body.email
+    }
+    console.log(req.body)
+    const user = await User.findById(req.user.id).select('+password');
 
+
+    const isMatched = await user.comparePassword(req.body.oldPassword)
+    if (!isMatched) {
+        return next(new ErrorHandler('Password is incorrect'));
+    }
+    const updateuser = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true
+    })
+})
+// Update user role   =>   /api/v1/admin/users/role/:email
+exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+    const { email } = req.params
+    console.log(email)
+    const user = await User.findOneAndUpdate({ email }, { role: req.body.role }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    if (!user) {
+        return next(new ErrorHandler(`User does not found.`))
+    }
+    res.status(200).json({
+        success: true
+    })
+})
 // Get all users   =>   /api/v1/admin/users
 exports.allUsers = catchAsyncErrors(async (req, res, next) => {
     const users = await User.find();

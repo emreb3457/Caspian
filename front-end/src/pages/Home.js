@@ -22,6 +22,7 @@ import Comments from "../components/Homecomp/Comments"
 import Loader from "../components/loader"
 import { Fragment } from 'react';
 import MetaData from '../components/layout/MetaData';
+import { ContactNumber } from "../config/env"
 const Home = () => {
     const dispatch = useDispatch();
     const alert = useAlert()
@@ -69,8 +70,8 @@ const Home = () => {
                                     <Col lg="2" xs="6">
                                         <h3 className="list-head text-white">Company</h3>
                                         <ListGroup className="homeFooter" >
-                                            <ListGroup.Item><Link to="#About">About Us</Link></ListGroup.Item>
-                                            <ListGroup.Item><Link to="#Contact">Contact Us</Link></ListGroup.Item>
+                                            <ListGroup.Item><Link to="/about">About Us</Link></ListGroup.Item>
+                                            <ListGroup.Item><a target="_blank" href={`https://wa.me/9${ContactNumber}`}>Contact Us</a></ListGroup.Item>
                                             <ListGroup.Item><Link to="#Careers">Careers</Link></ListGroup.Item>
                                             <ListGroup.Item><Link to="#Press">Press</Link></ListGroup.Item>
                                         </ListGroup>
@@ -79,10 +80,8 @@ const Home = () => {
                                     <Col lg="2" xs="6">
                                         <h4 className="list-head text-white">General</h4>
                                         <ListGroup className="homeFooter" >
-                                            <ListGroup.Item><Link to="#Courses">Courses</Link></ListGroup.Item>
-                                            <ListGroup.Item><Link to="#Support">Support</Link></ListGroup.Item>
-                                            <ListGroup.Item><Link to="#Pricing">Pricing</Link></ListGroup.Item>
-                                            <ListGroup.Item><Link to="#Help">Help</Link></ListGroup.Item>
+                                            <ListGroup.Item><a href="#forJuniors">Courses</a></ListGroup.Item>
+                                            <ListGroup.Item><a to="#Support">Support</a></ListGroup.Item>
                                         </ListGroup>
                                     </Col>
                                     <Col lg="3" xs="12">

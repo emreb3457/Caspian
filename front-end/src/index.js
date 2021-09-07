@@ -13,7 +13,7 @@ import logger from "redux-logger";
 import reportWebVitals from './reportWebVitals';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
-const store = createStore(rootReducer, applyMiddleware(thunk, logger, reduxPromise));
+export const store = createStore(rootReducer, applyMiddleware(thunk, logger, reduxPromise));
 
 const options = {
   // you can also just use 'bottom center'

@@ -12,7 +12,7 @@ exports.newCourse = catchAsyncErrors(async (req, res, next) => {
         price,
         description,
         category, publish, events } = req.body
-    console.log(req.body)
+
     try {
         if (!req.file) {
             next(new ErrorHandler("File upload failed", 501))
@@ -199,7 +199,17 @@ exports.getAdminCourse = catchAsyncErrors(async (req, res, next) => {
     })
 
 })
+// Get user Courses   =>   /api/v1/course/user
+exports.getUserCourse = catchAsyncErrors(async (req, res, next) => {
 
+    const courses = await Course.find({ 'registerusers.userId': req.user._id })
+
+    res.status(200).json({
+        success: true,
+        courses
+    })
+
+})
 // Get single course details   =>   /api/v1/course/:id
 exports.getSingleCourse = catchAsyncErrors(async (req, res, next) => {
 
@@ -335,7 +345,19 @@ exports.setWatchcourse = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
+//Setopencourse  the Course    =>   /api/v1/admin/course/setFinished/:id
+exports.setFinishCourse = catchAsyncErrors(async (req, res, next) => {
 
+    const course = await Course.findById(req.params.id)
+    const filtercourse = course.registerusers.filter(x => x.userId == req.user._id.toString())
+
+    filtercourse[0].status = "finished"
+    course.save({ validateBeforeSave: false });
+    res.status(200).json({
+        success: true,
+        course
+    })
+});
 //Update Course Chapter   =>   /api/v1/chapter/:id
 exports.updateChapter = catchAsyncErrors(async (req, res, next) => {
     const { id } = req.params
@@ -353,6 +375,7 @@ exports.updateChapter = catchAsyncErrors(async (req, res, next) => {
     })
 
 })
+
 //Delete Course Chapter   =>   /api/v1/chapter/:id
 exports.deleteChapter = catchAsyncErrors(async (req, res, next) => {
     const { id } = req.params

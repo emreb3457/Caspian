@@ -48,7 +48,7 @@ const NewCourse = ({ location }) => {
     }, [course])
 
     useEffect(() => {
-        console.log(location.state)
+        
         if (location.state == undefined) {
             if (error) {
                 alert.error(error);
@@ -302,7 +302,7 @@ const NewCourse = ({ location }) => {
             <Link to="/panel" className="btn btn-primary mb-4 mt-4">Go back</Link>
             {!location.state && <div className="float-right mt-4">
                 <input type="file" onChange={(e) => onBeforeFileLoad(e)} accept='image/*' id="file-1" className="inputfile inputfile-1" /> <br />
-                <label for="file-1"><span>Resim Seçiniz...</span>&nbsp;<i className="fas fa-upload"></i></label>
+                <label ><span>Resim Seçiniz...</span>&nbsp;<i className="fas fa-upload"></i></label>
             </div>}
 
             <form id="createtaskForm" className="row">
@@ -336,7 +336,7 @@ const NewCourse = ({ location }) => {
                     </div>
                     <div className="row">
                         <div className="form-group col-md-6 ">
-                            <label for="publish">Published</label>
+                            <label>Published</label>
                             <select id="publish" className="form-control custom-select" name="category" value={publish} onChange={(e) => setPublish(e.target.value)}  >
                                 <option defaultValue >false</option>
                                 <option>true</option>
@@ -344,7 +344,7 @@ const NewCourse = ({ location }) => {
                             </select>
                         </div>
                         <div className="form-group col-md-6 ">
-                            <label for="events">Event</label>
+                            <label >Event</label>
                             <select id="events" className="form-control custom-select" name="category" value={event} onChange={(e) => setEvent(e.target.value)}  >
                                 <option defaultValue >false</option>
                                 <option>true</option>
@@ -356,7 +356,7 @@ const NewCourse = ({ location }) => {
                     <div className="row">
                         {location.state &&
                             <div className="form-group col-sm-8 ">
-                                <label for="downloadFile">Add Downloadable files </label>
+                                <label >Add Downloadable files </label>
                                 <Form.Group controlId="formFile" className="mb-3">
                                     <Form.Control onClick={(e) => clearFileupload(e)} onChange={(e) => onnewdownloadFile(e)} type="file" />
                                 </Form.Group>
@@ -365,7 +365,7 @@ const NewCourse = ({ location }) => {
                         {course && !course.downloadsfile0 &&
                             <div className="form-group col-sm-10 ">
                                 <div className="downloadFile">
-                                    <label style={{ display: "block" }} for="downloadFile">Downloadable files </label>
+                                    <label style={{ display: "block" }} >Downloadable files </label>
                                     {course && course.downloadsfile && course.downloadsfile.map && course.downloadsfile.map(dwn =>
                                         <Fragment key={dwn._id}>
                                             <div style={{ display: "inline-block" }}>
@@ -393,18 +393,18 @@ const NewCourse = ({ location }) => {
                     <div className="chapter col-lg-4 float-right d-inline-block">
                         <div className="dashboard-caption">
                             <div className="dashboard-caption-header">
-                                <h4><i class="fas fa-cogs" />Registered users</h4>
+                                <h4><i className="fas fa-cogs" />Registered users</h4>
                             </div>
                             <ul className="list">
                                 {course && course.registerusers && course.registerusers.map && course.registerusers.map(usr =>
-                                    <li key={usr._id} class="manage-list-row clearfix">
-                                        <div class="list-info" >
-                                            <div class="list-details">
-                                                <h3 class="job-name"><strong>{usr.userId.name} - {usr.userId.email}</strong></h3>
+                                    <li key={usr._id} className="manage-list-row clearfix">
+                                        <div className="list-info" >
+                                            <div className="list-details">
+                                                <h3 className="job-name"><strong>{usr.userId.name} - {usr.userId.email}</strong></h3>
                                             </div>
                                         </div>
-                                        <div class="job-buttons">
-                                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => dispatch(courseunRegister(location.state.id, usr.userId._id))}><i class="far fa-trash-alt" /></div>
+                                        <div className="job-buttons">
+                                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => dispatch(courseunRegister(location.state.id, usr.userId._id))}><i className="far fa-trash-alt" /></div>
                                         </div>
                                     </li>
                                 )}
@@ -413,7 +413,7 @@ const NewCourse = ({ location }) => {
                     </div>
                     <div className="row">
                         {course && course.chapter && course.chapter.map && course.chapter.map((chp, index) =>
-                            <div className="chapter col-lg-12">
+                            <div key={chp._id} className="chapter col-lg-12">
                                 <div className="d-inline-block">
                                     <h4 className="chapter-title">{chp.title}</h4>
 
@@ -434,7 +434,7 @@ const NewCourse = ({ location }) => {
                                 {lesson && lesson.map && lesson.map(lsn => {
                                     if (lsn.chapterId == chp._id) {
                                         return (
-                                            <div className="lesson">
+                                            <div key={lsn._id} className="lesson">
                                                 <h4 className="d-inline">{lsn.title}</h4>
                                                 <div className="d-inline-block float-right">
                                                     <div style={{ fontSize: "10px" }} className="btn btn-danger" title="Remove" onDoubleClick={() => removeLesson(lsn._id)} ><i className="far fa-trash-alt" /></div>

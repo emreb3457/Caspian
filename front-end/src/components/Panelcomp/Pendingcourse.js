@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert'
-import Loader from "../loader"
 import Moment from "react-moment"
 import { getAdminCourse, setOpen, courseunRegister, clearErrors } from "../../actions/couseAction"
 const Pendingjob = () => {
@@ -37,7 +36,7 @@ const Pendingjob = () => {
     return (
         <div className="dashboard-caption">
             <div className="dashboard-caption-header">
-                <h4><i class="fas fa-hourglass-half" />Payment Pending</h4>
+                <h4><i className="fas fa-hourglass-half" />Payment Pending</h4>
             </div>
             <div className="dashboard-caption-wrap ">
                 <ul className="list">
@@ -45,17 +44,17 @@ const Pendingjob = () => {
                         crs.registerusers && crs.registerusers.map && crs.registerusers.map(x => {
                             if (x.status == "not purchased") {
                                 return (
-                                    < li class="manage-list-row clearfix" >
-                                        <div class="list-info">
-                                            <div class="list-details" >
-                                                <h3 class="job-name"><strong>{crs.name}</strong> <span className="text-danger"> - {crs.price}$</span></h3>
-                                                <small class="job-company"><i class="fas fa-home"></i></small>
-                                                <small class="job-company"><i class="fas fa-user"></i>{x.userId.name}</small>
-                                                <small class="job-company"><i class="fas fa-clock"></i>Created At: <Moment format="DD/MM/YYYY">{x.createdAt}</Moment></small>
+                                    < li className="manage-list-row clearfix" >
+                                        <div className="list-info">
+                                            <div className="list-details" >
+                                                <h3 className="job-name"><strong>{crs.name}</strong> <span className="text-danger"> - {crs.price}$</span></h3>
+                                                <small className="job-company"><i className="fas fa-home"></i></small>
+                                                <small className="job-company"><i className="fas fa-user"></i>{x.userId.name}</small>
+                                                <small className="job-company"><i className="fas fa-clock"></i>Created At: <Moment format="DD/MM/YYYY">{x.createdAt}</Moment></small>
                                             </div>
-                                            <div class="job-buttons">
-                                                <div className="btn btn-success mr-2" onClick={() => onsubmit(crs._id, x.userId._id)}><i class="fas fa-check" /></div>
-                                                <div className="btn btn-danger" onClick={() => onremoveSubmit(crs._id, x.userId._id)} title="Sil" ><i class="far fa-trash-alt" /></div>
+                                            <div className="job-buttons">
+                                                <div className="btn btn-success mr-2" onClick={() => onsubmit(crs._id, x.userId._id)}><i className="fas fa-check" /></div>
+                                                <div className="btn btn-danger" onDoubleClick={() => onremoveSubmit(crs._id, x.userId._id)} title="Sil" ><i className="far fa-trash-alt" /></div>
                                             </div>
                                         </div>
                                     </li>

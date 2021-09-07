@@ -44,23 +44,23 @@ const Alljob = () => {
     return (
         <div className="dashboard-caption">
             <div className="dashboard-caption-header">
-                <h4><i class="fas fa-cogs" />All Course</h4>
+                <h4><i className="fas fa-cogs" />All Course</h4>
                 <Link to="/panel/course/new" className="btn btn-success ml-auto">Add Course</Link>
             </div>
             {loading && <Loader />}
             <ul className="list">
                 {coursies && coursies.reverse().map(course =>
-                    <li key={course._id} class="manage-list-row clearfix">
-                        <div class="list-info" >
-                            <div class="list-details">
-                                <h3 class="job-name"><strong>{course.name}</strong> <span className="text-danger">{course.price}</span></h3>
-                                <small class="job-company"><i class="fas fa-folder"></i>{course.category}</small>
-                                <small class="job-company"><i class="fas fa-clock"></i>Created At <Moment format="DD/MM/YYYY">{course.createdAt}</Moment></small>
+                    <li key={course._id} className="manage-list-row clearfix">
+                        <div className="list-info" >
+                            <div className="list-details">
+                                <h3 className="job-name"><strong>{course.name}</strong> <span className="text-danger">{course.price}</span></h3>
+                                <small className="job-company"><i className="fas fa-folder"></i>{course.category}</small>
+                                <small className="job-company"><i className="fas fa-clock"></i>Created At <Moment format="DD/MM/YYYY">{course.createdAt}</Moment></small>
                             </div>
                         </div>
-                        <div class="job-buttons">
-                            <Link className="btn btn-info mr-2" title="Düzenle" to={{ pathname: "panel/course/new", state: { id: course._id } }}><i class="far fa-edit" /></Link>
-                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteCourseHandler(course._id)} ><i class="far fa-trash-alt" /></div>
+                        <div className="job-buttons">
+                            <Link className="btn btn-info mr-2" title="Düzenle" to={{ pathname: "panel/course/new", state: { id: course._id } }}><i className="far fa-edit" /></Link>
+                            <div className="btn btn-danger" title="Sil" onDoubleClick={() => deleteCourseHandler(course._id)} ><i className="far fa-trash-alt" /></div>
                         </div>
 
                     </li>

@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node back-end/server.js",
-    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon back-end/server.js",
-    "prod": "SET NODE_ENV=PRODUCTION& nodemon back-end/server.js"
+    "dev": "SET NODE_ENV=development& nodemon back-end/server.js",
+    "prod": "SET NODE_ENV=production& nodemon back-end/server.js"
   },
   "author": "Emre.b",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "google-auth-library": "^7.9.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.7",
     "morgan": "^1.10.0",

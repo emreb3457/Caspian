@@ -79,6 +79,25 @@ export const getCourse = () => async (dispatch) => {
     }
 }
 
+export const getUserCourse = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: ALL_COURSE_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/user/course`)
+
+        dispatch({
+            type: ALL_COURSE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ALL_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 export const newCourse = (courseData) => async (dispatch) => {
     try {
 
@@ -432,7 +451,7 @@ export const setOpen = (id, usrId) => async (dispatch) => {
         })
     }
 }
-// Update Lesson Watch (ADMIN)
+// Update Lesson Watch 
 export const setlessonWatch = (lessonId) => async (dispatch) => {
     try {
 
@@ -444,7 +463,33 @@ export const setlessonWatch = (lessonId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${API_BASE}/api/v1/course/setwatch`, {lessonId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/setwatch`, { lessonId }, config)
+
+        dispatch({
+            type: UPDATE_CHAPTER_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CHAPTER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Update Course Finish 
+export const setFinishCourse = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_CHAPTER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/setFinished/${id}`, config)
 
         dispatch({
             type: UPDATE_CHAPTER_SUCCESS,

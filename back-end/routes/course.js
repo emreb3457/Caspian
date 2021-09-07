@@ -21,7 +21,9 @@ const {
     setWatchcourse,
     updateChapter,
     newDownloadFile,
-    deleteDownloadFile
+    deleteDownloadFile,
+    getUserCourse,
+    setFinishCourse
 
 } = require('../controllers/courseController')
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
@@ -32,19 +34,21 @@ var upload = multerUpload();
 router.route('/course').get(getCourse);
 router.route('/admin/course').get(isAuthenticatedUser, authorizeRoles('admin'), getAdminCourse);
 router.route('/course/:id').get(getSingleCourse);
+router.route('/user/course').get(isAuthenticatedUser, getUserCourse);
 
-router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("image"), newCourse);
-router.route("/admin/course/setopen/:id").put(isAuthenticatedUser, authorizeRoles("admin"), setOpencourse);
-router.route('/course/setwatch').put(isAuthenticatedUser,setWatchcourse);
+router.route('/course/setFinished/:id').put(isAuthenticatedUser, setFinishCourse);
+
+router.route('/course/setwatch').put(isAuthenticatedUser, setWatchcourse);
 router.route("/course/register")
     .post(isAuthenticatedUser, setRegistercourse)
     .put(isAuthenticatedUser, authorizeRoles("admin"), setUnregistercourse);
 
+router.route("/admin/course/new").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("image"), newCourse);
+router.route("/admin/course/setopen/:id").put(isAuthenticatedUser, authorizeRoles("admin"), setOpencourse);
+
 router.route("/admin/course/download").post(isAuthenticatedUser, authorizeRoles("admin"), upload.single("download"), newDownloadFile);
 router.route("/admin/course/download/delete").post(isAuthenticatedUser, authorizeRoles("admin"), deleteDownloadFile);
 
-// router.route("/admin/course/publish").post(isAuthenticatedUser, authorizeRoles("admin"), setpublishCourse);
-// router.route("/admin/course/unpublish").put(isAuthenticatedUser, authorizeRoles("admin"), setunpublishCourse);
 
 router.route("/admin/chapter/:id")
     .post(isAuthenticatedUser, authorizeRoles("admin"), newChapter)

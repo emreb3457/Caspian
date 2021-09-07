@@ -10,7 +10,7 @@ exports.isAuthenticatedUser = (catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Login first to access this resource', 401))
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.jwt_secret)
     req.user = await User.findById(decoded.id);
 
     next()

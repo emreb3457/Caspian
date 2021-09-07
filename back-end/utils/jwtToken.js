@@ -15,13 +15,13 @@ const sendToken = (user, statusCode, res, rm) => {
     } else {
         options = {
             expires: new Date(
-                Date.now() + process.env.COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000  //1 gün 
+                Date.now() + process.env.cookie_expires_time * 24 * 60 * 60 * 1000  //1 gün 
             ),
             httpOnly: true
         }
     }
     // Write response
-console.log(options)
+
     res.status(statusCode).cookie('token', token, options).json({
         success: true,
         token,

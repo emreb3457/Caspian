@@ -5,6 +5,7 @@ import { useAlert } from 'react-alert'
 const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
 
     const { isAuthenticated, loading, user, error } = useSelector(state => state.auth)
+   
     const alert = useAlert()
     return (
         <Fragment>
@@ -13,7 +14,6 @@ const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
                     {...rest}
                     render={props => {
                         if (isAuthenticated === false) {
-                            alert.error(error)
                             return <Redirect to='/login' />
                         }
 

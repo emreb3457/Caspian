@@ -18,7 +18,7 @@ export const Login = () => {
             <div className="loginLogo"><img alt="logo" src={logo} /></div>
             <div className="authBox">
 
-                <Tabs
+                <Tabs transition={true}
                     defaultActiveKey="signin"
                     id="auth-tab-example"
                     className="mb-3">

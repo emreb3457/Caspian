@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import {E_MAIL} from "../../config/env"
 export const Getintouch = () => {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
@@ -29,7 +30,7 @@ export const Getintouch = () => {
                                     <p>By clicking on the button, I agree to the processing of personal data</p>
                                 </Col>
                                 <Col lg="6">
-                                    <a href={`mailto:emrebaskayaaa@gmail.com?subject=Caspian&body=Name:${name}
+                                    <a href={`mailto:${E_MAIL}?subject=Caspian&body=Name:${name}
                                     E-mail:${email}
                                     Message:${message}`} style={{ color: "white" }} className="btn mainbtn">Send</a>
                                 </Col>

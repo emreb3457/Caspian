@@ -15,9 +15,9 @@ if (process.env.NODE_ENV !== 'PRODUCTION') require('dotenv').config({ path: 'bac
 // Connecting to database
 connectDatabase();
 
-
-const server = app.listen(process.env.PORT, () => {
-    console.log(`Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode.`)
+const SERVER_PORT = process.env.port || process.env.PORT || 3001;
+const server = app.listen(SERVER_PORT, () => {
+    console.log(`Server started on PORT: ${SERVER_PORT} in ${process.env.NODE_ENV} mode.`)
 })
 
 // Handle Unhandled Promise rejections

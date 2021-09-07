@@ -25,22 +25,28 @@ import {
     DELETE_USER_FAIL,
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
+    UPDATE_PROFILE_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
     CLEAR_ERRORS
 } from '../constants/userContants'
 
 const axios = axioss.create({
-  withCredentials: true,
-  baseURL: API_BASE
+    withCredentials: true,
+    baseURL: API_BASE
 })
 
 
-export const loginac = (email, password,rm) => async (dispatch) => {
+export const loginac = (email, password, rm) => async (dispatch) => {
     try {
 
         dispatch({ type: LOGIN_REQUEST })
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/login`, { email, password,rm }, { withCredentials: true })
+        const { data } = await axios.post(`${API_BASE}/api/v1/login`, { email, password, rm }, { withCredentials: true })
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -89,7 +95,7 @@ export const loadUser = () => async (dispatch) => {
                 'Content-Type': 'application/json',
 
             },
-           
+
         }
 
         const { data } = await axios.get(`${API_BASE}/api/v1/me`, config)
@@ -106,60 +112,111 @@ export const loadUser = () => async (dispatch) => {
         })
     }
 }
+export const uploadAvatar = (avatar) => async (dispatch) => {
 
-// // Update profile
-// export const updateProfile = (userData) => async (dispatch) => {
-//     try {
+    try {
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
 
-//         dispatch({ type: UPDATE_PROFILE_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
 
-//         const config = {
-//             headers: {
-//                 'Content-Type': 'multipart/form-data'
-//             }
-//         }
+        const { data } = await axios.put('/api/v1/me/avatar', avatar, config)
 
-//         const { data } = await axios.put('/api/v1/me/update', userData, config)
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
+        })
 
-//         dispatch({
-//             type: UPDATE_PROFILE_SUCCESS,
-//             payload: data.success
-//         })
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message
+        })
+    }
 
-//     } catch (error) {
-//         dispatch({
-//             type: UPDATE_PROFILE_FAIL,
-//             payload: error.response.data.message
-//         })
-//     }
-// }
 
-// // Update password
-// export const updatePassword = (passwords) => async (dispatch) => {
-//     try {
+}
+// Update profile
+export const updateProfile = (email, oldPassword) => async (dispatch) => {
+    try {
 
-//         dispatch({ type: UPDATE_PASSWORD_REQUEST })
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
 
-//         const config = {
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         }
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data'
+        //     }
+        // }
 
-//         const { data } = await axios.put('/api/v1/password/update', passwords, config)
+        const { data } = await axios.put('/api/v1/me/update', { email, oldPassword })
 
-//         dispatch({
-//             type: UPDATE_PASSWORD_SUCCESS,
-//             payload: data.success
-//         })
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
+        })
 
-//     } catch (error) {
-//         dispatch({
-//             type: UPDATE_PASSWORD_FAIL,
-//             payload: error.response.data.message
-//         })
-//     }
-// }
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Update Role (ADMIN)
+export const updateUserRole = (role, email) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
+
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data'
+        //     }
+        // }
+
+        const { data } = await axios.put(`/api/v1/admin/users/role/${email}`, { role })
+
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+// Update password
+export const updatePassword = (oldPassword, password) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_PASSWORD_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put('/api/v1/password/update', { oldPassword, password }, config)
+
+        dispatch({
+            type: UPDATE_PASSWORD_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 
 // Forgot password
 export const forgotPassword = (email) => async (dispatch) => {
@@ -168,7 +225,7 @@ export const forgotPassword = (email) => async (dispatch) => {
         dispatch({ type: FORGOT_PASSWORD_REQUEST })
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/password/forgot`, {email})
+        const { data } = await axios.post(`${API_BASE}/api/v1/password/forgot`, { email })
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -270,7 +327,27 @@ export const deleteUser = (id) => async (dispatch) => {
         })
     }
 }
+//Google auth
+export const handleLogin = (googleData) => async (dispatch) => {
+    try {
+        console.log(googleData.tokenId)
+        dispatch({ type: LOGIN_REQUEST })
 
+        console.log("girdi")
+        const { data } = await axios.post(`${API_BASE}/api/v1/login/google`, { token: googleData.tokenId })
+        console.log(data)
+        dispatch({
+            type: LOGIN_SUCCESS,
+            payload: data.user
+        })
+
+    } catch (error) {
+        dispatch({
+            type: LOGIN_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {

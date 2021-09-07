@@ -5,11 +5,16 @@ import login from "../../images/icons/loginicon.svg"
 import lock from "../../images/icons/Lock.svg"
 import { Link, useHistory } from "react-router-dom";
 import { useAlert } from 'react-alert'
-
+import Loader from "../loader"
 import { Row, Col, Form } from "react-bootstrap";
 import { loginac, clearErrors } from '../../actions/userAction'
-
-
+import { GoogleLogin } from "react-google-login"
+import { API_BASE, GOOGLE_CLIENT_ID } from '../../config/env';
+import axioss from 'axios'
+const axios = axioss.create({
+    withCredentials: true,
+    baseURL: API_BASE
+})
 const Signin = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -23,7 +28,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            history.goBack()
+            history.push("/")
         }
 
         if (err) {
@@ -31,7 +36,7 @@ const Signin = () => {
             dispatch(clearErrors());
         }
 
-    }, [dispatch, alert, isAuthenticated, err])
+    }, [dispatch, isAuthenticated, err])
     const onSubmit = () => {
         const errors = valid()
         setError(errors);
@@ -48,22 +53,44 @@ const Signin = () => {
         return errors;
     }
     const errors = { ...error };
+    const handleLogin = async googleData => {
+        try {
+            dispatch({ type: "LOGIN_REQUEST" })
+
+            const { data } = await axios.post(`${API_BASE}/api/v1/login/google`, { token: googleData.tokenId }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: data.user
+            })
+        } catch (error) {
+            dispatch({
+                type: "LOGIN_FAIL",
+                payload: error.response.data.message
+            })
+        }
+
+    }
     return (
-        <div>
+        <div className="authpages">
             <div className="topContent">
                 <h3>Let’s Sign You In</h3>
                 <span>Welcome back, you’ve been missed!</span>
             </div>
             <div className="inputs">
+                {loading && <Loader />}
                 <Form>
-                    <Form.Group className="mb-3 input-with-icon" controlId="formBasicEmail">
+                    <Form.Group className="mb-3 input-with-icon" >
                         <img alt="icon" src={login} />  <Form.Control className="textInput" type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} />
                         <Form.Text >
                             {errors.email && <Validate message={errors.email} />}
                         </Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3 input-with-icon" controlId="formBasicPassword">
+                    <Form.Group className="mb-3 input-with-icon" >
                         <img alt="icon" src={lock} /><Form.Control className="textInput" type="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
                         <Form.Text >
                             {errors.pass && <Validate message={errors.pass} />}
@@ -71,7 +98,7 @@ const Signin = () => {
                     </Form.Group>
                     <Row>
                         <Col lg="6" md="6" xs="6">
-                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                            <Form.Group className="mb-3" >
                                 <Form.Check className="checkBox" type="checkbox" label="Remember Me" defaultChecked={rm} onChange={() => setRm(!rm)} />
                             </Form.Group>
                         </Col>
@@ -84,7 +111,13 @@ const Signin = () => {
             </div>
             <div className="bottomContent">
                 <div><Link to="#">Or continue with</Link></div>
-                <div>Google </div>
+                <GoogleLogin
+                    clientId={GOOGLE_CLIENT_ID}
+                    buttonText="Continue with Google"
+                    onSuccess={handleLogin}
+                    onFailure={handleLogin}
+                    cookiePolicy={'single_host_origin'}
+                />
             </div>
         </div>
     )

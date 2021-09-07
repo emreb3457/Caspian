@@ -15,11 +15,11 @@ export const Forkids = (props) => {
             slidesToSlide: 1
         },
         tablet: {
-            breakpoint: { max: 1650, min: 1300 },
+            breakpoint: { max: 1651, min: 600 },
             items: 3.5
         },
         mobile: {
-            breakpoint: { max: 464, min: 0 },
+            breakpoint: { max: 601, min: 0 },
             items: 1.5
         }
     };

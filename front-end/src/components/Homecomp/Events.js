@@ -19,10 +19,10 @@ export const Events = (props) => {
                 </div>
                 <Row>
                     {course && course.map(x => {
-                        if (x.events == true) {
-                            return (
-                                <Col lg="4" xs="12">
-                                    <div key={x._id} className="cards" >
+                        {
+                            x.event == true &&
+                                <Col key={x._id} lg="4" xs="12">
+                                    <div className="cards" >
                                         <div className="card-items">
                                             <div className="card-head">
                                                 <h4>{x.name}</h4>
@@ -35,7 +35,6 @@ export const Events = (props) => {
                                         </div>
                                     </div>
                                 </Col>
-                            )
                         }
                     })
                     }

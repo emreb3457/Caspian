@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useAlert } from 'react-alert'
 import { Form } from "react-bootstrap";
 import { forgotPassword, clearErrors } from "../../actions/userAction"
-
+import Loader from "../loader"
 const Forgotpass = () => {
     const alert = useAlert()
     const dispatch = useDispatch()
@@ -47,7 +47,7 @@ const Forgotpass = () => {
     return (
 
         <div className="authPage" >
-            <div className="back-arrow"><Link to="/login"/></div>
+            <div className="back-arrow"><Link to="/login" /></div>
             <div className="loginLogo"><img alt="logo" src={logo} /></div>
             <div className="authBox">
                 <div style={{ fontSize: "18px", fontWeight: "bold", color: "#000000", paddingTop: "42px" }}>Forgot password</div>
@@ -56,6 +56,7 @@ const Forgotpass = () => {
                     <span>Enter the email you used during registration</span>
                 </div>
                 <div className="inputs">
+                    {loading && <Loader />}
                     <Form>
                         <Form.Group className="mb-3 input-with-icon" controlId="formBasicEmail">
                             <img alt="icon" src={login} />  <Form.Control className="textInput" type="email" placeholder="Your email" onChange={(e) => setEmail(e.target.value)} />

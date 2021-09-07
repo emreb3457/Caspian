@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { useAlert } from 'react-alert'
 import { Row, Col, Container, Accordion } from 'react-bootstrap';
-import { getCourseDetails, clearErrors, setlessonWatch } from "../actions/couseAction"
+import { getCourseDetails, clearErrors, setlessonWatch, setFinishCourse } from "../actions/couseAction"
 import { API_BASE, ContactNumber } from "../config/env"
 import Loader from "../components/loader"
 import ReactPlayer from 'react-player'
@@ -79,6 +79,11 @@ export const Coursedetails = ({ history, match }) => {
             })
         }
     }, [dispatch, course, user])
+
+    useEffect(() => {
+
+    }, [dispatch, watchUpdate, lesson, user, course])
+
     const config = {
         attributes: {
             disablePictureInPicture: true,
@@ -99,6 +104,19 @@ export const Coursedetails = ({ history, match }) => {
     }
     const onwatchLesson = () => {
         dispatch(setlessonWatch(selectLessonid))
+        if (course && lesson && lesson.map && user) {
+            let count = 1
+            lesson.map(x => {
+                x.watchUser.map(usr => {
+                    if (usr == user._id) {
+                        count++
+                    }
+                })
+            })
+            if (lesson.length == count) {
+                dispatch(setFinishCourse(course._id))
+            }
+        }
     }
 
     return (
@@ -122,7 +140,6 @@ export const Coursedetails = ({ history, match }) => {
                                         <div>
                                             <ReactPlayer
                                                 className="react-player"
-                                                playing={true}
                                                 url={videourl}
                                                 controls={true}
                                                 onContextMenu={e => e.preventDefault()}
@@ -144,7 +161,7 @@ export const Coursedetails = ({ history, match }) => {
                                                     <Accordion.Item key={chp._id} eventKey={index}>
                                                         <Accordion.Header><span className="acc-head">{chp.title}<br /><small>Lessons</small></span></Accordion.Header>
                                                         <Accordion.Body>
-                                                            {lesson && lesson.map && lesson.map((lsn, i) => {
+                                                            {lesson && user && lesson.map && lesson.map((lsn, i) => {
                                                                 if (lsn.chapterId == chp._id) {
                                                                     let chck = lsn.watchUser.filter(x => x == user._id)
                                                                     if (register) {

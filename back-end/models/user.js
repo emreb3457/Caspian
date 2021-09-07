@@ -22,13 +22,6 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'Your password must be longer than 6 characters'],
         select: false
     },
-    courseenrolled: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            name: { String }
-        }
-    ],
-    lessonswatched: [mongoose.Schema.ObjectId],
     avatar: {
         url: {
             type: String,
@@ -64,8 +57,9 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 // Return JWT token
 userSchema.methods.getJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_TIME
+    console.log(this._id)
+    return jwt.sign({ id: this._id }, process.env.jwt_secret, {
+        expiresIn: process.env.jwt_expires_time
     });
 }
 

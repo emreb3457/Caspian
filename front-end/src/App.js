@@ -1,6 +1,5 @@
 
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
 
 import './css/index.css';
 import ProtectedRoute from './components/route/ProtectedRoute'
@@ -14,12 +13,13 @@ import Panel from "./pages/Panel"
 import Profile from "./pages/Profile"
 import NewCourse from "./components/NewCourseForm"
 import page404 from "./components/page404"
+import Aboutus from "./components/Aboutus"
 import { loadUser } from './actions/userAction'
+import {store} from "./index"
 const App = () => {
-  const dispatch = useDispatch();
-
+  
   useEffect(() => {
-    dispatch(loadUser())
+    store.dispatch(loadUser())
 
   }, [])
 
@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/login" component={Login} />
         <Route path="/password/forgot" component={Forgotpass} exact />
         <Route path="/password/reset/:token" component={Resetpass} exact />
-
+        <Route path="/about" component={Aboutus} exact />
         <Route path="/course/:id" component={Details} />
 
         <ProtectedRoute path="/profile" component={Profile} exact />
