@@ -28,7 +28,7 @@ app.use(express.static(__dirname + '/public'));
 // Import all routes
 const auth = require('./routes/auth');
 const course = require('./routes/course');
-const { access } = require('fs');
+
 
 app.use('/api/v1', auth)
 app.use('/api/v1', course)
