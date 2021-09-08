@@ -2,20 +2,11 @@
   "name": "front-end",
   "version": "0.1.0",
   "private": true,
-  "exclude": "/(node_modules|bower_components)/",
-  "loader": "babel",
-  "query": {
-    "presets": [
-      "react",
-      "es2015"
-    ]
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
-    "babel-preset-react": "^6.24.1",
     "bootstrap": "^5.1.0",
     "package.json": "^2.0.1",
     "react": "^17.0.2",
@@ -62,9 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "engines": {
-    "node": "15.10.0",
-    "npm": "7.5.3"
   }
 }
