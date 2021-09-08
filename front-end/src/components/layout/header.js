@@ -1,15 +1,14 @@
 
-import img from "../../images/1.png"
 import tstlogo from "../../images/icons/caspianLogoblack.svg"
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { useEffect } from "react"
 import { useSelector } from "react-redux";
-import { API_BASE,ContactNumber } from "../../config/env"
+import { API_BASE, ContactNumber } from "../../config/env"
 
 export const Header = () => {
     const { isAuthenticated, user, error, loading } = useSelector(state => state.auth);
-    
+
 
     useEffect(() => {
 

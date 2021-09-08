@@ -9,7 +9,7 @@ import { clearErrors, logout, updatePassword, updateProfile, uploadAvatar } from
 import { getUserCourse } from "../actions/couseAction"
 import Loader from "../components/loader"
 import MetaData from '../components/layout/MetaData';
-import Header from '../components/layout/Header';
+import Header from "../components/layout/Header"
 import Footer from '../components/layout/Footer';
 import Validate from "../components/Homecomp/Validate"
 
