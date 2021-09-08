@@ -7,7 +7,7 @@
     "start": "node back-end/server.js",
     "dev": "SET NODE_ENV=development& nodemon back-end/server.js",
     "prod": "SET NODE_ENV=production& nodemon back-end/server.js",
-    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false && npm install --prefix front-end && npm run build --prefix front-end"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix front-end && npm run build --prefix front-end"
   },
   "author": "Emre.b",
   "license": "ISC",
@@ -42,5 +42,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
+  },
+  "engines": {
+    "node": "15.10.0",
+    "npm": "7.5.3"
   }
 }
