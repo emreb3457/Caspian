@@ -10,7 +10,7 @@ import Instagram from "..//images/iconsWhite/Instagram.svg"
 import Twitter from "../images/iconsWhite/Twitter.svg"
 import Dribbble from "../images/iconsWhite/Dribbble.svg"
 import Youtube from "../images/iconsWhite/Youtube.svg"
-import Header from "../components/layout/Header"
+// import Header from "../components/layout/Header"
 import Getintouch from "../components/Homecomp/Getintouch"
 import Topbout from "../components/Homecomp/Topabout"
 import Whycomponent from "../components/Homecomp/Whycomponent"
@@ -51,7 +51,7 @@ const Home = () => {
             {loading ? <Loader /> :
                 <Fragment>
                     <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-                        <Header />
+                        {/* <Header /> */}
                         <Topbout />
                         <Whycomponent />
                         <Forkids course={courses} />
