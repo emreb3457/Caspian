@@ -61,7 +61,7 @@ export const getCourse = () => async (dispatch) => {
 
         dispatch({ type: ALL_COURSE_REQUEST })
 
-        let link = `/api/v1/course`
+        let link = `${API_BASE}/api/v1/course`
 
 
         const { data } = await axios.get(link)
@@ -130,7 +130,7 @@ export const deleteCourse = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_COURSE_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/admin/course/${id}`)
+        const { data } = await axios.delete(`${API_BASE}/api/v1/admin/course/${id}`)
 
         dispatch({
             type: DELETE_COURSE_SUCCESS,
@@ -157,7 +157,7 @@ export const updateCourse = (id, name, price, description, category, publish, ev
             }
         }
 
-        const { data } = await axios.put(`/api/v1/admin/course/${id}`, { name, price, description, category, publish, events }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/${id}`, { name, price, description, category, publish, events }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -177,7 +177,7 @@ export const getCourseDetails = (id) => async (dispatch) => {
 
         dispatch({ type: COURSE_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/course/${id}`)
+        const { data } = await axios.get(`${API_BASE}/api/v1/course/${id}`)
 
         dispatch({
             type: COURSE_DETAILS_SUCCESS,
@@ -332,7 +332,7 @@ export const deleteChapter = (id, chapterId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(`/api/v1/admin/chapter/${id}`, config)
+        const { data } = await axios.delete(`${API_BASE}/api/v1/admin/chapter/${id}`, config)
 
         dispatch({
             type: DELETE_CHAPTER_SUCCESS,
@@ -359,7 +359,7 @@ export const updateChapter = (id, title, chapterId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/admin/chapter/${id}`, { title, chapterId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/chapter/${id}`, { title, chapterId }, config)
 
         dispatch({
             type: UPDATE_CHAPTER_SUCCESS,
@@ -385,7 +385,7 @@ export const coursesetRegister = (courseId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/course/register`, { courseId }, config)
+        const { data } = await axios.post(`${API_BASE}/api/v1/course/register`, { courseId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -411,7 +411,7 @@ export const courseunRegister = (courseId, usrId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/course/register`, { courseId, usrId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/register`, { courseId, usrId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -437,7 +437,7 @@ export const setOpen = (id, usrId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/admin/course/setopen/${id}`, { usrId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/admin/course/setopen/${id}`, { usrId }, config)
 
         dispatch({
             type: UPDATE_COURSE_SUCCESS,
@@ -463,7 +463,7 @@ export const setlessonWatch = (lessonId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/course/setwatch`, { lessonId }, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/setwatch`, { lessonId }, config)
 
         dispatch({
             type: UPDATE_CHAPTER_SUCCESS,
@@ -489,7 +489,7 @@ export const setFinishCourse = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/course/setFinished/${id}`, config)
+        const { data } = await axios.put(`${API_BASE}/api/v1/course/setFinished/${id}`, config)
 
         dispatch({
             type: UPDATE_CHAPTER_SUCCESS,
