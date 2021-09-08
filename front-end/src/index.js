@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-import { BrowserRouter } from "react-router-dom";
+
 import rootReducer from "./reducer/rootReducer";
 import thunk from "redux-thunk";
 import reduxPromise from "redux-promise-middleware";
@@ -27,13 +27,13 @@ const options = {
   transition: transitions.FADE
 }
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <AlertProvider template={AlertTemplate} {...options}>
-        <App />
-      </AlertProvider>
-    </Provider>
-  </BrowserRouter>,
+
+  <Provider store={store}>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <App />
+    </AlertProvider>
+  </Provider>,
+
   document.getElementById('root')
 );
 

@@ -1,6 +1,6 @@
 // Login
 import axioss from 'axios'
-import { API_BASE } from "../config/env"
+import { API_BASE } from '../config/env'
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -46,7 +46,7 @@ export const loginac = (email, password, rm) => async (dispatch) => {
         dispatch({ type: LOGIN_REQUEST })
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/login`, { email, password, rm }, { withCredentials: true })
+        const { data } = await axios.post(`/api/v1/login`, { email, password, rm }, { withCredentials: true })
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -69,7 +69,7 @@ export const register = (name, email, password) => async (dispatch) => {
 
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/register`, { name, email, password }, { withCredentials: true })
+        const { data } = await axios.post(`/api/v1/register`, { name, email, password }, { withCredentials: true })
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -98,7 +98,7 @@ export const loadUser = () => async (dispatch) => {
 
         }
 
-        const { data } = await axios.get(`${API_BASE}/api/v1/me`, config)
+        const { data } = await axios.get(`/api/v1/me`, config)
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -225,7 +225,7 @@ export const forgotPassword = (email) => async (dispatch) => {
         dispatch({ type: FORGOT_PASSWORD_REQUEST })
 
 
-        const { data } = await axios.post(`${API_BASE}/api/v1/password/forgot`, { email })
+        const { data } = await axios.post(`/api/v1/password/forgot`, { email })
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -252,7 +252,7 @@ export const resetPassword = (token, password, confirmPassword) => async (dispat
             }
         }
 
-        const { data } = await axios.put(`${API_BASE}/api/v1/password/reset/${token}`, { password, confirmPassword }, config)
+        const { data } = await axios.put(`/api/v1/password/reset/${token}`, { password, confirmPassword }, config)
 
         dispatch({
             type: NEW_PASSWORD_SUCCESS,
@@ -334,7 +334,7 @@ export const handleLogin = (googleData) => async (dispatch) => {
         dispatch({ type: LOGIN_REQUEST })
 
         console.log("girdi")
-        const { data } = await axios.post(`${API_BASE}/api/v1/login/google`, { token: googleData.tokenId })
+        const { data } = await axios.post(`/api/v1/login/google`, { token: googleData.tokenId })
         console.log(data)
         dispatch({
             type: LOGIN_SUCCESS,

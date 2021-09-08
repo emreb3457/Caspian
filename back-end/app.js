@@ -4,7 +4,7 @@ const cors = require("cors")
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const morgan = require("morgan")
-
+const path = require("path")
 const { env } = require('process');
 require('dotenv').config({ path: 'back-end/config/config.env' })
 
@@ -32,6 +32,15 @@ const course = require('./routes/course');
 
 app.use('/api/v1', auth)
 app.use('/api/v1', course)
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../front-end/build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../front-end/build/index.html'))
+    })
+
+}
 
 // Middleware to handle errors
 app.use(errorMiddleware);

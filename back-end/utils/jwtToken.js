@@ -11,17 +11,14 @@ const sendToken = (user, statusCode, res, rm) => {
         options = {
             expires: new Date(Number(new Date()) + 315360000000), //10 years
             httpOnly: true,
-            sameSite: 'none',
-            secure: true
+            
         }
     } else {
         options = {
             expires: new Date(
                 Date.now() + process.env.cookie_expires_time * 24 * 60 * 60 * 1000  //1 gün 
             ),
-            httpOnly: true,
-            sameSite: 'none',
-            secure: true
+            httpOnly: true
         }
     }
     // Write response
