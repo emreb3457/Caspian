@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node back-end/server.js",
     "dev": "SET NODE_ENV=development& nodemon back-end/server.js",
-    "prod": "SET NODE_ENV=production& nodemon back-end/server.js"
-    
+    "prod": "SET NODE_ENV=production& nodemon back-end/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install && npm run build "
   },
   "author": "Emre.b",
   "license": "ISC",
